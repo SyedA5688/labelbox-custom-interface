@@ -1,0 +1,118 @@
+p {
+  text-align: center;
+  font-size: larger;
+}
+
+p.warning {
+  color: red;
+}
+
+.App {
+  display: flex;
+  flex: 1;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  width: 100vw;
+  background-color: #dddddd;
+  overflow: hidden;
+}
+
+.Holder {
+  height: 100%;
+  width: 100%;
+}
+
+/* Holds all bars and sections */
+.LabelingFrame{
+  flex: 1;
+  align-self: center;
+  height: 100%;
+  width: 100%;
+  background-color: #dddddd;
+  display: flex;
+  flex-direction: row;
+}
+
+/* Left Bar, including button bar at bottom */
+.LeftBarContainer {
+  display: flex;
+  flex-direction: column;
+  width: 20%;
+  background-color: white;
+  border-width: 2px;
+  border-color: grey;
+  border-style: solid;
+  padding-left: 50px;
+  padding-right: 50px;
+}
+
+.InstructionsBar {
+  width: 100%;
+  height: 90%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+}
+
+.labelSelectorContainer { 
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.ButtonBar{
+  width: 100%;
+  height: 10%;
+  display: flex;
+  justify-content: space-evenly;
+  align-items: center;
+}
+
+.SubmitButton {
+  height: 50%;
+}
+
+.SkipButton {
+  height: 50%;
+}
+
+/* Main container for image, including right bar */
+.LabelingUIContainer {
+  display: flex;
+  flex: 1;
+  height: 100%;
+  width: 80%;
+  flex-direction: row;
+}
+
+.ImageContainer {
+  width: 75%;
+  height: 100%;
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.SelectionRightBar {
+  width: 25%;
+  height: 100%;
+  background-color: white;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+  align-items: center;
+  border-width: 2px;
+  border-color: grey;
+  border-style: solid;
+  padding-left: 40px;
+  padding-right: 40px;
+}
+
+.gridContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}

@@ -1,0 +1,127 @@
+import React, { Component } from 'react';
+import Button from '@material-ui/core/Button';
+import RadioGroup from '@material-ui/core/RadioGroup';
+import Radio from '@material-ui/core/Radio';
+import FormLabel from '@material-ui/core/FormLabel';
+import FormControl from '@material-ui/core/FormControl';
+import FormControlLabel from '@material-ui/core/FormControlLabel';
+import './App.css';
+import { LabelingUI } from './LabelingUI';
+import LinearProgress from '@material-ui/core/LinearProgress';
+
+import { createMuiTheme, MuiThemeProvider } from '@material-ui/core/styles';
+import lightBlue from '@material-ui/core/colors/lightBlue';
+import red from '@material-ui/core/colors/red';
+
+export const primary = '#5495e3';
+export const secondary = '#c1c1c1';
+export const error = red.A700;
+export const textColor = '#5b5b5b';
+export const theme = createMuiTheme({
+  palette: {
+    primary: {
+      ...lightBlue,
+      A700: primary
+    }
+  }
+});
+// label is what will be assigned to overall image
+const defaultState = {data: undefined, loading: true, label: undefined, selectedCond: ""};
+
+class App extends Component {
+  state = defaultState;
+
+  next(submission){
+    this.setState(defaultState);
+    const getNext = () => {
+      window.Labelbox.fetchNextAssetToLabel();
+    };
+    if (!submission) {
+      getNext();
+    } else if (submission.label) {
+      window.Labelbox.setLabelForAsset(JSON.stringify(submission.label || '')).then(getNext);
+    } else if (submission.skip) {
+      window.Labelbox.skip().then(getNext);
+    }
+  }
+
+  componentWillMount(){
+    window.Labelbox.currentAsset().subscribe((asset) => {
+      if (!asset){
+        this.setState({loading: true});
+        return;
+      }
+
+      this.setState({data: asset.data, loading: false});
+    });
+  }
+
+  render() {
+    return (
+      <MuiThemeProvider theme={theme}>
+        <div className="App">
+          <div className="Holder" >
+            {this.state.loading && <LinearProgress/>}
+            <div className={"LabelingFrame"}>
+              <div className="LeftBarContainer" >
+                <div className={"InstructionsBar"}>
+                  <div>
+                    <p>1. Select label category </p>
+                    <p>2. Double click tiles on the image to apply label. </p>
+                    <p>3. Click Submit to submit labels or skip to move to next image.</p>
+                    <p>
+                      Scroll up and down over image or use controls to zoom in/out. Click and drag to
+                      pan around image.
+                    </p>
+                    <p className="warning" >
+                      Warning: Moving mouse while double-clicking leads to weird behavior
+                    </p>
+                  </div>
+                  <div className="labelSelectorContainer" >
+                    <FormControl component="fieldset" required>
+                      <FormLabel component="legend">Labels:</FormLabel>
+                      <RadioGroup
+                        aria-label="gender"
+                        name="gender1"
+                        value={this.state.selectedCond}
+                        onChange={(e) => this.setState({ selectedCond: e.target.value })}
+                      >
+                        <FormControlLabel value="Mesangial" control={<Radio color="primary"/>} label="Mesangial Immune Complexes" />
+                        <FormControlLabel value="Subendothelial" control={<Radio color="primary"/>} label="Subendothelial Immune Complexes" />
+                        <FormControlLabel value="Subepithelial" control={<Radio color="primary"/>} label="Subepithelial Immune Complexes" />
+                        <FormControlLabel value="Tubuloreticular" control={<Radio color="primary"/>} label="Tubuloreticular Inclusion" />
+                      </RadioGroup>
+                    </FormControl>
+                  </div>
+                </div>
+                <div className={"ButtonBar"}>
+                  <Button 
+                    className="SkipButton"
+                    variant="contained" 
+                    color="secondary"
+                    onClick={() => this.next({skip: true})}
+                  >
+                    Skip
+                  </Button>
+                  <Button
+                    className="SubmitButton"
+                    variant="contained"
+                    color="primary"
+                    disabled={!this.state.label}
+                    onClick={() => this.next({label: this.state.label})} /* handleSubmit()? */
+                  >
+                    Submit
+                  </Button>
+                </div>
+              </div>
+              
+              <LabelingUI selectedCondition={this.state.selectedCond} label={this.state.label} data={this.state.data} onLabelUpdate={(label) => this.setState({...this.state, label})} />
+            </div>
+          </div>
+        </div>
+      </MuiThemeProvider>
+    );
+  }
+}
+
+export default App;
