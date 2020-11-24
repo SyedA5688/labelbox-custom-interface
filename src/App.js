@@ -26,7 +26,7 @@ export const theme = createMuiTheme({
   }
 });
 // label is what will be assigned to overall image
-const defaultState = {data: undefined, loading: true, label: undefined, selectedCond: ""};
+const defaultState = {data: undefined, previousAsset: undefined, loading: true, label: { "MES": "", "SUBEND": "", "SUBEPI": "", "TUB": "" }, selectedCond: "", updateKey: Math.random()};
 
 class App extends Component {
   state = defaultState;
@@ -43,6 +43,7 @@ class App extends Component {
     } else if (submission.skip) {
       window.Labelbox.skip().then(getNext);
     }
+    this.setState({ updateKey: Math.random() });
   }
 
   componentWillMount(){
@@ -52,7 +53,7 @@ class App extends Component {
         return;
       }
 
-      this.setState({data: asset.data, loading: false});
+      this.setState({data: asset.data, loading: false, previousAsset: asset.previous});
     });
   }
 
@@ -66,15 +67,34 @@ class App extends Component {
               <div className="LeftBarContainer" >
                 <div className={"InstructionsBar"}>
                   <div>
-                    <p>1. Select label category </p>
-                    <p>2. Double click tiles on the image to apply label. </p>
-                    <p>3. Click Submit to submit labels or skip to move to next image.</p>
+                    <p style={{fontSize: "x-large"}} >Instructions:</p>
                     <p>
-                      Scroll up and down over image or use controls to zoom in/out. Click and drag to
+                      1. If the image cannot be labeled for any reason (e.g. no deposits, no tissue, noise, inconclusive, etc.) please 
+                      select the "<span style={{color: "red", textDecoration: "underline"}} >Skip</span>" button at the bottom of the panel.
+                    </p>
+                    <p>
+                      2. Otherwise, select label category from "Labels" list below.
+                    </p>
+                    <p>
+                      3. Once selected, double click tiles that are positive for the selected label. Feedback will appear on the right panel. 
+                      To deselect a tile, double click it again.
+                    </p>
+                    <p>
+                      4. Repeat process for all labels that are applicable to the image.
+                    </p>
+                    <p>
+                      5. Once done, press the "<span style={{color: "blue", textDecoration: "underline"}} >Submit</span>" button to move to the
+                      next sample.
+                    </p>
+                    <p>
+                      *Scroll up and down over image or use controls to zoom in/out. Click and drag to
                       pan around image.
                     </p>
+                    <p>
+                      *To go to previous image, press the "<span style={{color: "grey", textDecoration: "underline"}} >Previous</span>" button below.
+                    </p>
                     <p className="warning" >
-                      Warning: Moving mouse while double-clicking leads to weird behavior
+                      *Warning: Moving mouse while double-clicking leads to weird behavior
                     </p>
                   </div>
                   <div className="labelSelectorContainer" >
@@ -95,6 +115,13 @@ class App extends Component {
                   </div>
                 </div>
                 <div className={"ButtonBar"}>
+                  <Button  
+                    className="PreviousButton"
+                    variant="contained"
+                    onClick={() => window.Labelbox.setLabelAsCurrentAsset(this.state.previousAsset)}
+                  >
+                    Previous
+                  </Button>
                   <Button 
                     className="SkipButton"
                     variant="contained" 
@@ -108,14 +135,14 @@ class App extends Component {
                     variant="contained"
                     color="primary"
                     disabled={!this.state.label}
-                    onClick={() => this.next({label: this.state.label})} /* handleSubmit()? */
+                    onClick={() => this.next({label: this.state.label})} /* console.log(JSON.stringify(this.state.label)) */
                   >
                     Submit
                   </Button>
                 </div>
               </div>
               
-              <LabelingUI selectedCondition={this.state.selectedCond} label={this.state.label} data={this.state.data} onLabelUpdate={(label) => this.setState({...this.state, label})} />
+              <LabelingUI key={this.state.updateKey} selectedCondition={this.state.selectedCond} label={this.state.label} data={this.state.data} onLabelUpdate={(label) => this.setState({...this.state, label})} />
             </div>
           </div>
         </div>

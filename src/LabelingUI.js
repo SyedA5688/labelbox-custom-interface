@@ -49,29 +49,76 @@ export class LabelingUI extends React.Component
     else
       col = 0
 
-    // Update state
-    if (!this.state.cursorMoved) {
-      console.log("Click: ", this.state.click, " Cursor moved: ", this.state.cursorMoved, " Coords moved: ", this.state.coordsMoved);
+    // Update state if they have double clicked
+    if (!this.state.cursorMoved)
+    {
+      //console.log("Click: ", this.state.click, " Cursor moved: ", this.state.cursorMoved, " Coords moved: ", this.state.coordsMoved);
       let cond = this.props.selectedCondition;
-      if (cond === "Mesangial") {
+      if (cond === "Mesangial")
+      {
+        // Update state of mesangial array
         let arr = {...this.state.Mesangial};
         arr[row][col] = 1 - arr[row][col];
         this.setState({ Mesangial: arr });
+
+        // Also update label for entire image
+        let labelStr = "";
+        for (let i = 0; i < 3; i++) {
+          for (let j = 0; j < 3; j++) {
+            labelStr += arr[i][j];
+          }
+        }
+        let entireLabelObj = this.props.label;
+        entireLabelObj["MES"] = labelStr;
+        this.props.onLabelUpdate(entireLabelObj);
       }
-      else if (cond === "Subendothelial"){
+      else if (cond === "Subendothelial")
+      {
         let arr = {...this.state.Subendothelial};
         arr[row][col] = 1 - arr[row][col];
         this.setState({ Subendothelial: arr });
+
+        let labelStr = "";
+        for (let i = 0; i < 3; i++) {
+          for (let j = 0; j < 3; j++) {
+            labelStr += arr[i][j];
+          }
+        }
+        let entireLabelObj = this.props.label;
+        entireLabelObj["SUBEND"] = labelStr;
+        this.props.onLabelUpdate(entireLabelObj);
       }
-      else if (cond === "Subepithelial"){
+      else if (cond === "Subepithelial")
+      {
         let arr = {...this.state.Subepithelial};
         arr[row][col] = 1 - arr[row][col];
         this.setState({ Subepithelial: arr });
+
+        let labelStr = "";
+        for (let i = 0; i < 3; i++) {
+          for (let j = 0; j < 3; j++) {
+            labelStr += arr[i][j];
+          }
+        }
+        let entireLabelObj = this.props.label;
+        entireLabelObj["SUBEPI"] = labelStr;
+        this.props.onLabelUpdate(entireLabelObj);
       }
-      else if (cond === "Tubuloreticular"){
+      else if (cond === "Tubuloreticular")
+      {
         let arr = {...this.state.Tubuloreticular};
         arr[row][col] = 1 - arr[row][col];
         this.setState({ Tubuloreticular: arr });
+
+        let labelStr = "";
+        for (let i = 0; i < 3; i++) {
+          for (let j = 0; j < 3; j++) {
+            labelStr += arr[i][j];
+          }
+        }
+        let entireLabelObj = this.props.label;
+        entireLabelObj["TUB"] = labelStr;
+        this.props.onLabelUpdate(entireLabelObj);
       }
     }
     this.setState({ cursorMoved: false });
@@ -100,7 +147,7 @@ export class LabelingUI extends React.Component
             initialScale={0.5} 
             position="center" 
             minScale={0.25} 
-            doubleTapBehavior="None"
+            doubleTapBehavior="none"
           >
             <img alt='Glomeruli' src={this.props.data} onClick={this.onImageClick} />
           </PinchZoomPan>

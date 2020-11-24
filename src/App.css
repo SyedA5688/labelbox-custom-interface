@@ -1,6 +1,6 @@
 p {
   text-align: center;
-  font-size: larger;
+  font-size: large;
 }
 
 p.warning {
@@ -43,8 +43,8 @@ p.warning {
   border-width: 2px;
   border-color: grey;
   border-style: solid;
-  padding-left: 50px;
-  padding-right: 50px;
+  padding-left: 40px;
+  padding-right: 40px;
 }
 
 .InstructionsBar {
