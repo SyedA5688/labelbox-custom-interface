@@ -28,7 +28,7 @@ export const theme = createMuiTheme({
 // label is what will be assigned to overall image
 const defaultState = {data: undefined, previousAsset: undefined, loading: true, 
                       label: { "MES": "000000000", "SUBEND": "000000000", "SUBEPI": "000000000", "TUB": "000000000" }, 
-                      selectedCond: "", updateKey: Math.random(), UIUpdated: true
+                      selectedCond: "", updateKey: Math.random(), UIUpdated: true,
 };
 
 class App extends Component {
@@ -63,6 +63,10 @@ class App extends Component {
         this.setState({ label: JSON.parse(asset.label), UIUpdated: false });
       }
     });
+  }
+
+  handleInputChange = (e) => {
+    this.setState({ selectedCond: e.currentTarget.value });
   }
 
   handlePreviousClick = () => {
@@ -112,7 +116,68 @@ class App extends Component {
                       *Warning: Moving mouse while double-clicking leads to weird behavior
                     </p>
                   </div>
+
                   <div className="labelSelectorContainer" >
+                    <p style={{fontSize: 18}} >Label List:</p>
+                    <form>
+                      <label>
+                        <input
+                          name="label1"
+                          type="radio"
+                          value="TA+IF+Infl+-"
+                          checked={this.state.selectedCond === "TA+IF+Infl+-"}
+                          onChange={this.handleInputChange} />
+                        Cortex:  tubular atrophy  √ &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+                        Interstitial Fibrosis √ <br/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(± infiltrates)
+                      </label>
+                      <br />
+                      <label>
+                        <input
+                          name="label2"
+                          type="radio"
+                          value="TA+IF-Infl+-"
+                          checked={this.state.selectedCond === "TA+IF-Infl+-"}
+                          onChange={this.handleInputChange} />
+                        Cortex:  tubular atrophy  √ &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                        interstitial fibrosis X <br/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(± infiltrates) 
+                      </label>
+                      <br />
+                      <label>
+                        <input
+                          name="label3"
+                          type="radio"
+                          value="TA-IF+Infl+-"
+                          checked={this.state.selectedCond === "TA-IF+Infl+-"}
+                          onChange={this.handleInputChange} />
+                        Cortex:  tubular atrophy  X &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                        interstitial fibrosis √ <br/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(± infiltrates) 
+                      </label>
+                      <br />
+                      <label>
+                        <input
+                          name="label4"
+                          type="radio"
+                          value="TA-IF-Infl+"
+                          checked={this.state.selectedCond === "TA-IF-Infl+"}
+                          onChange={this.handleInputChange} />
+                        Cortex:  tubular atrophy  X &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                        interstitial fibrosis X <br/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(With infiltrates) 
+                      </label>
+                      <br />
+                      <label>
+                        <input
+                          name="label5"
+                          type="radio"
+                          value="TA-IF-Infl-"
+                          checked={this.state.selectedCond === "TA-IF-Infl-"}
+                          onChange={this.handleInputChange} />
+                        Cortex:  tubular atrophy  X &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                        interstitial fibrosis X <br/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(No infiltrates) 
+                      </label>
+                    </form>
+                  </div>
+
+                  {/* <div className="labelSelectorContainer" > 
                     <FormControl component="fieldset" required>
                       <FormLabel component="legend">Labels:</FormLabel>
                       <RadioGroup
@@ -129,7 +194,7 @@ class App extends Component {
                         <FormControlLabel value="Tubuloreticular" control={<Radio color="primary"/>} label="Negative for Tubular Atrophy Cortex, Negative for Interstitial Fibrosis (no infiltrates)" />
                       </RadioGroup>
                     </FormControl>
-                  </div>
+                  </div>*/}
                 </div>
                 <div className={"ButtonBar"}>
                   <Button  
