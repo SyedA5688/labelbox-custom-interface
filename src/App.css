@@ -69,14 +69,6 @@ p.warning {
   align-items: center;
 }
 
-.SubmitButton {
-  height: 50%;
-}
-
-.SkipButton {
-  height: 50%;
-}
-
 /* Main container for image, including right bar */
 .LabelingUIContainer {
   display: flex;

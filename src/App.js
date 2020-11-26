@@ -26,7 +26,9 @@ export const theme = createMuiTheme({
   }
 });
 // label is what will be assigned to overall image
-const defaultState = {data: undefined, previousAsset: undefined, loading: true, label: { "MES": "", "SUBEND": "", "SUBEPI": "", "TUB": "" }, selectedCond: "", updateKey: Math.random()};
+const defaultState = {data: undefined, previousAsset: undefined, loading: true, 
+                      label: { "MES": "000000000", "SUBEND": "000000000", "SUBEPI": "000000000", "TUB": "000000000" }, 
+                      selectedCond: "", updateKey: Math.random()};
 
 class App extends Component {
   state = defaultState;
@@ -46,7 +48,8 @@ class App extends Component {
     this.setState({ updateKey: Math.random() });
   }
 
-  componentWillMount(){
+  componentDidMount(){
+    //console.log("Function ran");
     window.Labelbox.currentAsset().subscribe((asset) => {
       if (!asset){
         this.setState({loading: true});
@@ -54,6 +57,15 @@ class App extends Component {
       }
 
       this.setState({data: asset.data, loading: false, previousAsset: asset.previous});
+      if (asset.label === undefined)
+        this.setState({ label: { "MES": "000000000", "SUBEND": "000000000", "SUBEPI": "000000000", "TUB": "000000000" }, updateKey: Math.random() });
+      else if (asset.label === "Skip")
+        this.setState({ label: { "MES": "000000000", "SUBEND": "000000000", "SUBEPI": "000000000", "TUB": "000000000" }, updateKey: Math.random() }); // set to "Skip"?
+      else
+        this.setState({ label: JSON.parse(asset.label), updateKey: Math.random() });
+
+
+      //console.log(asset.label);
     });
   }
 
@@ -93,6 +105,7 @@ class App extends Component {
                     <p className="warning" >
                       *Warning: Moving mouse while double-clicking leads to weird behavior
                     </p>
+                    {/* <p>{JSON.stringify(this.state.label)}</p> */}
                   </div>
                   <div className="labelSelectorContainer" >
                     <FormControl component="fieldset" required>
