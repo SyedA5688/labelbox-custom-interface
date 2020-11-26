@@ -5,6 +5,7 @@ import Radio from '@material-ui/core/Radio';
 import FormLabel from '@material-ui/core/FormLabel';
 import FormControl from '@material-ui/core/FormControl';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
+import HomeIcon from '@material-ui/icons/Home';
 import './App.css';
 import { LabelingUI } from './LabelingUI';
 import LinearProgress from '@material-ui/core/LinearProgress';
@@ -78,6 +79,9 @@ class App extends Component {
             <div className={"LabelingFrame"}>
               <div className="LeftBarContainer" >
                 <div className={"InstructionsBar"}>
+                  <a href="https://app.labelbox.com/projects" className="HomeButton" >
+                    <HomeIcon fontSize="large" color="action" />
+                  </a>
                   <div>
                     <p style={{fontSize: "x-large"}} >Instructions:</p>
                     <p>
