@@ -144,7 +144,7 @@ export class LabelingUI extends React.Component
         <div className={"ImageContainer"} onMouseMove={this.handleMove.bind(this)} onDragStop={this.onDragStop} >
           <PinchZoomPan 
             maxScale={10} 
-            initialScale={0.5} 
+            initialScale={0.4} 
             position="center" 
             minScale={0.25} 
             doubleTapBehavior="none"
@@ -159,78 +159,78 @@ export class LabelingUI extends React.Component
           {/* {this.state.cursorMoved ? <p>Cursor Moved: True</p> : <p>Cursor Moved: False</p>} */}
           
           <div className="gridContainer" >
-            <p>Tiles Selected as Containing Mesangial Immune Complexes</p>
-            <div style={{ height: 40, width: 120, display: "flex", flexDirection: "row", borderWidth: 1, borderColor: "cornflowerblue", borderStyle: "solid" }} >
-              {(this.state.Mesangial[0][0] === 1) ? <div style={{ height: 40, width: 40, backgroundColor: "cornflowerblue", borderWidth: 1, borderColor: "cornflowerblue", borderStyle: "solid" }} ></div> : <div style={{ height: 40, width: 40, borderWidth: 1, borderColor: "cornflowerblue", borderStyle: "solid" }} ></div> }
-              {(this.state.Mesangial[0][1] === 1) ? <div style={{ height: 40, width: 40, backgroundColor: "cornflowerblue", borderWidth: 1, borderColor: "cornflowerblue", borderStyle: "solid" }} ></div> : <div style={{ height: 40, width: 40, borderWidth: 1, borderColor: "cornflowerblue", borderStyle: "solid" }} ></div> }
-              {(this.state.Mesangial[0][2] === 1) ? <div style={{ height: 40, width: 40, backgroundColor: "cornflowerblue", borderWidth: 1, borderColor: "cornflowerblue", borderStyle: "solid" }} ></div> : <div style={{ height: 40, width: 40, borderWidth: 1, borderColor: "cornflowerblue", borderStyle: "solid" }} ></div> }
+            <p>Mesangial Immune Complexes</p>
+            <div style={{ height: 30, width: 90, display: "flex", flexDirection: "row", borderWidth: 1, borderColor: "cornflowerblue", borderStyle: "solid" }} >
+              {(this.state.Mesangial[0][0] === 1) ? <div style={{ height: 30, width: 30, backgroundColor: "cornflowerblue", borderWidth: 1, borderColor: "cornflowerblue", borderStyle: "solid" }} ></div> : <div style={{ height: 30, width: 30, borderWidth: 1, borderColor: "cornflowerblue", borderStyle: "solid" }} ></div> }
+              {(this.state.Mesangial[0][1] === 1) ? <div style={{ height: 30, width: 30, backgroundColor: "cornflowerblue", borderWidth: 1, borderColor: "cornflowerblue", borderStyle: "solid" }} ></div> : <div style={{ height: 30, width: 30, borderWidth: 1, borderColor: "cornflowerblue", borderStyle: "solid" }} ></div> }
+              {(this.state.Mesangial[0][2] === 1) ? <div style={{ height: 30, width: 30, backgroundColor: "cornflowerblue", borderWidth: 1, borderColor: "cornflowerblue", borderStyle: "solid" }} ></div> : <div style={{ height: 30, width: 30, borderWidth: 1, borderColor: "cornflowerblue", borderStyle: "solid" }} ></div> }
             </div>
-            <div style={{ height: 40, width: 120, display: "flex", flexDirection: "row", borderWidth: 1, borderColor: "cornflowerblue", borderStyle: "solid" }} >
-              {(this.state.Mesangial[1][0] === 1) ? <div style={{ height: 40, width: 40, backgroundColor: "cornflowerblue", borderWidth: 1, borderColor: "cornflowerblue", borderStyle: "solid" }} ></div> : <div style={{ height: 40, width: 40, borderWidth: 1, borderColor: "cornflowerblue", borderStyle: "solid" }} ></div> }
-              {(this.state.Mesangial[1][1] === 1) ? <div style={{ height: 40, width: 40, backgroundColor: "cornflowerblue", borderWidth: 1, borderColor: "cornflowerblue", borderStyle: "solid" }} ></div> : <div style={{ height: 40, width: 40, borderWidth: 1, borderColor: "cornflowerblue", borderStyle: "solid" }} ></div> }
-              {(this.state.Mesangial[1][2] === 1) ? <div style={{ height: 40, width: 40, backgroundColor: "cornflowerblue", borderWidth: 1, borderColor: "cornflowerblue", borderStyle: "solid" }} ></div> : <div style={{ height: 40, width: 40, borderWidth: 1, borderColor: "cornflowerblue", borderStyle: "solid" }} ></div> }
+            <div style={{ height: 30, width: 90, display: "flex", flexDirection: "row", borderWidth: 1, borderColor: "cornflowerblue", borderStyle: "solid" }} >
+              {(this.state.Mesangial[1][0] === 1) ? <div style={{ height: 30, width: 30, backgroundColor: "cornflowerblue", borderWidth: 1, borderColor: "cornflowerblue", borderStyle: "solid" }} ></div> : <div style={{ height: 30, width: 30, borderWidth: 1, borderColor: "cornflowerblue", borderStyle: "solid" }} ></div> }
+              {(this.state.Mesangial[1][1] === 1) ? <div style={{ height: 30, width: 30, backgroundColor: "cornflowerblue", borderWidth: 1, borderColor: "cornflowerblue", borderStyle: "solid" }} ></div> : <div style={{ height: 30, width: 30, borderWidth: 1, borderColor: "cornflowerblue", borderStyle: "solid" }} ></div> }
+              {(this.state.Mesangial[1][2] === 1) ? <div style={{ height: 30, width: 30, backgroundColor: "cornflowerblue", borderWidth: 1, borderColor: "cornflowerblue", borderStyle: "solid" }} ></div> : <div style={{ height: 30, width: 30, borderWidth: 1, borderColor: "cornflowerblue", borderStyle: "solid" }} ></div> }
             </div>
-            <div style={{ height: 40, width: 120, display: "flex", flexDirection: "row", borderWidth: 1, borderColor: "cornflowerblue", borderStyle: "solid" }} >
-              {(this.state.Mesangial[2][0] === 1) ? <div style={{ height: 40, width: 40, backgroundColor: "cornflowerblue", borderWidth: 1, borderColor: "cornflowerblue", borderStyle: "solid" }} ></div> : <div style={{ height: 40, width: 40, borderWidth: 1, borderColor: "cornflowerblue", borderStyle: "solid" }} ></div> }
-              {(this.state.Mesangial[2][1] === 1) ? <div style={{ height: 40, width: 40, backgroundColor: "cornflowerblue", borderWidth: 1, borderColor: "cornflowerblue", borderStyle: "solid" }} ></div> : <div style={{ height: 40, width: 40, borderWidth: 1, borderColor: "cornflowerblue", borderStyle: "solid" }} ></div> }
-              {(this.state.Mesangial[2][2] === 1) ? <div style={{ height: 40, width: 40, backgroundColor: "cornflowerblue", borderWidth: 1, borderColor: "cornflowerblue", borderStyle: "solid" }} ></div> : <div style={{ height: 40, width: 40, borderWidth: 1, borderColor: "cornflowerblue", borderStyle: "solid" }} ></div> }
-            </div>
-          </div>
-          
-          <div className="gridContainer" >
-            <p>Tiles Selected as Containing Subendothelial Immune Complexes</p>
-            <div style={{ height: 40, width: 120, display: "flex", flexDirection: "row", borderWidth: 1, borderColor: "blueviolet", borderStyle: "solid" }} >
-              {(this.state.Subendothelial[0][0] === 1) ? <div style={{ height: 40, width: 40, backgroundColor: "blueviolet", borderWidth: 1, borderColor: "blueviolet", borderStyle: "solid" }} ></div> : <div style={{ height: 40, width: 40, borderWidth: 1, borderColor: "blueviolet", borderStyle: "solid" }} ></div> }
-              {(this.state.Subendothelial[0][1] === 1) ? <div style={{ height: 40, width: 40, backgroundColor: "blueviolet", borderWidth: 1, borderColor: "blueviolet", borderStyle: "solid" }} ></div> : <div style={{ height: 40, width: 40, borderWidth: 1, borderColor: "blueviolet", borderStyle: "solid" }} ></div> }
-              {(this.state.Subendothelial[0][2] === 1) ? <div style={{ height: 40, width: 40, backgroundColor: "blueviolet", borderWidth: 1, borderColor: "blueviolet", borderStyle: "solid" }} ></div> : <div style={{ height: 40, width: 40, borderWidth: 1, borderColor: "blueviolet", borderStyle: "solid" }} ></div> }
-            </div>
-            <div style={{ height: 40, width: 120, display: "flex", flexDirection: "row", borderWidth: 1, borderColor: "blueviolet", borderStyle: "solid" }} >
-              {(this.state.Subendothelial[1][0] === 1) ? <div style={{ height: 40, width: 40, backgroundColor: "blueviolet", borderWidth: 1, borderColor: "blueviolet", borderStyle: "solid" }} ></div> : <div style={{ height: 40, width: 40, borderWidth: 1, borderColor: "blueviolet", borderStyle: "solid" }} ></div> }
-              {(this.state.Subendothelial[1][1] === 1) ? <div style={{ height: 40, width: 40, backgroundColor: "blueviolet", borderWidth: 1, borderColor: "blueviolet", borderStyle: "solid" }} ></div> : <div style={{ height: 40, width: 40, borderWidth: 1, borderColor: "blueviolet", borderStyle: "solid" }} ></div> }
-              {(this.state.Subendothelial[1][2] === 1) ? <div style={{ height: 40, width: 40, backgroundColor: "blueviolet", borderWidth: 1, borderColor: "blueviolet", borderStyle: "solid" }} ></div> : <div style={{ height: 40, width: 40, borderWidth: 1, borderColor: "blueviolet", borderStyle: "solid" }} ></div> }
-            </div>
-            <div style={{ height: 40, width: 120, display: "flex", flexDirection: "row", borderWidth: 1, borderColor: "blueviolet", borderStyle: "solid" }} >
-              {(this.state.Subendothelial[2][0] === 1) ? <div style={{ height: 40, width: 40, backgroundColor: "blueviolet", borderWidth: 1, borderColor: "blueviolet", borderStyle: "solid" }} ></div> : <div style={{ height: 40, width: 40, borderWidth: 1, borderColor: "blueviolet", borderStyle: "solid" }} ></div> }
-              {(this.state.Subendothelial[2][1] === 1) ? <div style={{ height: 40, width: 40, backgroundColor: "blueviolet", borderWidth: 1, borderColor: "blueviolet", borderStyle: "solid" }} ></div> : <div style={{ height: 40, width: 40, borderWidth: 1, borderColor: "blueviolet", borderStyle: "solid" }} ></div> }
-              {(this.state.Subendothelial[2][2] === 1) ? <div style={{ height: 40, width: 40, backgroundColor: "blueviolet", borderWidth: 1, borderColor: "blueviolet", borderStyle: "solid" }} ></div> : <div style={{ height: 40, width: 40, borderWidth: 1, borderColor: "blueviolet", borderStyle: "solid" }} ></div> }
+            <div style={{ height: 30, width: 90, display: "flex", flexDirection: "row", borderWidth: 1, borderColor: "cornflowerblue", borderStyle: "solid" }} >
+              {(this.state.Mesangial[2][0] === 1) ? <div style={{ height: 30, width: 30, backgroundColor: "cornflowerblue", borderWidth: 1, borderColor: "cornflowerblue", borderStyle: "solid" }} ></div> : <div style={{ height: 30, width: 30, borderWidth: 1, borderColor: "cornflowerblue", borderStyle: "solid" }} ></div> }
+              {(this.state.Mesangial[2][1] === 1) ? <div style={{ height: 30, width: 30, backgroundColor: "cornflowerblue", borderWidth: 1, borderColor: "cornflowerblue", borderStyle: "solid" }} ></div> : <div style={{ height: 30, width: 30, borderWidth: 1, borderColor: "cornflowerblue", borderStyle: "solid" }} ></div> }
+              {(this.state.Mesangial[2][2] === 1) ? <div style={{ height: 30, width: 30, backgroundColor: "cornflowerblue", borderWidth: 1, borderColor: "cornflowerblue", borderStyle: "solid" }} ></div> : <div style={{ height: 30, width: 30, borderWidth: 1, borderColor: "cornflowerblue", borderStyle: "solid" }} ></div> }
             </div>
           </div>
           
           <div className="gridContainer" >
-            <p>Tiles Selected as Containing Subepithelial Immune Complexes</p>
-            <div style={{ height: 40, width: 120, display: "flex", flexDirection: "row", borderWidth: 1, borderColor: "coral", borderStyle: "solid" }} >
-              {(this.state.Subepithelial[0][0] === 1) ? <div style={{ height: 40, width: 40, backgroundColor: "coral", borderWidth: 1, borderColor: "coral", borderStyle: "solid" }} ></div> : <div style={{ height: 40, width: 40, borderWidth: 1, borderColor: "coral", borderStyle: "solid" }} ></div> }
-              {(this.state.Subepithelial[0][1] === 1) ? <div style={{ height: 40, width: 40, backgroundColor: "coral", borderWidth: 1, borderColor: "coral", borderStyle: "solid" }} ></div> : <div style={{ height: 40, width: 40, borderWidth: 1, borderColor: "coral", borderStyle: "solid" }} ></div> }
-              {(this.state.Subepithelial[0][2] === 1) ? <div style={{ height: 40, width: 40, backgroundColor: "coral", borderWidth: 1, borderColor: "coral", borderStyle: "solid" }} ></div> : <div style={{ height: 40, width: 40, borderWidth: 1, borderColor: "coral", borderStyle: "solid" }} ></div> }
+            <p>Subendothelial Immune Complexes</p>
+            <div style={{ height: 30, width: 90, display: "flex", flexDirection: "row", borderWidth: 1, borderColor: "blueviolet", borderStyle: "solid" }} >
+              {(this.state.Subendothelial[0][0] === 1) ? <div style={{ height: 30, width: 30, backgroundColor: "blueviolet", borderWidth: 1, borderColor: "blueviolet", borderStyle: "solid" }} ></div> : <div style={{ height: 30, width: 30, borderWidth: 1, borderColor: "blueviolet", borderStyle: "solid" }} ></div> }
+              {(this.state.Subendothelial[0][1] === 1) ? <div style={{ height: 30, width: 30, backgroundColor: "blueviolet", borderWidth: 1, borderColor: "blueviolet", borderStyle: "solid" }} ></div> : <div style={{ height: 30, width: 30, borderWidth: 1, borderColor: "blueviolet", borderStyle: "solid" }} ></div> }
+              {(this.state.Subendothelial[0][2] === 1) ? <div style={{ height: 30, width: 30, backgroundColor: "blueviolet", borderWidth: 1, borderColor: "blueviolet", borderStyle: "solid" }} ></div> : <div style={{ height: 30, width: 30, borderWidth: 1, borderColor: "blueviolet", borderStyle: "solid" }} ></div> }
             </div>
-            <div style={{ height: 40, width: 120, display: "flex", flexDirection: "row", borderWidth: 1, borderColor: "coral", borderStyle: "solid" }} >
-              {(this.state.Subepithelial[1][0] === 1) ? <div style={{ height: 40, width: 40, backgroundColor: "coral", borderWidth: 1, borderColor: "coral", borderStyle: "solid" }} ></div> : <div style={{ height: 40, width: 40, borderWidth: 1, borderColor: "coral", borderStyle: "solid" }} ></div> }
-              {(this.state.Subepithelial[1][1] === 1) ? <div style={{ height: 40, width: 40, backgroundColor: "coral", borderWidth: 1, borderColor: "coral", borderStyle: "solid" }} ></div> : <div style={{ height: 40, width: 40, borderWidth: 1, borderColor: "coral", borderStyle: "solid" }} ></div> }
-              {(this.state.Subepithelial[1][2] === 1) ? <div style={{ height: 40, width: 40, backgroundColor: "coral", borderWidth: 1, borderColor: "coral", borderStyle: "solid" }} ></div> : <div style={{ height: 40, width: 40, borderWidth: 1, borderColor: "coral", borderStyle: "solid" }} ></div> }
+            <div style={{ height: 30, width: 90, display: "flex", flexDirection: "row", borderWidth: 1, borderColor: "blueviolet", borderStyle: "solid" }} >
+              {(this.state.Subendothelial[1][0] === 1) ? <div style={{ height: 30, width: 30, backgroundColor: "blueviolet", borderWidth: 1, borderColor: "blueviolet", borderStyle: "solid" }} ></div> : <div style={{ height: 30, width: 30, borderWidth: 1, borderColor: "blueviolet", borderStyle: "solid" }} ></div> }
+              {(this.state.Subendothelial[1][1] === 1) ? <div style={{ height: 30, width: 30, backgroundColor: "blueviolet", borderWidth: 1, borderColor: "blueviolet", borderStyle: "solid" }} ></div> : <div style={{ height: 30, width: 30, borderWidth: 1, borderColor: "blueviolet", borderStyle: "solid" }} ></div> }
+              {(this.state.Subendothelial[1][2] === 1) ? <div style={{ height: 30, width: 30, backgroundColor: "blueviolet", borderWidth: 1, borderColor: "blueviolet", borderStyle: "solid" }} ></div> : <div style={{ height: 30, width: 30, borderWidth: 1, borderColor: "blueviolet", borderStyle: "solid" }} ></div> }
             </div>
-            <div style={{ height: 40, width: 120, display: "flex", flexDirection: "row", borderWidth: 1, borderColor: "coral", borderStyle: "solid" }} >
-              {(this.state.Subepithelial[2][0] === 1) ? <div style={{ height: 40, width: 40, backgroundColor: "coral", borderWidth: 1, borderColor: "coral", borderStyle: "solid" }} ></div> : <div style={{ height: 40, width: 40, borderWidth: 1, borderColor: "coral", borderStyle: "solid" }} ></div> }
-              {(this.state.Subepithelial[2][1] === 1) ? <div style={{ height: 40, width: 40, backgroundColor: "coral", borderWidth: 1, borderColor: "coral", borderStyle: "solid" }} ></div> : <div style={{ height: 40, width: 40, borderWidth: 1, borderColor: "coral", borderStyle: "solid" }} ></div> }
-              {(this.state.Subepithelial[2][2] === 1) ? <div style={{ height: 40, width: 40, backgroundColor: "coral", borderWidth: 1, borderColor: "coral", borderStyle: "solid" }} ></div> : <div style={{ height: 40, width: 40, borderWidth: 1, borderColor: "coral", borderStyle: "solid" }} ></div> }
+            <div style={{ height: 30, width: 90, display: "flex", flexDirection: "row", borderWidth: 1, borderColor: "blueviolet", borderStyle: "solid" }} >
+              {(this.state.Subendothelial[2][0] === 1) ? <div style={{ height: 30, width: 30, backgroundColor: "blueviolet", borderWidth: 1, borderColor: "blueviolet", borderStyle: "solid" }} ></div> : <div style={{ height: 30, width: 30, borderWidth: 1, borderColor: "blueviolet", borderStyle: "solid" }} ></div> }
+              {(this.state.Subendothelial[2][1] === 1) ? <div style={{ height: 30, width: 30, backgroundColor: "blueviolet", borderWidth: 1, borderColor: "blueviolet", borderStyle: "solid" }} ></div> : <div style={{ height: 30, width: 30, borderWidth: 1, borderColor: "blueviolet", borderStyle: "solid" }} ></div> }
+              {(this.state.Subendothelial[2][2] === 1) ? <div style={{ height: 30, width: 30, backgroundColor: "blueviolet", borderWidth: 1, borderColor: "blueviolet", borderStyle: "solid" }} ></div> : <div style={{ height: 30, width: 30, borderWidth: 1, borderColor: "blueviolet", borderStyle: "solid" }} ></div> }
             </div>
           </div>
           
           <div className="gridContainer" >
-            <p>Tiles Selected as Containing Tubuloreticular Inclusion</p>
-            <div style={{ height: 40, width: 120, display: "flex", flexDirection: "row", borderWidth: 1, borderColor: "darkgreen", borderStyle: "solid" }} >
-              {(this.state.Tubuloreticular[0][0] === 1) ? <div style={{ height: 40, width: 40, backgroundColor: "darkgreen", borderWidth: 1, borderColor: "darkgreen", borderStyle: "solid" }} ></div> : <div style={{ height: 40, width: 40, borderWidth: 1, borderColor: "darkgreen", borderStyle: "solid" }} ></div> }
-              {(this.state.Tubuloreticular[0][1] === 1) ? <div style={{ height: 40, width: 40, backgroundColor: "darkgreen", borderWidth: 1, borderColor: "darkgreen", borderStyle: "solid" }} ></div> : <div style={{ height: 40, width: 40, borderWidth: 1, borderColor: "darkgreen", borderStyle: "solid" }} ></div> }
-              {(this.state.Tubuloreticular[0][2] === 1) ? <div style={{ height: 40, width: 40, backgroundColor: "darkgreen", borderWidth: 1, borderColor: "darkgreen", borderStyle: "solid" }} ></div> : <div style={{ height: 40, width: 40, borderWidth: 1, borderColor: "darkgreen", borderStyle: "solid" }} ></div> }
+            <p>Subepithelial Immune Complexes</p>
+            <div style={{ height: 30, width: 90, display: "flex", flexDirection: "row", borderWidth: 1, borderColor: "coral", borderStyle: "solid" }} >
+              {(this.state.Subepithelial[0][0] === 1) ? <div style={{ height: 30, width: 30, backgroundColor: "coral", borderWidth: 1, borderColor: "coral", borderStyle: "solid" }} ></div> : <div style={{ height: 30, width: 30, borderWidth: 1, borderColor: "coral", borderStyle: "solid" }} ></div> }
+              {(this.state.Subepithelial[0][1] === 1) ? <div style={{ height: 30, width: 30, backgroundColor: "coral", borderWidth: 1, borderColor: "coral", borderStyle: "solid" }} ></div> : <div style={{ height: 30, width: 30, borderWidth: 1, borderColor: "coral", borderStyle: "solid" }} ></div> }
+              {(this.state.Subepithelial[0][2] === 1) ? <div style={{ height: 30, width: 30, backgroundColor: "coral", borderWidth: 1, borderColor: "coral", borderStyle: "solid" }} ></div> : <div style={{ height: 30, width: 30, borderWidth: 1, borderColor: "coral", borderStyle: "solid" }} ></div> }
             </div>
-            <div style={{ height: 40, width: 120, display: "flex", flexDirection: "row", borderWidth: 1, borderColor: "darkgreen", borderStyle: "solid" }} >
-              {(this.state.Tubuloreticular[1][0] === 1) ? <div style={{ height: 40, width: 40, backgroundColor: "darkgreen", borderWidth: 1, borderColor: "darkgreen", borderStyle: "solid" }} ></div> : <div style={{ height: 40, width: 40, borderWidth: 1, borderColor: "darkgreen", borderStyle: "solid" }} ></div> }
-              {(this.state.Tubuloreticular[1][1] === 1) ? <div style={{ height: 40, width: 40, backgroundColor: "darkgreen", borderWidth: 1, borderColor: "darkgreen", borderStyle: "solid" }} ></div> : <div style={{ height: 40, width: 40, borderWidth: 1, borderColor: "darkgreen", borderStyle: "solid" }} ></div> }
-              {(this.state.Tubuloreticular[1][2] === 1) ? <div style={{ height: 40, width: 40, backgroundColor: "darkgreen", borderWidth: 1, borderColor: "darkgreen", borderStyle: "solid" }} ></div> : <div style={{ height: 40, width: 40, borderWidth: 1, borderColor: "darkgreen", borderStyle: "solid" }} ></div> }
+            <div style={{ height: 30, width: 90, display: "flex", flexDirection: "row", borderWidth: 1, borderColor: "coral", borderStyle: "solid" }} >
+              {(this.state.Subepithelial[1][0] === 1) ? <div style={{ height: 30, width: 30, backgroundColor: "coral", borderWidth: 1, borderColor: "coral", borderStyle: "solid" }} ></div> : <div style={{ height: 30, width: 30, borderWidth: 1, borderColor: "coral", borderStyle: "solid" }} ></div> }
+              {(this.state.Subepithelial[1][1] === 1) ? <div style={{ height: 30, width: 30, backgroundColor: "coral", borderWidth: 1, borderColor: "coral", borderStyle: "solid" }} ></div> : <div style={{ height: 30, width: 30, borderWidth: 1, borderColor: "coral", borderStyle: "solid" }} ></div> }
+              {(this.state.Subepithelial[1][2] === 1) ? <div style={{ height: 30, width: 30, backgroundColor: "coral", borderWidth: 1, borderColor: "coral", borderStyle: "solid" }} ></div> : <div style={{ height: 30, width: 30, borderWidth: 1, borderColor: "coral", borderStyle: "solid" }} ></div> }
             </div>
-            <div style={{ height: 40, width: 120, display: "flex", flexDirection: "row", borderWidth: 1, borderColor: "darkgreen", borderStyle: "solid" }} >
-              {(this.state.Tubuloreticular[2][0] === 1) ? <div style={{ height: 40, width: 40, backgroundColor: "darkgreen", borderWidth: 1, borderColor: "darkgreen", borderStyle: "solid" }} ></div> : <div style={{ height: 40, width: 40, borderWidth: 1, borderColor: "darkgreen", borderStyle: "solid" }} ></div> }
-              {(this.state.Tubuloreticular[2][1] === 1) ? <div style={{ height: 40, width: 40, backgroundColor: "darkgreen", borderWidth: 1, borderColor: "darkgreen", borderStyle: "solid" }} ></div> : <div style={{ height: 40, width: 40, borderWidth: 1, borderColor: "darkgreen", borderStyle: "solid" }} ></div> }
-              {(this.state.Tubuloreticular[2][2] === 1) ? <div style={{ height: 40, width: 40, backgroundColor: "darkgreen", borderWidth: 1, borderColor: "darkgreen", borderStyle: "solid" }} ></div> : <div style={{ height: 40, width: 40, borderWidth: 1, borderColor: "darkgreen", borderStyle: "solid" }} ></div> }
+            <div style={{ height: 30, width: 90, display: "flex", flexDirection: "row", borderWidth: 1, borderColor: "coral", borderStyle: "solid" }} >
+              {(this.state.Subepithelial[2][0] === 1) ? <div style={{ height: 30, width: 30, backgroundColor: "coral", borderWidth: 1, borderColor: "coral", borderStyle: "solid" }} ></div> : <div style={{ height: 30, width: 30, borderWidth: 1, borderColor: "coral", borderStyle: "solid" }} ></div> }
+              {(this.state.Subepithelial[2][1] === 1) ? <div style={{ height: 30, width: 30, backgroundColor: "coral", borderWidth: 1, borderColor: "coral", borderStyle: "solid" }} ></div> : <div style={{ height: 30, width: 30, borderWidth: 1, borderColor: "coral", borderStyle: "solid" }} ></div> }
+              {(this.state.Subepithelial[2][2] === 1) ? <div style={{ height: 30, width: 30, backgroundColor: "coral", borderWidth: 1, borderColor: "coral", borderStyle: "solid" }} ></div> : <div style={{ height: 30, width: 30, borderWidth: 1, borderColor: "coral", borderStyle: "solid" }} ></div> }
+            </div>
+          </div>
+          
+          <div className="gridContainer" >
+            <p>Tubuloreticular Inclusion</p>
+            <div style={{ height: 30, width: 90, display: "flex", flexDirection: "row", borderWidth: 1, borderColor: "darkgreen", borderStyle: "solid" }} >
+              {(this.state.Tubuloreticular[0][0] === 1) ? <div style={{ height: 30, width: 30, backgroundColor: "darkgreen", borderWidth: 1, borderColor: "darkgreen", borderStyle: "solid" }} ></div> : <div style={{ height: 30, width: 30, borderWidth: 1, borderColor: "darkgreen", borderStyle: "solid" }} ></div> }
+              {(this.state.Tubuloreticular[0][1] === 1) ? <div style={{ height: 30, width: 30, backgroundColor: "darkgreen", borderWidth: 1, borderColor: "darkgreen", borderStyle: "solid" }} ></div> : <div style={{ height: 30, width: 30, borderWidth: 1, borderColor: "darkgreen", borderStyle: "solid" }} ></div> }
+              {(this.state.Tubuloreticular[0][2] === 1) ? <div style={{ height: 30, width: 30, backgroundColor: "darkgreen", borderWidth: 1, borderColor: "darkgreen", borderStyle: "solid" }} ></div> : <div style={{ height: 30, width: 30, borderWidth: 1, borderColor: "darkgreen", borderStyle: "solid" }} ></div> }
+            </div>
+            <div style={{ height: 30, width: 90, display: "flex", flexDirection: "row", borderWidth: 1, borderColor: "darkgreen", borderStyle: "solid" }} >
+              {(this.state.Tubuloreticular[1][0] === 1) ? <div style={{ height: 30, width: 30, backgroundColor: "darkgreen", borderWidth: 1, borderColor: "darkgreen", borderStyle: "solid" }} ></div> : <div style={{ height: 30, width: 30, borderWidth: 1, borderColor: "darkgreen", borderStyle: "solid" }} ></div> }
+              {(this.state.Tubuloreticular[1][1] === 1) ? <div style={{ height: 30, width: 30, backgroundColor: "darkgreen", borderWidth: 1, borderColor: "darkgreen", borderStyle: "solid" }} ></div> : <div style={{ height: 30, width: 30, borderWidth: 1, borderColor: "darkgreen", borderStyle: "solid" }} ></div> }
+              {(this.state.Tubuloreticular[1][2] === 1) ? <div style={{ height: 30, width: 30, backgroundColor: "darkgreen", borderWidth: 1, borderColor: "darkgreen", borderStyle: "solid" }} ></div> : <div style={{ height: 30, width: 30, borderWidth: 1, borderColor: "darkgreen", borderStyle: "solid" }} ></div> }
+            </div>
+            <div style={{ height: 30, width: 90, display: "flex", flexDirection: "row", borderWidth: 1, borderColor: "darkgreen", borderStyle: "solid" }} >
+              {(this.state.Tubuloreticular[2][0] === 1) ? <div style={{ height: 30, width: 30, backgroundColor: "darkgreen", borderWidth: 1, borderColor: "darkgreen", borderStyle: "solid" }} ></div> : <div style={{ height: 30, width: 30, borderWidth: 1, borderColor: "darkgreen", borderStyle: "solid" }} ></div> }
+              {(this.state.Tubuloreticular[2][1] === 1) ? <div style={{ height: 30, width: 30, backgroundColor: "darkgreen", borderWidth: 1, borderColor: "darkgreen", borderStyle: "solid" }} ></div> : <div style={{ height: 30, width: 30, borderWidth: 1, borderColor: "darkgreen", borderStyle: "solid" }} ></div> }
+              {(this.state.Tubuloreticular[2][2] === 1) ? <div style={{ height: 30, width: 30, backgroundColor: "darkgreen", borderWidth: 1, borderColor: "darkgreen", borderStyle: "solid" }} ></div> : <div style={{ height: 30, width: 30, borderWidth: 1, borderColor: "darkgreen", borderStyle: "solid" }} ></div> }
             </div>
           </div>
         </div>

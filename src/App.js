@@ -90,9 +90,6 @@ class App extends Component {
                       *Scroll up and down over image or use controls to zoom in/out. Click and drag to
                       pan around image.
                     </p>
-                    <p>
-                      *To go to previous image, press the "<span style={{color: "grey", textDecoration: "underline"}} >Previous</span>" button below.
-                    </p>
                     <p className="warning" >
                       *Warning: Moving mouse while double-clicking leads to weird behavior
                     </p>
