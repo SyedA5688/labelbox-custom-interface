@@ -1,10 +1,5 @@
 import React, { Component } from 'react';
 import Button from '@material-ui/core/Button';
-import RadioGroup from '@material-ui/core/RadioGroup';
-import Radio from '@material-ui/core/Radio';
-import FormLabel from '@material-ui/core/FormLabel';
-import FormControl from '@material-ui/core/FormControl';
-import FormControlLabel from '@material-ui/core/FormControlLabel';
 import './App.css';
 import { LabelingUI } from './LabelingUI';
 import LinearProgress from '@material-ui/core/LinearProgress';
