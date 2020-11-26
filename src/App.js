@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import Button from '@material-ui/core/Button';
 import './App.css';
 import { LabelingUI } from './LabelingUI';
+import HomeIcon from '@material-ui/icons/Home';
 import LinearProgress from '@material-ui/core/LinearProgress';
 
 import { createMuiTheme, MuiThemeProvider } from '@material-ui/core/styles';
@@ -22,9 +23,8 @@ export const theme = createMuiTheme({
 });
 // label is what will be assigned to overall image
 const defaultState = {data: undefined, previousAsset: undefined, loading: true, 
-                      label: { "MES": "000000000", "SUBEND": "000000000", "SUBEPI": "000000000", "TUB": "000000000" }, 
-                      selectedCond: "", updateKey: Math.random(), UIUpdated: true,
-};
+                      label: { "TA+IF+Infl+-": "000000000", "TA+IF-Infl+-": "000000000", "TA-IF+Infl+-": "000000000", "TA-IF-Infl+": "000000000", "TA-IF-Infl-": "000000000" }, 
+                      selectedCond: "", updateKey: Math.random()};
 
 class App extends Component {
   state = defaultState;
@@ -41,11 +41,10 @@ class App extends Component {
     } else if (submission.skip) {
       window.Labelbox.skip().then(getNext);
     }
-    this.setState({ UIUpdated: false, updateKey: Math.random() });
+    this.setState({ updateKey: Math.random() });
   }
 
-  componentWillMount(){
-    console.log("Mounting...");
+  componentDidMount(){
     window.Labelbox.currentAsset().subscribe((asset) => {
       if (!asset){
         this.setState({loading: true});
@@ -53,25 +52,17 @@ class App extends Component {
       }
 
       this.setState({data: asset.data, loading: false, previousAsset: asset.previous});
-      if (asset.label !== undefined && asset.label !== "Skip") {
-        //console.log(asset.label);
-        this.setState({ label: JSON.parse(asset.label), UIUpdated: false });
-      }
+      if (asset.label === undefined)
+        this.setState({ label: { "TA+IF+Infl+-": "000000000", "TA+IF-Infl+-": "000000000", "TA-IF+Infl+-": "000000000", "TA-IF-Infl+": "000000000", "TA-IF-Infl-": "000000000" }, updateKey: Math.random() });
+      else if (asset.label === "Skip")
+        this.setState({ label: { "TA+IF+Infl+-": "000000000", "TA+IF-Infl+-": "000000000", "TA-IF+Infl+-": "000000000", "TA-IF-Infl+": "000000000", "TA-IF-Infl-": "000000000" }, updateKey: Math.random() }); // set to "Skip"?
+      else
+        this.setState({ label: JSON.parse(asset.label), updateKey: Math.random() });
     });
   }
 
   handleInputChange = (e) => {
     this.setState({ selectedCond: e.currentTarget.value });
-  }
-
-  handlePreviousClick = () => {
-    window.Labelbox.setLabelAsCurrentAsset(this.state.previousAsset);
-    this.setState({ updateKey: Math.random(), UIUpdated: false });
-    // label: JSON.parse(this.state.previousAsset.label)
-  }
-
-  updatedUI = () => {
-    this.setState({ UIUpdated: true, updateKey: Math.random() });
   }
 
   render() {
@@ -83,6 +74,9 @@ class App extends Component {
             <div className={"LabelingFrame"}>
               <div className="LeftBarContainer" >
                 <div className={"InstructionsBar"}>
+                  <a href="https://app.labelbox.com/projects" className="HomeButton" >
+                    <HomeIcon fontSize="large" color="action" />
+                  </a>
                   <div>
                     <p style={{fontSize: 20}} >Instructions:</p>
                     <p>
@@ -110,6 +104,7 @@ class App extends Component {
                     <p className="warning" >
                       *Warning: Moving mouse while double-clicking leads to weird behavior
                     </p>
+                    {/* <p>{JSON.stringify(this.state.label)}</p> */}
                   </div>
 
                   <div className="labelSelectorContainer" >
@@ -171,31 +166,12 @@ class App extends Component {
                       </label>
                     </form>
                   </div>
-
-                  {/* <div className="labelSelectorContainer" > 
-                    <FormControl component="fieldset" required>
-                      <FormLabel component="legend">Labels:</FormLabel>
-                      <RadioGroup
-                        aria-label="gender"
-                        name="gender1"
-                        value={this.state.selectedCond}
-                        onChange={(e) => this.setState({ selectedCond: e.target.value })}
-                      >
-                        <FormControlLabel value="Mesangial" control={<Radio color="primary"/>} label="No Cortex (White space or other tissue)" />
-                        <FormControlLabel value="Subendothelial" control={<Radio color="primary"/>} label="Positive for Tubular Atrophy Cortex, Positive for Interstitial Fibrosis (with or without infiltrates)" />
-                        <FormControlLabel value="Subepithelial" control={<Radio color="primary"/>} label="Positive for Tubular Atrophy Cortex, Negative for Interstitial Fibrosis (with or without infiltrates)" />
-                        <FormControlLabel value="Tubuloreticular" control={<Radio color="primary"/>} label="Negative for Tubular Atrophy Cortex, Positive for Interstitial Fibrosis (with or without infiltrates)" />
-                        <FormControlLabel value="Tubuloreticular" control={<Radio color="primary"/>} label="Negative for Tubular Atrophy Cortex, Negative for Interstitial Fibrosis (with infiltrates)" />
-                        <FormControlLabel value="Tubuloreticular" control={<Radio color="primary"/>} label="Negative for Tubular Atrophy Cortex, Negative for Interstitial Fibrosis (no infiltrates)" />
-                      </RadioGroup>
-                    </FormControl>
-                  </div>*/}
                 </div>
                 <div className={"ButtonBar"}>
                   <Button  
                     className="PreviousButton"
                     variant="contained"
-                    onClick={this.handlePreviousClick}
+                    onClick={() => window.Labelbox.setLabelAsCurrentAsset(this.state.previousAsset)}
                   >
                     Previous
                   </Button>
@@ -212,7 +188,7 @@ class App extends Component {
                     variant="contained"
                     color="primary"
                     disabled={!this.state.label}
-                    onClick={() => this.next({label: this.state.label})} /* console.log(JSON.stringify(this.state.label)) */
+                    onClick={() => this.next({label: this.state.label})}
                   >
                     Submit
                   </Button>
@@ -224,9 +200,7 @@ class App extends Component {
                 selectedCondition={this.state.selectedCond} 
                 label={this.state.label} 
                 data={this.state.data} 
-                onLabelUpdate={(label) => this.setState({...this.state, label})} 
-                UIUpdated={this.state.UIUpdated}
-                onUIUpdated={this.updatedUI}
+                onLabelUpdate={(label) => this.setState({...this.state, label})}
               />
             </div>
           </div>

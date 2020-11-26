@@ -1,6 +1,6 @@
 p {
   text-align: center;
-  font-size: 16px;
+  font-size: 15px;
 }
 
 p.warning {
@@ -60,6 +60,13 @@ input {
   justify-content: space-evenly;
 }
 
+.HomeButton {
+  width: 30px;
+  position: absolute;
+  top: 20px;
+  left: 20px;
+}
+
 .labelSelectorContainer { 
   display: flex;
   flex-direction: column;
@@ -113,4 +120,8 @@ input {
   display: flex;
   flex-direction: column;
   align-items: center;
+}
+
+.gridContainer p {
+  font-size: 14px;
 }
