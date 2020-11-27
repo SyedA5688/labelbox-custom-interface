@@ -112,8 +112,8 @@ input {
   border-width: 2px;
   border-color: grey;
   border-style: solid;
-  padding-left: 40px;
-  padding-right: 40px;
+  padding-left: 30px;
+  padding-right: 30px;
 }
 
 .gridContainer {
@@ -124,6 +124,7 @@ input {
 
 .gridContainer p {
   font-size: 14px;
+  font-weight: bold;
 }
 
 .checkSpan {
