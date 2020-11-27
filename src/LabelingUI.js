@@ -188,7 +188,7 @@ export class LabelingUI extends React.Component
           {/* {this.state.cursorMoved ? <p>Cursor Moved: True</p> : <p>Cursor Moved: False</p>} */}
           
           <div className="gridContainer" >
-            <p>Tubular Atrophy √, Interstitial Fibrosis √, (± infiltrates)</p>
+            <p>Tubular Atrophy <span style={{color: "green"}} >√</span>, Interstitial Fibrosis √, (± infiltrates)</p>
             <div style={{ height: 20, width: 60, display: "flex", flexDirection: "row", borderWidth: 1, borderColor: "cornflowerblue", borderStyle: "solid" }} >
               {(this.state["TA+IF+Infl+-"][0][0] === 1) ? <div style={{ height: 20, width: 20, backgroundColor: "cornflowerblue", borderWidth: 1, borderColor: "cornflowerblue", borderStyle: "solid" }} ></div> : <div style={{ height: 20, width: 20, borderWidth: 1, borderColor: "cornflowerblue", borderStyle: "solid" }} ></div> }
               {(this.state["TA+IF+Infl+-"][0][1] === 1) ? <div style={{ height: 20, width: 20, backgroundColor: "cornflowerblue", borderWidth: 1, borderColor: "cornflowerblue", borderStyle: "solid" }} ></div> : <div style={{ height: 20, width: 20, borderWidth: 1, borderColor: "cornflowerblue", borderStyle: "solid" }} ></div> }
