@@ -26,9 +26,9 @@ export const theme = createMuiTheme({
     }
   }
 });
-// label is what will be assigned to overall image
+// label is what will be assigned to overall image # Transmembranous immune Complex
 const defaultState = {data: undefined, previousAsset: undefined, loading: true, 
-                      label: { "MES": "000000000", "SUBEND": "000000000", "SUBEPI": "000000000", "TUB": "000000000" }, 
+                      label: { "MES": "000000000", "SUBEND": "000000000", "SUBEPI": "000000000", "TUB": "000000000", "TRAN": "000000000" }, 
                       selectedCond: "", updateKey: Math.random()};
 
 class App extends Component {
@@ -59,9 +59,9 @@ class App extends Component {
 
       this.setState({data: asset.data, loading: false, previousAsset: asset.previous});
       if (asset.label === undefined)
-        this.setState({ label: { "MES": "000000000", "SUBEND": "000000000", "SUBEPI": "000000000", "TUB": "000000000" }, updateKey: Math.random() });
+        this.setState({ label: { "MES": "000000000", "SUBEND": "000000000", "SUBEPI": "000000000", "TUB": "000000000", "TRAN": "000000000" }, updateKey: Math.random() });
       else if (asset.label === "Skip")
-        this.setState({ label: { "MES": "000000000", "SUBEND": "000000000", "SUBEPI": "000000000", "TUB": "000000000" }, updateKey: Math.random() }); // set to "Skip"?
+        this.setState({ label: { "MES": "000000000", "SUBEND": "000000000", "SUBEPI": "000000000", "TUB": "000000000", "TRAN": "000000000" }, updateKey: Math.random() }); // set to "Skip"?
       else
         this.setState({ label: JSON.parse(asset.label), updateKey: Math.random() });
 
@@ -83,9 +83,9 @@ class App extends Component {
                     <HomeIcon fontSize="large" color="action" />
                   </a>
                   <div>
-                    <p style={{fontSize: "x-large"}} >Instructions:</p>
+                    <p style={{fontSize: "large"}} >Instructions:</p>
                     <p>
-                      1. If the image cannot be labeled for any reason (e.g. no deposits, no tissue, noise, inconclusive, etc.) please 
+                      1. If the image cannot be labeled (e.g. no deposits, no tissue, noise, inconclusive, etc.) please 
                       select the "<span style={{color: "red", textDecoration: "underline"}} >Skip</span>" button at the bottom of the panel.
                     </p>
                     <p>
@@ -124,6 +124,7 @@ class App extends Component {
                         <FormControlLabel value="Subendothelial" control={<Radio color="primary"/>} label="Subendothelial Immune Complexes" />
                         <FormControlLabel value="Subepithelial" control={<Radio color="primary"/>} label="Subepithelial Immune Complexes" />
                         <FormControlLabel value="Tubuloreticular" control={<Radio color="primary"/>} label="Tubuloreticular Inclusion" />
+                        <FormControlLabel value="Transmembranous" control={<Radio color="primary"/>} label="Transmembranous Immune Complexes" />
                       </RadioGroup>
                     </FormControl>
                   </div>
