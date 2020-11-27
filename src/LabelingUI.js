@@ -188,7 +188,7 @@ export class LabelingUI extends React.Component
           {/* {this.state.cursorMoved ? <p>Cursor Moved: True</p> : <p>Cursor Moved: False</p>} */}
           
           <div className="gridContainer" >
-            <p>Tubular Atrophy <span style={{color: "green"}} >√</span>, Interstitial Fibrosis √, (± infiltrates)</p>
+            <p>Tubular Atrophy <span className="checkSpan" >✓</span>, Interstitial Fibrosis <span className="checkSpan" >✓</span>, (± infiltrates)</p>
             <div style={{ height: 20, width: 60, display: "flex", flexDirection: "row", borderWidth: 1, borderColor: "cornflowerblue", borderStyle: "solid" }} >
               {(this.state["TA+IF+Infl+-"][0][0] === 1) ? <div style={{ height: 20, width: 20, backgroundColor: "cornflowerblue", borderWidth: 1, borderColor: "cornflowerblue", borderStyle: "solid" }} ></div> : <div style={{ height: 20, width: 20, borderWidth: 1, borderColor: "cornflowerblue", borderStyle: "solid" }} ></div> }
               {(this.state["TA+IF+Infl+-"][0][1] === 1) ? <div style={{ height: 20, width: 20, backgroundColor: "cornflowerblue", borderWidth: 1, borderColor: "cornflowerblue", borderStyle: "solid" }} ></div> : <div style={{ height: 20, width: 20, borderWidth: 1, borderColor: "cornflowerblue", borderStyle: "solid" }} ></div> }
@@ -207,7 +207,7 @@ export class LabelingUI extends React.Component
           </div>
           
           <div className="gridContainer" >
-            <p>Tubular Atrophy √, Interstitial Fibrosis X, (± infiltrates)</p>
+            <p>Tubular Atrophy <span className="checkSpan" >✓</span>, Interstitial Fibrosis <span className="xSpan" >✘</span>, (± infiltrates)</p>
             <div style={{ height: 20, width: 60, display: "flex", flexDirection: "row", borderWidth: 1, borderColor: "blueviolet", borderStyle: "solid" }} >
               {(this.state["TA+IF-Infl+-"][0][0] === 1) ? <div style={{ height: 20, width: 20, backgroundColor: "blueviolet", borderWidth: 1, borderColor: "blueviolet", borderStyle: "solid" }} ></div> : <div style={{ height: 20, width: 20, borderWidth: 1, borderColor: "blueviolet", borderStyle: "solid" }} ></div> }
               {(this.state["TA+IF-Infl+-"][0][1] === 1) ? <div style={{ height: 20, width: 20, backgroundColor: "blueviolet", borderWidth: 1, borderColor: "blueviolet", borderStyle: "solid" }} ></div> : <div style={{ height: 20, width: 20, borderWidth: 1, borderColor: "blueviolet", borderStyle: "solid" }} ></div> }
@@ -226,7 +226,7 @@ export class LabelingUI extends React.Component
           </div>
           
           <div className="gridContainer" >
-            <p>Tubular Atrophy X, Interstitial Fibrosis √, (± infiltrates)</p>
+            <p>Tubular Atrophy <span className="xSpan" >✘</span>, Interstitial Fibrosis <span className="checkSpan" >✓</span>, (± infiltrates)</p>
             <div style={{ height: 20, width: 60, display: "flex", flexDirection: "row", borderWidth: 1, borderColor: "coral", borderStyle: "solid" }} >
               {(this.state["TA-IF+Infl+-"][0][0] === 1) ? <div style={{ height: 20, width: 20, backgroundColor: "coral", borderWidth: 1, borderColor: "coral", borderStyle: "solid" }} ></div> : <div style={{ height: 20, width: 20, borderWidth: 1, borderColor: "coral", borderStyle: "solid" }} ></div> }
               {(this.state["TA-IF+Infl+-"][0][1] === 1) ? <div style={{ height: 20, width: 20, backgroundColor: "coral", borderWidth: 1, borderColor: "coral", borderStyle: "solid" }} ></div> : <div style={{ height: 20, width: 20, borderWidth: 1, borderColor: "coral", borderStyle: "solid" }} ></div> }
@@ -245,7 +245,7 @@ export class LabelingUI extends React.Component
           </div>
           
           <div className="gridContainer" >
-            <p>Tubular Atrophy X, Interstitial Fibrosis X, (+ infiltrates)</p>
+            <p>Tubular Atrophy <span className="xSpan" >✘</span>, Interstitial Fibrosis <span className="xSpan" >✘</span>, (+ infiltrates)</p>
             <div style={{ height: 20, width: 60, display: "flex", flexDirection: "row", borderWidth: 1, borderColor: "darkgreen", borderStyle: "solid" }} >
               {(this.state["TA-IF-Infl+"][0][0] === 1) ? <div style={{ height: 20, width: 20, backgroundColor: "darkgreen", borderWidth: 1, borderColor: "darkgreen", borderStyle: "solid" }} ></div> : <div style={{ height: 20, width: 20, borderWidth: 1, borderColor: "darkgreen", borderStyle: "solid" }} ></div> }
               {(this.state["TA-IF-Infl+"][0][1] === 1) ? <div style={{ height: 20, width: 20, backgroundColor: "darkgreen", borderWidth: 1, borderColor: "darkgreen", borderStyle: "solid" }} ></div> : <div style={{ height: 20, width: 20, borderWidth: 1, borderColor: "darkgreen", borderStyle: "solid" }} ></div> }
@@ -264,7 +264,7 @@ export class LabelingUI extends React.Component
           </div>
 
           <div className="gridContainer" >
-            <p>Tubular Atrophy X, Interstitial Fibrosis X, (- infiltrates)</p>
+            <p>Tubular Atrophy <span className="xSpan" >✘</span>, Interstitial Fibrosis <span className="xSpan" >✘</span>, (- infiltrates)</p>
             <div style={{ height: 20, width: 60, display: "flex", flexDirection: "row", borderWidth: 1, borderColor: "red", borderStyle: "solid" }} >
               {(this.state["TA-IF-Infl-"][0][0] === 1) ? <div style={{ height: 20, width: 20, backgroundColor: "red", borderWidth: 1, borderColor: "red", borderStyle: "solid" }} ></div> : <div style={{ height: 20, width: 20, borderWidth: 1, borderColor: "red", borderStyle: "solid" }} ></div> }
               {(this.state["TA-IF-Infl-"][0][1] === 1) ? <div style={{ height: 20, width: 20, backgroundColor: "red", borderWidth: 1, borderColor: "red", borderStyle: "solid" }} ></div> : <div style={{ height: 20, width: 20, borderWidth: 1, borderColor: "red", borderStyle: "solid" }} ></div> }

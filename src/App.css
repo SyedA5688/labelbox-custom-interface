@@ -125,3 +125,13 @@ input {
 .gridContainer p {
   font-size: 14px;
 }
+
+.checkSpan {
+  color: blue;
+  font-weight: bold;
+}
+
+.xSpan {
+  color: coral;
+  font-weight: bold;
+}

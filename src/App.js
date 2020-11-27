@@ -80,7 +80,7 @@ class App extends Component {
                   <div>
                     <p style={{fontSize: 20}} >Instructions:</p>
                     <p>
-                      1. If the image cannot be labeled (e.g. no deposits, no tissue, noise, inconclusive, etc.) please 
+                      1. If the image cannot be labeled (e.g. no tissue, noise, inconclusive, etc.) please 
                       select the "<span style={{color: "red", textDecoration: "underline"}} >Skip</span>" button.
                     </p>
                     <p>
@@ -117,8 +117,8 @@ class App extends Component {
                           value="TA+IF+Infl+-"
                           checked={this.state.selectedCond === "TA+IF+Infl+-"}
                           onChange={this.handleInputChange} />
-                        Cortex:  tubular atrophy  √ &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
-                        Interstitial Fibrosis √ <br/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(± infiltrates)
+                        Cortex:  tubular atrophy  <span className="checkSpan" >✓</span> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+                        Interstitial Fibrosis <span className="checkSpan" >✓</span> <br/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(± infiltrates)
                       </label>
                       <br />
                       <label>
@@ -128,8 +128,8 @@ class App extends Component {
                           value="TA+IF-Infl+-"
                           checked={this.state.selectedCond === "TA+IF-Infl+-"}
                           onChange={this.handleInputChange} />
-                        Cortex:  tubular atrophy  √ &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                        interstitial fibrosis X <br/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(± infiltrates) 
+                        Cortex:  tubular atrophy  <span className="checkSpan" >✓</span> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                        interstitial fibrosis <span className="xSpan" >✘</span> <br/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(± infiltrates) 
                       </label>
                       <br />
                       <label>
@@ -139,8 +139,8 @@ class App extends Component {
                           value="TA-IF+Infl+-"
                           checked={this.state.selectedCond === "TA-IF+Infl+-"}
                           onChange={this.handleInputChange} />
-                        Cortex:  tubular atrophy  X &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                        interstitial fibrosis √ <br/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(± infiltrates) 
+                        Cortex:  tubular atrophy  <span className="xSpan" >✘</span> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                        interstitial fibrosis <span className="checkSpan" >✓</span> <br/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(± infiltrates) 
                       </label>
                       <br />
                       <label>
@@ -150,8 +150,8 @@ class App extends Component {
                           value="TA-IF-Infl+"
                           checked={this.state.selectedCond === "TA-IF-Infl+"}
                           onChange={this.handleInputChange} />
-                        Cortex:  tubular atrophy  X &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                        interstitial fibrosis X <br/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(With infiltrates) 
+                        Cortex:  tubular atrophy  <span className="xSpan" >✘</span> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                        interstitial fibrosis <span className="xSpan" >✘</span> <br/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(+ infiltrates) 
                       </label>
                       <br />
                       <label>
@@ -161,8 +161,8 @@ class App extends Component {
                           value="TA-IF-Infl-"
                           checked={this.state.selectedCond === "TA-IF-Infl-"}
                           onChange={this.handleInputChange} />
-                        Cortex:  tubular atrophy  X &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                        interstitial fibrosis X <br/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(No infiltrates) 
+                        Cortex:  tubular atrophy  <span className="xSpan" >✘</span> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                        interstitial fibrosis <span className="xSpan" >✘</span> <br/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(- infiltrates) 
                       </label>
                     </form>
                   </div>
