@@ -109,6 +109,9 @@ class App extends Component {
                     <p className="warning" >
                       *Warning: Moving mouse while double-clicking leads to weird behavior
                     </p>
+                    <p className="warning" >
+                      *Warning: Safari may render images incorrectly, use google chrome for best results
+                    </p>
                     {/* <p>{JSON.stringify(this.state.label)}</p> */}
                   </div>
                   <div className="labelSelectorContainer" >
