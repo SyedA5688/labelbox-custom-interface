@@ -11,7 +11,7 @@ export class LabelingUI extends React.Component
       ImageWidth: 0,
       ImageHeight: 0,
       cursorMoved: false,
-      NODEPOSITS: [[0,0,0], [0,0,0], [0,0,0]],
+      NOCOMPLEXES: [[0,0,0], [0,0,0], [0,0,0]],
       MES: [
         [0, 0, 0],
         [0, 0, 0],
@@ -66,12 +66,12 @@ export class LabelingUI extends React.Component
     if (!this.state.cursorMoved)
     {
       let cond = this.props.selectedCondition;
-      if (cond === "NoDeposits")
+      if (cond === "NoComplexes")
       {
-        // Update state of NoDeposits array
-        let arr = {...this.state.NODEPOSITS};
+        // Update state of NOCOMPLEXES array
+        let arr = {...this.state.NOCOMPLEXES};
         arr[row][col] = 1 - arr[row][col];
-        this.setState({ NODEPOSITS: arr });
+        this.setState({ NOCOMPLEXES: arr });
 
         // Also update label for entire image
         let labelStr = "";
@@ -81,7 +81,7 @@ export class LabelingUI extends React.Component
           }
         }
         let entireLabelObj = this.props.label;
-        entireLabelObj["NODEPOSITS"] = labelStr;
+        entireLabelObj["NOCOMPLEXES"] = labelStr;
         this.props.onLabelUpdate(entireLabelObj);
       }
       if (cond === "Mesangial")
@@ -203,21 +203,21 @@ export class LabelingUI extends React.Component
           {/* <p>Image: Width is { this.state.ImageWidth }, Height is { this.state.ImageHeight } </p> */}
           
           <div className="gridContainer" >
-            <p>No Deposits/Tissue</p>
+            <p>No Complexes/Inclusions</p>
             <div style={{ height: 20, width: 60, display: "flex", flexDirection: "row", borderWidth: 1, borderColor: "darkgray", borderStyle: "solid" }} >
-              {(this.state.NODEPOSITS[0][0] === 1) ? <div style={{ height: 20, width: 20, backgroundColor: "darkgray", borderWidth: 1, borderColor: "darkgray", borderStyle: "solid" }} ></div> : <div style={{ height: 20, width: 20, borderWidth: 1, borderColor: "darkgray", borderStyle: "solid" }} ></div> }
-              {(this.state.NODEPOSITS[0][1] === 1) ? <div style={{ height: 20, width: 20, backgroundColor: "darkgray", borderWidth: 1, borderColor: "darkgray", borderStyle: "solid" }} ></div> : <div style={{ height: 20, width: 20, borderWidth: 1, borderColor: "darkgray", borderStyle: "solid" }} ></div> }
-              {(this.state.NODEPOSITS[0][2] === 1) ? <div style={{ height: 20, width: 20, backgroundColor: "darkgray", borderWidth: 1, borderColor: "darkgray", borderStyle: "solid" }} ></div> : <div style={{ height: 20, width: 20, borderWidth: 1, borderColor: "darkgray", borderStyle: "solid" }} ></div> }
+              {(this.state.NOCOMPLEXES[0][0] === 1) ? <div style={{ height: 20, width: 20, backgroundColor: "darkgray", borderWidth: 1, borderColor: "darkgray", borderStyle: "solid" }} ></div> : <div style={{ height: 20, width: 20, borderWidth: 1, borderColor: "darkgray", borderStyle: "solid" }} ></div> }
+              {(this.state.NOCOMPLEXES[0][1] === 1) ? <div style={{ height: 20, width: 20, backgroundColor: "darkgray", borderWidth: 1, borderColor: "darkgray", borderStyle: "solid" }} ></div> : <div style={{ height: 20, width: 20, borderWidth: 1, borderColor: "darkgray", borderStyle: "solid" }} ></div> }
+              {(this.state.NOCOMPLEXES[0][2] === 1) ? <div style={{ height: 20, width: 20, backgroundColor: "darkgray", borderWidth: 1, borderColor: "darkgray", borderStyle: "solid" }} ></div> : <div style={{ height: 20, width: 20, borderWidth: 1, borderColor: "darkgray", borderStyle: "solid" }} ></div> }
             </div>
             <div style={{ height: 20, width: 60, display: "flex", flexDirection: "row", borderWidth: 1, borderColor: "darkgray", borderStyle: "solid" }} >
-              {(this.state.NODEPOSITS[1][0] === 1) ? <div style={{ height: 20, width: 20, backgroundColor: "darkgray", borderWidth: 1, borderColor: "darkgray", borderStyle: "solid" }} ></div> : <div style={{ height: 20, width: 20, borderWidth: 1, borderColor: "darkgray", borderStyle: "solid" }} ></div> }
-              {(this.state.NODEPOSITS[1][1] === 1) ? <div style={{ height: 20, width: 20, backgroundColor: "darkgray", borderWidth: 1, borderColor: "darkgray", borderStyle: "solid" }} ></div> : <div style={{ height: 20, width: 20, borderWidth: 1, borderColor: "darkgray", borderStyle: "solid" }} ></div> }
-              {(this.state.NODEPOSITS[1][2] === 1) ? <div style={{ height: 20, width: 20, backgroundColor: "darkgray", borderWidth: 1, borderColor: "darkgray", borderStyle: "solid" }} ></div> : <div style={{ height: 20, width: 20, borderWidth: 1, borderColor: "darkgray", borderStyle: "solid" }} ></div> }
+              {(this.state.NOCOMPLEXES[1][0] === 1) ? <div style={{ height: 20, width: 20, backgroundColor: "darkgray", borderWidth: 1, borderColor: "darkgray", borderStyle: "solid" }} ></div> : <div style={{ height: 20, width: 20, borderWidth: 1, borderColor: "darkgray", borderStyle: "solid" }} ></div> }
+              {(this.state.NOCOMPLEXES[1][1] === 1) ? <div style={{ height: 20, width: 20, backgroundColor: "darkgray", borderWidth: 1, borderColor: "darkgray", borderStyle: "solid" }} ></div> : <div style={{ height: 20, width: 20, borderWidth: 1, borderColor: "darkgray", borderStyle: "solid" }} ></div> }
+              {(this.state.NOCOMPLEXES[1][2] === 1) ? <div style={{ height: 20, width: 20, backgroundColor: "darkgray", borderWidth: 1, borderColor: "darkgray", borderStyle: "solid" }} ></div> : <div style={{ height: 20, width: 20, borderWidth: 1, borderColor: "darkgray", borderStyle: "solid" }} ></div> }
             </div>
             <div style={{ height: 20, width: 60, display: "flex", flexDirection: "row", borderWidth: 1, borderColor: "darkgray", borderStyle: "solid" }} >
-              {(this.state.NODEPOSITS[2][0] === 1) ? <div style={{ height: 20, width: 20, backgroundColor: "darkgray", borderWidth: 1, borderColor: "darkgray", borderStyle: "solid" }} ></div> : <div style={{ height: 20, width: 20, borderWidth: 1, borderColor: "darkgray", borderStyle: "solid" }} ></div> }
-              {(this.state.NODEPOSITS[2][1] === 1) ? <div style={{ height: 20, width: 20, backgroundColor: "darkgray", borderWidth: 1, borderColor: "darkgray", borderStyle: "solid" }} ></div> : <div style={{ height: 20, width: 20, borderWidth: 1, borderColor: "darkgray", borderStyle: "solid" }} ></div> }
-              {(this.state.NODEPOSITS[2][2] === 1) ? <div style={{ height: 20, width: 20, backgroundColor: "darkgray", borderWidth: 1, borderColor: "darkgray", borderStyle: "solid" }} ></div> : <div style={{ height: 20, width: 20, borderWidth: 1, borderColor: "darkgray", borderStyle: "solid" }} ></div> }
+              {(this.state.NOCOMPLEXES[2][0] === 1) ? <div style={{ height: 20, width: 20, backgroundColor: "darkgray", borderWidth: 1, borderColor: "darkgray", borderStyle: "solid" }} ></div> : <div style={{ height: 20, width: 20, borderWidth: 1, borderColor: "darkgray", borderStyle: "solid" }} ></div> }
+              {(this.state.NOCOMPLEXES[2][1] === 1) ? <div style={{ height: 20, width: 20, backgroundColor: "darkgray", borderWidth: 1, borderColor: "darkgray", borderStyle: "solid" }} ></div> : <div style={{ height: 20, width: 20, borderWidth: 1, borderColor: "darkgray", borderStyle: "solid" }} ></div> }
+              {(this.state.NOCOMPLEXES[2][2] === 1) ? <div style={{ height: 20, width: 20, backgroundColor: "darkgray", borderWidth: 1, borderColor: "darkgray", borderStyle: "solid" }} ></div> : <div style={{ height: 20, width: 20, borderWidth: 1, borderColor: "darkgray", borderStyle: "solid" }} ></div> }
             </div>
           </div>
           

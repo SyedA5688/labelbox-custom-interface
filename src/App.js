@@ -28,7 +28,7 @@ export const theme = createMuiTheme({
 });
 // label is what will be assigned to overall image # Transmembranous immune Complex
 const defaultState = {data: undefined, previousAsset: undefined, loading: true, 
-                      label: { "NODEPOSITS":"000000000", "MES": "000000000", "SUBEND": "000000000", "SUBEPI": "000000000", "TUB": "000000000", "TRAN": "000000000" }, 
+                      label: { "NOCOMPLEXES":"000000000", "MES": "000000000", "SUBEND": "000000000", "SUBEPI": "000000000", "TUB": "000000000", "TRAN": "000000000" }, 
                       selectedCond: "", updateKey: Math.random()};
 
 class App extends Component {
@@ -59,9 +59,9 @@ class App extends Component {
 
       this.setState({data: asset.data, loading: false, previousAsset: asset.previous});
       if (asset.label === undefined)
-        this.setState({ label: { "NODEPOSITS":"000000000", "MES": "000000000", "SUBEND": "000000000", "SUBEPI": "000000000", "TUB": "000000000", "TRAN": "000000000" }, updateKey: Math.random() });
+        this.setState({ label: { "NOCOMPLEXES":"000000000", "MES": "000000000", "SUBEND": "000000000", "SUBEPI": "000000000", "TUB": "000000000", "TRAN": "000000000" }, updateKey: Math.random() });
       else if (asset.label === "Skip")
-        this.setState({ label: { "NODEPOSITS":"000000000", "MES": "000000000", "SUBEND": "000000000", "SUBEPI": "000000000", "TUB": "000000000", "TRAN": "000000000" }, updateKey: Math.random() }); // set to "Skip"?
+        this.setState({ label: { "NOCOMPLEXES":"000000000", "MES": "000000000", "SUBEND": "000000000", "SUBEPI": "000000000", "TUB": "000000000", "TRAN": "000000000" }, updateKey: Math.random() }); // set to "Skip"?
       else
         this.setState({ label: JSON.parse(asset.label), updateKey: Math.random() });
 
@@ -89,15 +89,15 @@ class App extends Component {
                       <span style={{color: "red", textDecoration: "underline"}} >Skip</span>" at the bottom of the panel.
                     </p>
                     <p>
-                      2. Otherwise, select label category from the "Labels" list. If a tile has no deposits or inclusions,
-                      select the "No Deposits/Complexes" label.
+                      2. Otherwise, select label category from the "Labels" list. For labeling tiles with no complexes or inclusions,
+                      select the "No Complexes/Inclusions" label.
                     </p>
                     <p>
                       3. Once selected, double click tiles that are positive for the selected label. Feedback will appear on the right panel. 
                       To deselect a tile, double click it again.
                     </p>
                     <p>
-                      4. Repeat process for all labels applicable to the image.
+                      4. Repeat process for all labels applicable to the image. Tiles with no labels will be considered inconclusive.
                     </p>
                     <p>
                       5. Once done, press the "<span style={{color: "blue", textDecoration: "underline"}} >Submit</span>" button to move to the
@@ -122,7 +122,7 @@ class App extends Component {
                         value={this.state.selectedCond}
                         onChange={(e) => this.setState({ selectedCond: e.target.value })}
                       >
-                        <FormControlLabel value="NoDeposits" control={<Radio color="primary"/>} label="No Deposits/Inclusions" />
+                        <FormControlLabel value="NoComplexes" control={<Radio color="primary"/>} label="No Complexes/Inclusions" />
                         <FormControlLabel value="Mesangial" control={<Radio color="primary"/>} label="Mesangial Immune Complexes" />
                         <FormControlLabel value="Subendothelial" control={<Radio color="primary"/>} label="Subendothelial Immune Complexes" />
                         <FormControlLabel value="Subepithelial" control={<Radio color="primary"/>} label="Subepithelial Immune Complexes" />
