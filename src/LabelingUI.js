@@ -11,6 +11,7 @@ export class LabelingUI extends React.Component
       ImageWidth: 0,
       ImageHeight: 0,
       cursorMoved: false,
+      NODEPOSITS: [[0,0,0], [0,0,0], [0,0,0]],
       MES: [
         [0, 0, 0],
         [0, 0, 0],
@@ -65,6 +66,24 @@ export class LabelingUI extends React.Component
     if (!this.state.cursorMoved)
     {
       let cond = this.props.selectedCondition;
+      if (cond === "NoDeposits")
+      {
+        // Update state of NoDeposits array
+        let arr = {...this.state.NODEPOSITS};
+        arr[row][col] = 1 - arr[row][col];
+        this.setState({ NODEPOSITS: arr });
+
+        // Also update label for entire image
+        let labelStr = "";
+        for (let i = 0; i < 3; i++) {
+          for (let j = 0; j < 3; j++) {
+            labelStr += arr[i][j];
+          }
+        }
+        let entireLabelObj = this.props.label;
+        entireLabelObj["NODEPOSITS"] = labelStr;
+        this.props.onLabelUpdate(entireLabelObj);
+      }
       if (cond === "Mesangial")
       {
         // Update state of mesangial array
@@ -182,6 +201,25 @@ export class LabelingUI extends React.Component
         <div className={"SelectionRightBar"} >
           {/* <p>Mouse coordinates: {this.state.x}, { this.state.y }</p> */}
           {/* <p>Image: Width is { this.state.ImageWidth }, Height is { this.state.ImageHeight } </p> */}
+          
+          <div className="gridContainer" >
+            <p>No Deposits/Tissue</p>
+            <div style={{ height: 20, width: 60, display: "flex", flexDirection: "row", borderWidth: 1, borderColor: "darkgray", borderStyle: "solid" }} >
+              {(this.state.NODEPOSITS[0][0] === 1) ? <div style={{ height: 20, width: 20, backgroundColor: "darkgray", borderWidth: 1, borderColor: "darkgray", borderStyle: "solid" }} ></div> : <div style={{ height: 20, width: 20, borderWidth: 1, borderColor: "darkgray", borderStyle: "solid" }} ></div> }
+              {(this.state.NODEPOSITS[0][1] === 1) ? <div style={{ height: 20, width: 20, backgroundColor: "darkgray", borderWidth: 1, borderColor: "darkgray", borderStyle: "solid" }} ></div> : <div style={{ height: 20, width: 20, borderWidth: 1, borderColor: "darkgray", borderStyle: "solid" }} ></div> }
+              {(this.state.NODEPOSITS[0][2] === 1) ? <div style={{ height: 20, width: 20, backgroundColor: "darkgray", borderWidth: 1, borderColor: "darkgray", borderStyle: "solid" }} ></div> : <div style={{ height: 20, width: 20, borderWidth: 1, borderColor: "darkgray", borderStyle: "solid" }} ></div> }
+            </div>
+            <div style={{ height: 20, width: 60, display: "flex", flexDirection: "row", borderWidth: 1, borderColor: "darkgray", borderStyle: "solid" }} >
+              {(this.state.NODEPOSITS[1][0] === 1) ? <div style={{ height: 20, width: 20, backgroundColor: "darkgray", borderWidth: 1, borderColor: "darkgray", borderStyle: "solid" }} ></div> : <div style={{ height: 20, width: 20, borderWidth: 1, borderColor: "darkgray", borderStyle: "solid" }} ></div> }
+              {(this.state.NODEPOSITS[1][1] === 1) ? <div style={{ height: 20, width: 20, backgroundColor: "darkgray", borderWidth: 1, borderColor: "darkgray", borderStyle: "solid" }} ></div> : <div style={{ height: 20, width: 20, borderWidth: 1, borderColor: "darkgray", borderStyle: "solid" }} ></div> }
+              {(this.state.NODEPOSITS[1][2] === 1) ? <div style={{ height: 20, width: 20, backgroundColor: "darkgray", borderWidth: 1, borderColor: "darkgray", borderStyle: "solid" }} ></div> : <div style={{ height: 20, width: 20, borderWidth: 1, borderColor: "darkgray", borderStyle: "solid" }} ></div> }
+            </div>
+            <div style={{ height: 20, width: 60, display: "flex", flexDirection: "row", borderWidth: 1, borderColor: "darkgray", borderStyle: "solid" }} >
+              {(this.state.NODEPOSITS[2][0] === 1) ? <div style={{ height: 20, width: 20, backgroundColor: "darkgray", borderWidth: 1, borderColor: "darkgray", borderStyle: "solid" }} ></div> : <div style={{ height: 20, width: 20, borderWidth: 1, borderColor: "darkgray", borderStyle: "solid" }} ></div> }
+              {(this.state.NODEPOSITS[2][1] === 1) ? <div style={{ height: 20, width: 20, backgroundColor: "darkgray", borderWidth: 1, borderColor: "darkgray", borderStyle: "solid" }} ></div> : <div style={{ height: 20, width: 20, borderWidth: 1, borderColor: "darkgray", borderStyle: "solid" }} ></div> }
+              {(this.state.NODEPOSITS[2][2] === 1) ? <div style={{ height: 20, width: 20, backgroundColor: "darkgray", borderWidth: 1, borderColor: "darkgray", borderStyle: "solid" }} ></div> : <div style={{ height: 20, width: 20, borderWidth: 1, borderColor: "darkgray", borderStyle: "solid" }} ></div> }
+            </div>
+          </div>
           
           <div className="gridContainer" >
             <p>Mesangial Immune Complexes</p>

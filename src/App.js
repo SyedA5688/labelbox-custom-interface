@@ -28,7 +28,7 @@ export const theme = createMuiTheme({
 });
 // label is what will be assigned to overall image # Transmembranous immune Complex
 const defaultState = {data: undefined, previousAsset: undefined, loading: true, 
-                      label: { "MES": "000000000", "SUBEND": "000000000", "SUBEPI": "000000000", "TUB": "000000000", "TRAN": "000000000" }, 
+                      label: { "NODEPOSITS":"000000000", "MES": "000000000", "SUBEND": "000000000", "SUBEPI": "000000000", "TUB": "000000000", "TRAN": "000000000" }, 
                       selectedCond: "", updateKey: Math.random()};
 
 class App extends Component {
@@ -59,9 +59,9 @@ class App extends Component {
 
       this.setState({data: asset.data, loading: false, previousAsset: asset.previous});
       if (asset.label === undefined)
-        this.setState({ label: { "MES": "000000000", "SUBEND": "000000000", "SUBEPI": "000000000", "TUB": "000000000", "TRAN": "000000000" }, updateKey: Math.random() });
+        this.setState({ label: { "NODEPOSITS":"000000000", "MES": "000000000", "SUBEND": "000000000", "SUBEPI": "000000000", "TUB": "000000000", "TRAN": "000000000" }, updateKey: Math.random() });
       else if (asset.label === "Skip")
-        this.setState({ label: { "MES": "000000000", "SUBEND": "000000000", "SUBEPI": "000000000", "TUB": "000000000", "TRAN": "000000000" }, updateKey: Math.random() }); // set to "Skip"?
+        this.setState({ label: { "NODEPOSITS":"000000000", "MES": "000000000", "SUBEND": "000000000", "SUBEPI": "000000000", "TUB": "000000000", "TRAN": "000000000" }, updateKey: Math.random() }); // set to "Skip"?
       else
         this.setState({ label: JSON.parse(asset.label), updateKey: Math.random() });
 
@@ -85,18 +85,19 @@ class App extends Component {
                   <div>
                     <p style={{fontSize: "large"}} >Instructions:</p>
                     <p>
-                      1. If the image cannot be labeled (e.g. no deposits, no tissue, noise, inconclusive, etc.) please 
-                      select the "<span style={{color: "red", textDecoration: "underline"}} >Skip</span>" button at the bottom of the panel.
+                      1. If the image is inconclusive and cannot be labeled, please select "
+                      <span style={{color: "red", textDecoration: "underline"}} >Skip</span>" at the bottom of the panel.
                     </p>
                     <p>
-                      2. Otherwise, select label category from "Labels" list below.
+                      2. Otherwise, select label category from the "Labels" list. If a tile has no deposits or inclusions,
+                      select the "No Deposits/Complexes" label.
                     </p>
                     <p>
                       3. Once selected, double click tiles that are positive for the selected label. Feedback will appear on the right panel. 
                       To deselect a tile, double click it again.
                     </p>
                     <p>
-                      4. Repeat process for all labels that are applicable to the image.
+                      4. Repeat process for all labels applicable to the image.
                     </p>
                     <p>
                       5. Once done, press the "<span style={{color: "blue", textDecoration: "underline"}} >Submit</span>" button to move to the
@@ -107,9 +108,7 @@ class App extends Component {
                       pan around image.
                     </p>
                     <p className="warning" >
-                      *Warning: Moving mouse while double-clicking leads to weird behavior
-                    </p>
-                    <p className="warning" >
+                      *Warning: Moving mouse while double-clicking leads to weird behavior <br/>
                       *Warning: Safari may render images incorrectly, use google chrome for best results
                     </p>
                     {/* <p>{JSON.stringify(this.state.label)}</p> */}
@@ -123,6 +122,7 @@ class App extends Component {
                         value={this.state.selectedCond}
                         onChange={(e) => this.setState({ selectedCond: e.target.value })}
                       >
+                        <FormControlLabel value="NoDeposits" control={<Radio color="primary"/>} label="No Deposits/Inclusions" />
                         <FormControlLabel value="Mesangial" control={<Radio color="primary"/>} label="Mesangial Immune Complexes" />
                         <FormControlLabel value="Subendothelial" control={<Radio color="primary"/>} label="Subendothelial Immune Complexes" />
                         <FormControlLabel value="Subepithelial" control={<Radio color="primary"/>} label="Subepithelial Immune Complexes" />
