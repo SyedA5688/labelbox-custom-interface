@@ -1,7 +1,7 @@
 # Custom LabelBox Label Application Interface
 
-This project contains a custom interface designed to quickly apply
-labels to a 3x3 tiled image.
+This project contains a custom interface designed for rapid application
+of tissue labels to a 3x3 tiled image.
 
 # Controls
 
