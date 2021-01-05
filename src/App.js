@@ -53,9 +53,9 @@ class App extends Component {
 
       this.setState({data: asset.data, loading: false, previousAsset: asset.previous});
       if (asset.label === undefined)
-        this.setState({ label: { "TA+IF+Infl+-": "000000000", "TA+IF-Infl+-": "000000000", "TA-IF+Infl+-": "000000000", "TA-IF-Infl+": "000000000", "TA-IF-Infl-": "000000000" }, updateKey: Math.random() });
+        this.setState({ label: { "NoCortex":"000000000", "TA+IF+Infl+-": "000000000", "TA+IF-Infl+-": "000000000", "TA-IF+Infl+-": "000000000", "TA-IF-Infl+": "000000000", "TA-IF-Infl-": "000000000" }, updateKey: Math.random() });
       else if (asset.label === "Skip")
-        this.setState({ label: { "TA+IF+Infl+-": "000000000", "TA+IF-Infl+-": "000000000", "TA-IF+Infl+-": "000000000", "TA-IF-Infl+": "000000000", "TA-IF-Infl-": "000000000" }, updateKey: Math.random() }); // set to "Skip"?
+        this.setState({ label: { "NoCortex":"000000000", "TA+IF+Infl+-": "000000000", "TA+IF-Infl+-": "000000000", "TA-IF+Infl+-": "000000000", "TA-IF-Infl+": "000000000", "TA-IF-Infl-": "000000000" }, updateKey: Math.random() }); // set to "Skip"?
       else
         this.setState({ label: JSON.parse(asset.label), updateKey: Math.random() });
     });
@@ -117,6 +117,16 @@ class App extends Component {
                         <input
                           name="label1"
                           type="radio"
+                          value="NoCortex"
+                          checked={this.state.selectedCond === "NoCortex"}
+                          onChange={this.handleInputChange} />
+                        No Cortex (white space or other tissue, e.g. capsule, medulla)
+                      </label>
+                      <br/>
+                      <label>
+                        <input
+                          name="label2"
+                          type="radio"
                           value="TA+IF+Infl+-"
                           checked={this.state.selectedCond === "TA+IF+Infl+-"}
                           onChange={this.handleInputChange} />
@@ -126,7 +136,7 @@ class App extends Component {
                       <br />
                       <label>
                         <input
-                          name="label2"
+                          name="label3"
                           type="radio"
                           value="TA+IF-Infl+-"
                           checked={this.state.selectedCond === "TA+IF-Infl+-"}
@@ -137,7 +147,7 @@ class App extends Component {
                       <br />
                       <label>
                         <input
-                          name="label3"
+                          name="label4"
                           type="radio"
                           value="TA-IF+Infl+-"
                           checked={this.state.selectedCond === "TA-IF+Infl+-"}
@@ -148,7 +158,7 @@ class App extends Component {
                       <br />
                       <label>
                         <input
-                          name="label4"
+                          name="label5"
                           type="radio"
                           value="TA-IF-Infl+"
                           checked={this.state.selectedCond === "TA-IF-Infl+"}
@@ -159,7 +169,7 @@ class App extends Component {
                       <br />
                       <label>
                         <input
-                          name="label5"
+                          name="label6"
                           type="radio"
                           value="TA-IF-Infl-"
                           checked={this.state.selectedCond === "TA-IF-Infl-"}

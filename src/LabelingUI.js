@@ -11,11 +11,12 @@ export class LabelingUI extends React.Component
       ImageWidth: 0,
       ImageHeight: 0,
       cursorMoved: false,
-      "TA+IF+Infl+-": [
+      "NoCortex": [
         [0, 0, 0],
         [0, 0, 0],
         [0, 0, 0],
       ],
+      "TA+IF+Infl+-": [[0, 0, 0], [0, 0, 0], [0, 0, 0]],
       "TA+IF-Infl+-": [[0,0,0], [0,0,0], [0,0,0]],
       "TA-IF+Infl+-": [[0,0,0], [0,0,0], [0,0,0]],
       "TA-IF-Infl+": [[0,0,0], [0,0,0], [0,0,0]],
@@ -67,7 +68,25 @@ export class LabelingUI extends React.Component
     {
       //console.log("Click: ", this.state.click, " Cursor moved: ", this.state.cursorMoved, " Coords moved: ", this.state.coordsMoved);
       let cond = this.props.selectedCondition;
-      if (cond === "TA+IF+Infl+-")
+      if (cond === "NoCortex")
+      {
+        // Update state of mesangial array
+        let arr = {...this.state["NoCortex"]};
+        arr[row][col] = 1 - arr[row][col];
+        this.setState({ "NoCortex": arr });
+
+        // Also update label for entire image **UPDATE
+        let labelStr = "";
+        for (let i = 0; i < 3; i++) {
+          for (let j = 0; j < 3; j++) {
+            labelStr += arr[i][j];
+          }
+        }
+        let entireLabelObj = this.props.label;
+        entireLabelObj["NoCortex"] = labelStr;
+        this.props.onLabelUpdate(entireLabelObj);
+      }
+      else if (cond === "TA+IF+Infl+-")
       {
         // Update state of mesangial array
         let arr = {...this.state["TA+IF+Infl+-"]};
@@ -188,97 +207,116 @@ export class LabelingUI extends React.Component
           {/* {this.state.cursorMoved ? <p>Cursor Moved: True</p> : <p>Cursor Moved: False</p>} */}
           
           <div className="gridContainer" >
+            <p>No Cortex (white space or other tissue, e.g. capsule, medulla)</p>
+            <div style={{ height: 15, width: 45, display: "flex", flexDirection: "row", borderWidth: 1, borderColor: "grey", borderStyle: "solid" }} >
+              {(this.state["NoCortex"][0][0] === 1) ? <div style={{ height: 15, width: 15, backgroundColor: "grey", borderWidth: 1, borderColor: "grey", borderStyle: "solid" }} ></div> : <div style={{ height: 15, width: 15, borderWidth: 1, borderColor: "grey", borderStyle: "solid" }} ></div> }
+              {(this.state["NoCortex"][0][1] === 1) ? <div style={{ height: 15, width: 15, backgroundColor: "grey", borderWidth: 1, borderColor: "grey", borderStyle: "solid" }} ></div> : <div style={{ height: 15, width: 15, borderWidth: 1, borderColor: "grey", borderStyle: "solid" }} ></div> }
+              {(this.state["NoCortex"][0][2] === 1) ? <div style={{ height: 15, width: 15, backgroundColor: "grey", borderWidth: 1, borderColor: "grey", borderStyle: "solid" }} ></div> : <div style={{ height: 15, width: 15, borderWidth: 1, borderColor: "grey", borderStyle: "solid" }} ></div> }
+            </div>
+            <div style={{ height: 15, width: 45, display: "flex", flexDirection: "row", borderWidth: 1, borderColor: "grey", borderStyle: "solid" }} >
+              {(this.state["NoCortex"][1][0] === 1) ? <div style={{ height: 15, width: 15, backgroundColor: "grey", borderWidth: 1, borderColor: "grey", borderStyle: "solid" }} ></div> : <div style={{ height: 15, width: 15, borderWidth: 1, borderColor: "grey", borderStyle: "solid" }} ></div> }
+              {(this.state["NoCortex"][1][1] === 1) ? <div style={{ height: 15, width: 15, backgroundColor: "grey", borderWidth: 1, borderColor: "grey", borderStyle: "solid" }} ></div> : <div style={{ height: 15, width: 15, borderWidth: 1, borderColor: "grey", borderStyle: "solid" }} ></div> }
+              {(this.state["NoCortex"][1][2] === 1) ? <div style={{ height: 15, width: 15, backgroundColor: "grey", borderWidth: 1, borderColor: "grey", borderStyle: "solid" }} ></div> : <div style={{ height: 15, width: 15, borderWidth: 1, borderColor: "grey", borderStyle: "solid" }} ></div> }
+            </div>
+            <div style={{ height: 15, width: 45, display: "flex", flexDirection: "row", borderWidth: 1, borderColor: "grey", borderStyle: "solid" }} >
+              {(this.state["NoCortex"][2][0] === 1) ? <div style={{ height: 15, width: 15, backgroundColor: "grey", borderWidth: 1, borderColor: "grey", borderStyle: "solid" }} ></div> : <div style={{ height: 15, width: 15, borderWidth: 1, borderColor: "grey", borderStyle: "solid" }} ></div> }
+              {(this.state["NoCortex"][2][1] === 1) ? <div style={{ height: 15, width: 15, backgroundColor: "grey", borderWidth: 1, borderColor: "grey", borderStyle: "solid" }} ></div> : <div style={{ height: 15, width: 15, borderWidth: 1, borderColor: "grey", borderStyle: "solid" }} ></div> }
+              {(this.state["NoCortex"][2][2] === 1) ? <div style={{ height: 15, width: 15, backgroundColor: "grey", borderWidth: 1, borderColor: "grey", borderStyle: "solid" }} ></div> : <div style={{ height: 15, width: 15, borderWidth: 1, borderColor: "grey", borderStyle: "solid" }} ></div> }
+            </div>
+          </div>
+
+          <div className="gridContainer" >
             <p>Tubular Atrophy <span className="checkSpan" >✓</span>, Interstitial Fibrosis <span className="checkSpan" >✓</span>, (± infiltrates)</p>
-            <div style={{ height: 20, width: 60, display: "flex", flexDirection: "row", borderWidth: 1, borderColor: "cornflowerblue", borderStyle: "solid" }} >
-              {(this.state["TA+IF+Infl+-"][0][0] === 1) ? <div style={{ height: 20, width: 20, backgroundColor: "cornflowerblue", borderWidth: 1, borderColor: "cornflowerblue", borderStyle: "solid" }} ></div> : <div style={{ height: 20, width: 20, borderWidth: 1, borderColor: "cornflowerblue", borderStyle: "solid" }} ></div> }
-              {(this.state["TA+IF+Infl+-"][0][1] === 1) ? <div style={{ height: 20, width: 20, backgroundColor: "cornflowerblue", borderWidth: 1, borderColor: "cornflowerblue", borderStyle: "solid" }} ></div> : <div style={{ height: 20, width: 20, borderWidth: 1, borderColor: "cornflowerblue", borderStyle: "solid" }} ></div> }
-              {(this.state["TA+IF+Infl+-"][0][2] === 1) ? <div style={{ height: 20, width: 20, backgroundColor: "cornflowerblue", borderWidth: 1, borderColor: "cornflowerblue", borderStyle: "solid" }} ></div> : <div style={{ height: 20, width: 20, borderWidth: 1, borderColor: "cornflowerblue", borderStyle: "solid" }} ></div> }
+            <div style={{ height: 15, width: 45, display: "flex", flexDirection: "row", borderWidth: 1, borderColor: "cornflowerblue", borderStyle: "solid" }} >
+              {(this.state["TA+IF+Infl+-"][0][0] === 1) ? <div style={{ height: 15, width: 15, backgroundColor: "cornflowerblue", borderWidth: 1, borderColor: "cornflowerblue", borderStyle: "solid" }} ></div> : <div style={{ height: 15, width: 15, borderWidth: 1, borderColor: "cornflowerblue", borderStyle: "solid" }} ></div> }
+              {(this.state["TA+IF+Infl+-"][0][1] === 1) ? <div style={{ height: 15, width: 15, backgroundColor: "cornflowerblue", borderWidth: 1, borderColor: "cornflowerblue", borderStyle: "solid" }} ></div> : <div style={{ height: 15, width: 15, borderWidth: 1, borderColor: "cornflowerblue", borderStyle: "solid" }} ></div> }
+              {(this.state["TA+IF+Infl+-"][0][2] === 1) ? <div style={{ height: 15, width: 15, backgroundColor: "cornflowerblue", borderWidth: 1, borderColor: "cornflowerblue", borderStyle: "solid" }} ></div> : <div style={{ height: 15, width: 15, borderWidth: 1, borderColor: "cornflowerblue", borderStyle: "solid" }} ></div> }
             </div>
-            <div style={{ height: 20, width: 60, display: "flex", flexDirection: "row", borderWidth: 1, borderColor: "cornflowerblue", borderStyle: "solid" }} >
-              {(this.state["TA+IF+Infl+-"][1][0] === 1) ? <div style={{ height: 20, width: 20, backgroundColor: "cornflowerblue", borderWidth: 1, borderColor: "cornflowerblue", borderStyle: "solid" }} ></div> : <div style={{ height: 20, width: 20, borderWidth: 1, borderColor: "cornflowerblue", borderStyle: "solid" }} ></div> }
-              {(this.state["TA+IF+Infl+-"][1][1] === 1) ? <div style={{ height: 20, width: 20, backgroundColor: "cornflowerblue", borderWidth: 1, borderColor: "cornflowerblue", borderStyle: "solid" }} ></div> : <div style={{ height: 20, width: 20, borderWidth: 1, borderColor: "cornflowerblue", borderStyle: "solid" }} ></div> }
-              {(this.state["TA+IF+Infl+-"][1][2] === 1) ? <div style={{ height: 20, width: 20, backgroundColor: "cornflowerblue", borderWidth: 1, borderColor: "cornflowerblue", borderStyle: "solid" }} ></div> : <div style={{ height: 20, width: 20, borderWidth: 1, borderColor: "cornflowerblue", borderStyle: "solid" }} ></div> }
+            <div style={{ height: 15, width: 45, display: "flex", flexDirection: "row", borderWidth: 1, borderColor: "cornflowerblue", borderStyle: "solid" }} >
+              {(this.state["TA+IF+Infl+-"][1][0] === 1) ? <div style={{ height: 15, width: 15, backgroundColor: "cornflowerblue", borderWidth: 1, borderColor: "cornflowerblue", borderStyle: "solid" }} ></div> : <div style={{ height: 15, width: 15, borderWidth: 1, borderColor: "cornflowerblue", borderStyle: "solid" }} ></div> }
+              {(this.state["TA+IF+Infl+-"][1][1] === 1) ? <div style={{ height: 15, width: 15, backgroundColor: "cornflowerblue", borderWidth: 1, borderColor: "cornflowerblue", borderStyle: "solid" }} ></div> : <div style={{ height: 15, width: 15, borderWidth: 1, borderColor: "cornflowerblue", borderStyle: "solid" }} ></div> }
+              {(this.state["TA+IF+Infl+-"][1][2] === 1) ? <div style={{ height: 15, width: 15, backgroundColor: "cornflowerblue", borderWidth: 1, borderColor: "cornflowerblue", borderStyle: "solid" }} ></div> : <div style={{ height: 15, width: 15, borderWidth: 1, borderColor: "cornflowerblue", borderStyle: "solid" }} ></div> }
             </div>
-            <div style={{ height: 20, width: 60, display: "flex", flexDirection: "row", borderWidth: 1, borderColor: "cornflowerblue", borderStyle: "solid" }} >
-              {(this.state["TA+IF+Infl+-"][2][0] === 1) ? <div style={{ height: 20, width: 20, backgroundColor: "cornflowerblue", borderWidth: 1, borderColor: "cornflowerblue", borderStyle: "solid" }} ></div> : <div style={{ height: 20, width: 20, borderWidth: 1, borderColor: "cornflowerblue", borderStyle: "solid" }} ></div> }
-              {(this.state["TA+IF+Infl+-"][2][1] === 1) ? <div style={{ height: 20, width: 20, backgroundColor: "cornflowerblue", borderWidth: 1, borderColor: "cornflowerblue", borderStyle: "solid" }} ></div> : <div style={{ height: 20, width: 20, borderWidth: 1, borderColor: "cornflowerblue", borderStyle: "solid" }} ></div> }
-              {(this.state["TA+IF+Infl+-"][2][2] === 1) ? <div style={{ height: 20, width: 20, backgroundColor: "cornflowerblue", borderWidth: 1, borderColor: "cornflowerblue", borderStyle: "solid" }} ></div> : <div style={{ height: 20, width: 20, borderWidth: 1, borderColor: "cornflowerblue", borderStyle: "solid" }} ></div> }
+            <div style={{ height: 15, width: 45, display: "flex", flexDirection: "row", borderWidth: 1, borderColor: "cornflowerblue", borderStyle: "solid" }} >
+              {(this.state["TA+IF+Infl+-"][2][0] === 1) ? <div style={{ height: 15, width: 15, backgroundColor: "cornflowerblue", borderWidth: 1, borderColor: "cornflowerblue", borderStyle: "solid" }} ></div> : <div style={{ height: 15, width: 15, borderWidth: 1, borderColor: "cornflowerblue", borderStyle: "solid" }} ></div> }
+              {(this.state["TA+IF+Infl+-"][2][1] === 1) ? <div style={{ height: 15, width: 15, backgroundColor: "cornflowerblue", borderWidth: 1, borderColor: "cornflowerblue", borderStyle: "solid" }} ></div> : <div style={{ height: 15, width: 15, borderWidth: 1, borderColor: "cornflowerblue", borderStyle: "solid" }} ></div> }
+              {(this.state["TA+IF+Infl+-"][2][2] === 1) ? <div style={{ height: 15, width: 15, backgroundColor: "cornflowerblue", borderWidth: 1, borderColor: "cornflowerblue", borderStyle: "solid" }} ></div> : <div style={{ height: 15, width: 15, borderWidth: 1, borderColor: "cornflowerblue", borderStyle: "solid" }} ></div> }
             </div>
           </div>
           
           <div className="gridContainer" >
             <p>Tubular Atrophy <span className="checkSpan" >✓</span>, Interstitial Fibrosis <span className="xSpan" >✘</span>, (± infiltrates)</p>
-            <div style={{ height: 20, width: 60, display: "flex", flexDirection: "row", borderWidth: 1, borderColor: "blueviolet", borderStyle: "solid" }} >
-              {(this.state["TA+IF-Infl+-"][0][0] === 1) ? <div style={{ height: 20, width: 20, backgroundColor: "blueviolet", borderWidth: 1, borderColor: "blueviolet", borderStyle: "solid" }} ></div> : <div style={{ height: 20, width: 20, borderWidth: 1, borderColor: "blueviolet", borderStyle: "solid" }} ></div> }
-              {(this.state["TA+IF-Infl+-"][0][1] === 1) ? <div style={{ height: 20, width: 20, backgroundColor: "blueviolet", borderWidth: 1, borderColor: "blueviolet", borderStyle: "solid" }} ></div> : <div style={{ height: 20, width: 20, borderWidth: 1, borderColor: "blueviolet", borderStyle: "solid" }} ></div> }
-              {(this.state["TA+IF-Infl+-"][0][2] === 1) ? <div style={{ height: 20, width: 20, backgroundColor: "blueviolet", borderWidth: 1, borderColor: "blueviolet", borderStyle: "solid" }} ></div> : <div style={{ height: 20, width: 20, borderWidth: 1, borderColor: "blueviolet", borderStyle: "solid" }} ></div> }
+            <div style={{ height: 15, width: 45, display: "flex", flexDirection: "row", borderWidth: 1, borderColor: "blueviolet", borderStyle: "solid" }} >
+              {(this.state["TA+IF-Infl+-"][0][0] === 1) ? <div style={{ height: 15, width: 15, backgroundColor: "blueviolet", borderWidth: 1, borderColor: "blueviolet", borderStyle: "solid" }} ></div> : <div style={{ height: 15, width: 15, borderWidth: 1, borderColor: "blueviolet", borderStyle: "solid" }} ></div> }
+              {(this.state["TA+IF-Infl+-"][0][1] === 1) ? <div style={{ height: 15, width: 15, backgroundColor: "blueviolet", borderWidth: 1, borderColor: "blueviolet", borderStyle: "solid" }} ></div> : <div style={{ height: 15, width: 15, borderWidth: 1, borderColor: "blueviolet", borderStyle: "solid" }} ></div> }
+              {(this.state["TA+IF-Infl+-"][0][2] === 1) ? <div style={{ height: 15, width: 15, backgroundColor: "blueviolet", borderWidth: 1, borderColor: "blueviolet", borderStyle: "solid" }} ></div> : <div style={{ height: 15, width: 15, borderWidth: 1, borderColor: "blueviolet", borderStyle: "solid" }} ></div> }
             </div>
-            <div style={{ height: 20, width: 60, display: "flex", flexDirection: "row", borderWidth: 1, borderColor: "blueviolet", borderStyle: "solid" }} >
-              {(this.state["TA+IF-Infl+-"][1][0] === 1) ? <div style={{ height: 20, width: 20, backgroundColor: "blueviolet", borderWidth: 1, borderColor: "blueviolet", borderStyle: "solid" }} ></div> : <div style={{ height: 20, width: 20, borderWidth: 1, borderColor: "blueviolet", borderStyle: "solid" }} ></div> }
-              {(this.state["TA+IF-Infl+-"][1][1] === 1) ? <div style={{ height: 20, width: 20, backgroundColor: "blueviolet", borderWidth: 1, borderColor: "blueviolet", borderStyle: "solid" }} ></div> : <div style={{ height: 20, width: 20, borderWidth: 1, borderColor: "blueviolet", borderStyle: "solid" }} ></div> }
-              {(this.state["TA+IF-Infl+-"][1][2] === 1) ? <div style={{ height: 20, width: 20, backgroundColor: "blueviolet", borderWidth: 1, borderColor: "blueviolet", borderStyle: "solid" }} ></div> : <div style={{ height: 20, width: 20, borderWidth: 1, borderColor: "blueviolet", borderStyle: "solid" }} ></div> }
+            <div style={{ height: 15, width: 45, display: "flex", flexDirection: "row", borderWidth: 1, borderColor: "blueviolet", borderStyle: "solid" }} >
+              {(this.state["TA+IF-Infl+-"][1][0] === 1) ? <div style={{ height: 15, width: 15, backgroundColor: "blueviolet", borderWidth: 1, borderColor: "blueviolet", borderStyle: "solid" }} ></div> : <div style={{ height: 15, width: 15, borderWidth: 1, borderColor: "blueviolet", borderStyle: "solid" }} ></div> }
+              {(this.state["TA+IF-Infl+-"][1][1] === 1) ? <div style={{ height: 15, width: 15, backgroundColor: "blueviolet", borderWidth: 1, borderColor: "blueviolet", borderStyle: "solid" }} ></div> : <div style={{ height: 15, width: 15, borderWidth: 1, borderColor: "blueviolet", borderStyle: "solid" }} ></div> }
+              {(this.state["TA+IF-Infl+-"][1][2] === 1) ? <div style={{ height: 15, width: 15, backgroundColor: "blueviolet", borderWidth: 1, borderColor: "blueviolet", borderStyle: "solid" }} ></div> : <div style={{ height: 15, width: 15, borderWidth: 1, borderColor: "blueviolet", borderStyle: "solid" }} ></div> }
             </div>
-            <div style={{ height: 20, width: 60, display: "flex", flexDirection: "row", borderWidth: 1, borderColor: "blueviolet", borderStyle: "solid" }} >
-              {(this.state["TA+IF-Infl+-"][2][0] === 1) ? <div style={{ height: 20, width: 20, backgroundColor: "blueviolet", borderWidth: 1, borderColor: "blueviolet", borderStyle: "solid" }} ></div> : <div style={{ height: 20, width: 20, borderWidth: 1, borderColor: "blueviolet", borderStyle: "solid" }} ></div> }
-              {(this.state["TA+IF-Infl+-"][2][1] === 1) ? <div style={{ height: 20, width: 20, backgroundColor: "blueviolet", borderWidth: 1, borderColor: "blueviolet", borderStyle: "solid" }} ></div> : <div style={{ height: 20, width: 20, borderWidth: 1, borderColor: "blueviolet", borderStyle: "solid" }} ></div> }
-              {(this.state["TA+IF-Infl+-"][2][2] === 1) ? <div style={{ height: 20, width: 20, backgroundColor: "blueviolet", borderWidth: 1, borderColor: "blueviolet", borderStyle: "solid" }} ></div> : <div style={{ height: 20, width: 20, borderWidth: 1, borderColor: "blueviolet", borderStyle: "solid" }} ></div> }
+            <div style={{ height: 15, width: 45, display: "flex", flexDirection: "row", borderWidth: 1, borderColor: "blueviolet", borderStyle: "solid" }} >
+              {(this.state["TA+IF-Infl+-"][2][0] === 1) ? <div style={{ height: 15, width: 15, backgroundColor: "blueviolet", borderWidth: 1, borderColor: "blueviolet", borderStyle: "solid" }} ></div> : <div style={{ height: 15, width: 15, borderWidth: 1, borderColor: "blueviolet", borderStyle: "solid" }} ></div> }
+              {(this.state["TA+IF-Infl+-"][2][1] === 1) ? <div style={{ height: 15, width: 15, backgroundColor: "blueviolet", borderWidth: 1, borderColor: "blueviolet", borderStyle: "solid" }} ></div> : <div style={{ height: 15, width: 15, borderWidth: 1, borderColor: "blueviolet", borderStyle: "solid" }} ></div> }
+              {(this.state["TA+IF-Infl+-"][2][2] === 1) ? <div style={{ height: 15, width: 15, backgroundColor: "blueviolet", borderWidth: 1, borderColor: "blueviolet", borderStyle: "solid" }} ></div> : <div style={{ height: 15, width: 15, borderWidth: 1, borderColor: "blueviolet", borderStyle: "solid" }} ></div> }
             </div>
           </div>
           
           <div className="gridContainer" >
             <p>Tubular Atrophy <span className="xSpan" >✘</span>, Interstitial Fibrosis <span className="checkSpan" >✓</span>, (± infiltrates)</p>
-            <div style={{ height: 20, width: 60, display: "flex", flexDirection: "row", borderWidth: 1, borderColor: "coral", borderStyle: "solid" }} >
-              {(this.state["TA-IF+Infl+-"][0][0] === 1) ? <div style={{ height: 20, width: 20, backgroundColor: "coral", borderWidth: 1, borderColor: "coral", borderStyle: "solid" }} ></div> : <div style={{ height: 20, width: 20, borderWidth: 1, borderColor: "coral", borderStyle: "solid" }} ></div> }
-              {(this.state["TA-IF+Infl+-"][0][1] === 1) ? <div style={{ height: 20, width: 20, backgroundColor: "coral", borderWidth: 1, borderColor: "coral", borderStyle: "solid" }} ></div> : <div style={{ height: 20, width: 20, borderWidth: 1, borderColor: "coral", borderStyle: "solid" }} ></div> }
-              {(this.state["TA-IF+Infl+-"][0][2] === 1) ? <div style={{ height: 20, width: 20, backgroundColor: "coral", borderWidth: 1, borderColor: "coral", borderStyle: "solid" }} ></div> : <div style={{ height: 20, width: 20, borderWidth: 1, borderColor: "coral", borderStyle: "solid" }} ></div> }
+            <div style={{ height: 15, width: 45, display: "flex", flexDirection: "row", borderWidth: 1, borderColor: "coral", borderStyle: "solid" }} >
+              {(this.state["TA-IF+Infl+-"][0][0] === 1) ? <div style={{ height: 15, width: 15, backgroundColor: "coral", borderWidth: 1, borderColor: "coral", borderStyle: "solid" }} ></div> : <div style={{ height: 15, width: 15, borderWidth: 1, borderColor: "coral", borderStyle: "solid" }} ></div> }
+              {(this.state["TA-IF+Infl+-"][0][1] === 1) ? <div style={{ height: 15, width: 15, backgroundColor: "coral", borderWidth: 1, borderColor: "coral", borderStyle: "solid" }} ></div> : <div style={{ height: 15, width: 15, borderWidth: 1, borderColor: "coral", borderStyle: "solid" }} ></div> }
+              {(this.state["TA-IF+Infl+-"][0][2] === 1) ? <div style={{ height: 15, width: 15, backgroundColor: "coral", borderWidth: 1, borderColor: "coral", borderStyle: "solid" }} ></div> : <div style={{ height: 15, width: 15, borderWidth: 1, borderColor: "coral", borderStyle: "solid" }} ></div> }
             </div>
-            <div style={{ height: 20, width: 60, display: "flex", flexDirection: "row", borderWidth: 1, borderColor: "coral", borderStyle: "solid" }} >
-              {(this.state["TA-IF+Infl+-"][1][0] === 1) ? <div style={{ height: 20, width: 20, backgroundColor: "coral", borderWidth: 1, borderColor: "coral", borderStyle: "solid" }} ></div> : <div style={{ height: 20, width: 20, borderWidth: 1, borderColor: "coral", borderStyle: "solid" }} ></div> }
-              {(this.state["TA-IF+Infl+-"][1][1] === 1) ? <div style={{ height: 20, width: 20, backgroundColor: "coral", borderWidth: 1, borderColor: "coral", borderStyle: "solid" }} ></div> : <div style={{ height: 20, width: 20, borderWidth: 1, borderColor: "coral", borderStyle: "solid" }} ></div> }
-              {(this.state["TA-IF+Infl+-"][1][2] === 1) ? <div style={{ height: 20, width: 20, backgroundColor: "coral", borderWidth: 1, borderColor: "coral", borderStyle: "solid" }} ></div> : <div style={{ height: 20, width: 20, borderWidth: 1, borderColor: "coral", borderStyle: "solid" }} ></div> }
+            <div style={{ height: 15, width: 45, display: "flex", flexDirection: "row", borderWidth: 1, borderColor: "coral", borderStyle: "solid" }} >
+              {(this.state["TA-IF+Infl+-"][1][0] === 1) ? <div style={{ height: 15, width: 15, backgroundColor: "coral", borderWidth: 1, borderColor: "coral", borderStyle: "solid" }} ></div> : <div style={{ height: 15, width: 15, borderWidth: 1, borderColor: "coral", borderStyle: "solid" }} ></div> }
+              {(this.state["TA-IF+Infl+-"][1][1] === 1) ? <div style={{ height: 15, width: 15, backgroundColor: "coral", borderWidth: 1, borderColor: "coral", borderStyle: "solid" }} ></div> : <div style={{ height: 15, width: 15, borderWidth: 1, borderColor: "coral", borderStyle: "solid" }} ></div> }
+              {(this.state["TA-IF+Infl+-"][1][2] === 1) ? <div style={{ height: 15, width: 15, backgroundColor: "coral", borderWidth: 1, borderColor: "coral", borderStyle: "solid" }} ></div> : <div style={{ height: 15, width: 15, borderWidth: 1, borderColor: "coral", borderStyle: "solid" }} ></div> }
             </div>
-            <div style={{ height: 20, width: 60, display: "flex", flexDirection: "row", borderWidth: 1, borderColor: "coral", borderStyle: "solid" }} >
-              {(this.state["TA-IF+Infl+-"][2][0] === 1) ? <div style={{ height: 20, width: 20, backgroundColor: "coral", borderWidth: 1, borderColor: "coral", borderStyle: "solid" }} ></div> : <div style={{ height: 20, width: 20, borderWidth: 1, borderColor: "coral", borderStyle: "solid" }} ></div> }
-              {(this.state["TA-IF+Infl+-"][2][1] === 1) ? <div style={{ height: 20, width: 20, backgroundColor: "coral", borderWidth: 1, borderColor: "coral", borderStyle: "solid" }} ></div> : <div style={{ height: 20, width: 20, borderWidth: 1, borderColor: "coral", borderStyle: "solid" }} ></div> }
-              {(this.state["TA-IF+Infl+-"][2][2] === 1) ? <div style={{ height: 20, width: 20, backgroundColor: "coral", borderWidth: 1, borderColor: "coral", borderStyle: "solid" }} ></div> : <div style={{ height: 20, width: 20, borderWidth: 1, borderColor: "coral", borderStyle: "solid" }} ></div> }
+            <div style={{ height: 15, width: 45, display: "flex", flexDirection: "row", borderWidth: 1, borderColor: "coral", borderStyle: "solid" }} >
+              {(this.state["TA-IF+Infl+-"][2][0] === 1) ? <div style={{ height: 15, width: 15, backgroundColor: "coral", borderWidth: 1, borderColor: "coral", borderStyle: "solid" }} ></div> : <div style={{ height: 15, width: 15, borderWidth: 1, borderColor: "coral", borderStyle: "solid" }} ></div> }
+              {(this.state["TA-IF+Infl+-"][2][1] === 1) ? <div style={{ height: 15, width: 15, backgroundColor: "coral", borderWidth: 1, borderColor: "coral", borderStyle: "solid" }} ></div> : <div style={{ height: 15, width: 15, borderWidth: 1, borderColor: "coral", borderStyle: "solid" }} ></div> }
+              {(this.state["TA-IF+Infl+-"][2][2] === 1) ? <div style={{ height: 15, width: 15, backgroundColor: "coral", borderWidth: 1, borderColor: "coral", borderStyle: "solid" }} ></div> : <div style={{ height: 15, width: 15, borderWidth: 1, borderColor: "coral", borderStyle: "solid" }} ></div> }
             </div>
           </div>
           
           <div className="gridContainer" >
             <p>Tubular Atrophy <span className="xSpan" >✘</span>, Interstitial Fibrosis <span className="xSpan" >✘</span>, (+ infiltrates)</p>
-            <div style={{ height: 20, width: 60, display: "flex", flexDirection: "row", borderWidth: 1, borderColor: "darkgreen", borderStyle: "solid" }} >
-              {(this.state["TA-IF-Infl+"][0][0] === 1) ? <div style={{ height: 20, width: 20, backgroundColor: "darkgreen", borderWidth: 1, borderColor: "darkgreen", borderStyle: "solid" }} ></div> : <div style={{ height: 20, width: 20, borderWidth: 1, borderColor: "darkgreen", borderStyle: "solid" }} ></div> }
-              {(this.state["TA-IF-Infl+"][0][1] === 1) ? <div style={{ height: 20, width: 20, backgroundColor: "darkgreen", borderWidth: 1, borderColor: "darkgreen", borderStyle: "solid" }} ></div> : <div style={{ height: 20, width: 20, borderWidth: 1, borderColor: "darkgreen", borderStyle: "solid" }} ></div> }
-              {(this.state["TA-IF-Infl+"][0][2] === 1) ? <div style={{ height: 20, width: 20, backgroundColor: "darkgreen", borderWidth: 1, borderColor: "darkgreen", borderStyle: "solid" }} ></div> : <div style={{ height: 20, width: 20, borderWidth: 1, borderColor: "darkgreen", borderStyle: "solid" }} ></div> }
+            <div style={{ height: 15, width: 45, display: "flex", flexDirection: "row", borderWidth: 1, borderColor: "darkgreen", borderStyle: "solid" }} >
+              {(this.state["TA-IF-Infl+"][0][0] === 1) ? <div style={{ height: 15, width: 15, backgroundColor: "darkgreen", borderWidth: 1, borderColor: "darkgreen", borderStyle: "solid" }} ></div> : <div style={{ height: 15, width: 15, borderWidth: 1, borderColor: "darkgreen", borderStyle: "solid" }} ></div> }
+              {(this.state["TA-IF-Infl+"][0][1] === 1) ? <div style={{ height: 15, width: 15, backgroundColor: "darkgreen", borderWidth: 1, borderColor: "darkgreen", borderStyle: "solid" }} ></div> : <div style={{ height: 15, width: 15, borderWidth: 1, borderColor: "darkgreen", borderStyle: "solid" }} ></div> }
+              {(this.state["TA-IF-Infl+"][0][2] === 1) ? <div style={{ height: 15, width: 15, backgroundColor: "darkgreen", borderWidth: 1, borderColor: "darkgreen", borderStyle: "solid" }} ></div> : <div style={{ height: 15, width: 15, borderWidth: 1, borderColor: "darkgreen", borderStyle: "solid" }} ></div> }
             </div>
-            <div style={{ height: 20, width: 60, display: "flex", flexDirection: "row", borderWidth: 1, borderColor: "darkgreen", borderStyle: "solid" }} >
-              {(this.state["TA-IF-Infl+"][1][0] === 1) ? <div style={{ height: 20, width: 20, backgroundColor: "darkgreen", borderWidth: 1, borderColor: "darkgreen", borderStyle: "solid" }} ></div> : <div style={{ height: 20, width: 20, borderWidth: 1, borderColor: "darkgreen", borderStyle: "solid" }} ></div> }
-              {(this.state["TA-IF-Infl+"][1][1] === 1) ? <div style={{ height: 20, width: 20, backgroundColor: "darkgreen", borderWidth: 1, borderColor: "darkgreen", borderStyle: "solid" }} ></div> : <div style={{ height: 20, width: 20, borderWidth: 1, borderColor: "darkgreen", borderStyle: "solid" }} ></div> }
-              {(this.state["TA-IF-Infl+"][1][2] === 1) ? <div style={{ height: 20, width: 20, backgroundColor: "darkgreen", borderWidth: 1, borderColor: "darkgreen", borderStyle: "solid" }} ></div> : <div style={{ height: 20, width: 20, borderWidth: 1, borderColor: "darkgreen", borderStyle: "solid" }} ></div> }
+            <div style={{ height: 15, width: 45, display: "flex", flexDirection: "row", borderWidth: 1, borderColor: "darkgreen", borderStyle: "solid" }} >
+              {(this.state["TA-IF-Infl+"][1][0] === 1) ? <div style={{ height: 15, width: 15, backgroundColor: "darkgreen", borderWidth: 1, borderColor: "darkgreen", borderStyle: "solid" }} ></div> : <div style={{ height: 15, width: 15, borderWidth: 1, borderColor: "darkgreen", borderStyle: "solid" }} ></div> }
+              {(this.state["TA-IF-Infl+"][1][1] === 1) ? <div style={{ height: 15, width: 15, backgroundColor: "darkgreen", borderWidth: 1, borderColor: "darkgreen", borderStyle: "solid" }} ></div> : <div style={{ height: 15, width: 15, borderWidth: 1, borderColor: "darkgreen", borderStyle: "solid" }} ></div> }
+              {(this.state["TA-IF-Infl+"][1][2] === 1) ? <div style={{ height: 15, width: 15, backgroundColor: "darkgreen", borderWidth: 1, borderColor: "darkgreen", borderStyle: "solid" }} ></div> : <div style={{ height: 15, width: 15, borderWidth: 1, borderColor: "darkgreen", borderStyle: "solid" }} ></div> }
             </div>
-            <div style={{ height: 20, width: 60, display: "flex", flexDirection: "row", borderWidth: 1, borderColor: "darkgreen", borderStyle: "solid" }} >
-              {(this.state["TA-IF-Infl+"][2][0] === 1) ? <div style={{ height: 20, width: 20, backgroundColor: "darkgreen", borderWidth: 1, borderColor: "darkgreen", borderStyle: "solid" }} ></div> : <div style={{ height: 20, width: 20, borderWidth: 1, borderColor: "darkgreen", borderStyle: "solid" }} ></div> }
-              {(this.state["TA-IF-Infl+"][2][1] === 1) ? <div style={{ height: 20, width: 20, backgroundColor: "darkgreen", borderWidth: 1, borderColor: "darkgreen", borderStyle: "solid" }} ></div> : <div style={{ height: 20, width: 20, borderWidth: 1, borderColor: "darkgreen", borderStyle: "solid" }} ></div> }
-              {(this.state["TA-IF-Infl+"][2][2] === 1) ? <div style={{ height: 20, width: 20, backgroundColor: "darkgreen", borderWidth: 1, borderColor: "darkgreen", borderStyle: "solid" }} ></div> : <div style={{ height: 20, width: 20, borderWidth: 1, borderColor: "darkgreen", borderStyle: "solid" }} ></div> }
+            <div style={{ height: 15, width: 45, display: "flex", flexDirection: "row", borderWidth: 1, borderColor: "darkgreen", borderStyle: "solid" }} >
+              {(this.state["TA-IF-Infl+"][2][0] === 1) ? <div style={{ height: 15, width: 15, backgroundColor: "darkgreen", borderWidth: 1, borderColor: "darkgreen", borderStyle: "solid" }} ></div> : <div style={{ height: 15, width: 15, borderWidth: 1, borderColor: "darkgreen", borderStyle: "solid" }} ></div> }
+              {(this.state["TA-IF-Infl+"][2][1] === 1) ? <div style={{ height: 15, width: 15, backgroundColor: "darkgreen", borderWidth: 1, borderColor: "darkgreen", borderStyle: "solid" }} ></div> : <div style={{ height: 15, width: 15, borderWidth: 1, borderColor: "darkgreen", borderStyle: "solid" }} ></div> }
+              {(this.state["TA-IF-Infl+"][2][2] === 1) ? <div style={{ height: 15, width: 15, backgroundColor: "darkgreen", borderWidth: 1, borderColor: "darkgreen", borderStyle: "solid" }} ></div> : <div style={{ height: 15, width: 15, borderWidth: 1, borderColor: "darkgreen", borderStyle: "solid" }} ></div> }
             </div>
           </div>
 
           <div className="gridContainer" >
             <p>Tubular Atrophy <span className="xSpan" >✘</span>, Interstitial Fibrosis <span className="xSpan" >✘</span>, (- infiltrates)</p>
-            <div style={{ height: 20, width: 60, display: "flex", flexDirection: "row", borderWidth: 1, borderColor: "red", borderStyle: "solid" }} >
-              {(this.state["TA-IF-Infl-"][0][0] === 1) ? <div style={{ height: 20, width: 20, backgroundColor: "red", borderWidth: 1, borderColor: "red", borderStyle: "solid" }} ></div> : <div style={{ height: 20, width: 20, borderWidth: 1, borderColor: "red", borderStyle: "solid" }} ></div> }
-              {(this.state["TA-IF-Infl-"][0][1] === 1) ? <div style={{ height: 20, width: 20, backgroundColor: "red", borderWidth: 1, borderColor: "red", borderStyle: "solid" }} ></div> : <div style={{ height: 20, width: 20, borderWidth: 1, borderColor: "red", borderStyle: "solid" }} ></div> }
-              {(this.state["TA-IF-Infl-"][0][2] === 1) ? <div style={{ height: 20, width: 20, backgroundColor: "red", borderWidth: 1, borderColor: "red", borderStyle: "solid" }} ></div> : <div style={{ height: 20, width: 20, borderWidth: 1, borderColor: "red", borderStyle: "solid" }} ></div> }
+            <div style={{ height: 15, width: 45, display: "flex", flexDirection: "row", borderWidth: 1, borderColor: "red", borderStyle: "solid" }} >
+              {(this.state["TA-IF-Infl-"][0][0] === 1) ? <div style={{ height: 15, width: 15, backgroundColor: "red", borderWidth: 1, borderColor: "red", borderStyle: "solid" }} ></div> : <div style={{ height: 15, width: 15, borderWidth: 1, borderColor: "red", borderStyle: "solid" }} ></div> }
+              {(this.state["TA-IF-Infl-"][0][1] === 1) ? <div style={{ height: 15, width: 15, backgroundColor: "red", borderWidth: 1, borderColor: "red", borderStyle: "solid" }} ></div> : <div style={{ height: 15, width: 15, borderWidth: 1, borderColor: "red", borderStyle: "solid" }} ></div> }
+              {(this.state["TA-IF-Infl-"][0][2] === 1) ? <div style={{ height: 15, width: 15, backgroundColor: "red", borderWidth: 1, borderColor: "red", borderStyle: "solid" }} ></div> : <div style={{ height: 15, width: 15, borderWidth: 1, borderColor: "red", borderStyle: "solid" }} ></div> }
             </div>
-            <div style={{ height: 20, width: 60, display: "flex", flexDirection: "row", borderWidth: 1, borderColor: "red", borderStyle: "solid" }} >
-              {(this.state["TA-IF-Infl-"][1][0] === 1) ? <div style={{ height: 20, width: 20, backgroundColor: "red", borderWidth: 1, borderColor: "red", borderStyle: "solid" }} ></div> : <div style={{ height: 20, width: 20, borderWidth: 1, borderColor: "red", borderStyle: "solid" }} ></div> }
-              {(this.state["TA-IF-Infl-"][1][1] === 1) ? <div style={{ height: 20, width: 20, backgroundColor: "red", borderWidth: 1, borderColor: "red", borderStyle: "solid" }} ></div> : <div style={{ height: 20, width: 20, borderWidth: 1, borderColor: "red", borderStyle: "solid" }} ></div> }
-              {(this.state["TA-IF-Infl-"][1][2] === 1) ? <div style={{ height: 20, width: 20, backgroundColor: "red", borderWidth: 1, borderColor: "red", borderStyle: "solid" }} ></div> : <div style={{ height: 20, width: 20, borderWidth: 1, borderColor: "red", borderStyle: "solid" }} ></div> }
+            <div style={{ height: 15, width: 45, display: "flex", flexDirection: "row", borderWidth: 1, borderColor: "red", borderStyle: "solid" }} >
+              {(this.state["TA-IF-Infl-"][1][0] === 1) ? <div style={{ height: 15, width: 15, backgroundColor: "red", borderWidth: 1, borderColor: "red", borderStyle: "solid" }} ></div> : <div style={{ height: 15, width: 15, borderWidth: 1, borderColor: "red", borderStyle: "solid" }} ></div> }
+              {(this.state["TA-IF-Infl-"][1][1] === 1) ? <div style={{ height: 15, width: 15, backgroundColor: "red", borderWidth: 1, borderColor: "red", borderStyle: "solid" }} ></div> : <div style={{ height: 15, width: 15, borderWidth: 1, borderColor: "red", borderStyle: "solid" }} ></div> }
+              {(this.state["TA-IF-Infl-"][1][2] === 1) ? <div style={{ height: 15, width: 15, backgroundColor: "red", borderWidth: 1, borderColor: "red", borderStyle: "solid" }} ></div> : <div style={{ height: 15, width: 15, borderWidth: 1, borderColor: "red", borderStyle: "solid" }} ></div> }
             </div>
-            <div style={{ height: 20, width: 60, display: "flex", flexDirection: "row", borderWidth: 1, borderColor: "red", borderStyle: "solid" }} >
-              {(this.state["TA-IF-Infl-"][2][0] === 1) ? <div style={{ height: 20, width: 20, backgroundColor: "red", borderWidth: 1, borderColor: "red", borderStyle: "solid" }} ></div> : <div style={{ height: 20, width: 20, borderWidth: 1, borderColor: "red", borderStyle: "solid" }} ></div> }
-              {(this.state["TA-IF-Infl-"][2][1] === 1) ? <div style={{ height: 20, width: 20, backgroundColor: "red", borderWidth: 1, borderColor: "red", borderStyle: "solid" }} ></div> : <div style={{ height: 20, width: 20, borderWidth: 1, borderColor: "red", borderStyle: "solid" }} ></div> }
-              {(this.state["TA-IF-Infl-"][2][2] === 1) ? <div style={{ height: 20, width: 20, backgroundColor: "red", borderWidth: 1, borderColor: "red", borderStyle: "solid" }} ></div> : <div style={{ height: 20, width: 20, borderWidth: 1, borderColor: "red", borderStyle: "solid" }} ></div> }
+            <div style={{ height: 15, width: 45, display: "flex", flexDirection: "row", borderWidth: 1, borderColor: "red", borderStyle: "solid" }} >
+              {(this.state["TA-IF-Infl-"][2][0] === 1) ? <div style={{ height: 15, width: 15, backgroundColor: "red", borderWidth: 1, borderColor: "red", borderStyle: "solid" }} ></div> : <div style={{ height: 15, width: 15, borderWidth: 1, borderColor: "red", borderStyle: "solid" }} ></div> }
+              {(this.state["TA-IF-Infl-"][2][1] === 1) ? <div style={{ height: 15, width: 15, backgroundColor: "red", borderWidth: 1, borderColor: "red", borderStyle: "solid" }} ></div> : <div style={{ height: 15, width: 15, borderWidth: 1, borderColor: "red", borderStyle: "solid" }} ></div> }
+              {(this.state["TA-IF-Infl-"][2][2] === 1) ? <div style={{ height: 15, width: 15, backgroundColor: "red", borderWidth: 1, borderColor: "red", borderStyle: "solid" }} ></div> : <div style={{ height: 15, width: 15, borderWidth: 1, borderColor: "red", borderStyle: "solid" }} ></div> }
             </div>
           </div>
         </div>
