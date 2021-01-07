@@ -66,6 +66,8 @@ export class LabelingUI extends React.Component
     if (!this.state.cursorMoved)
     {
       let cond = this.props.selectedCondition;
+      let entireLabelObj = this.props.label;
+
       if (cond === "NoComplexes")
       {
         // Update state of NOCOMPLEXES array
@@ -80,9 +82,7 @@ export class LabelingUI extends React.Component
             labelStr += arr[i][j];
           }
         }
-        let entireLabelObj = this.props.label;
         entireLabelObj["NOCOMPLEXES"] = labelStr;
-        this.props.onLabelUpdate(entireLabelObj);
       }
       if (cond === "Mesangial")
       {
@@ -98,9 +98,7 @@ export class LabelingUI extends React.Component
             labelStr += arr[i][j];
           }
         }
-        let entireLabelObj = this.props.label;
         entireLabelObj["MES"] = labelStr;
-        this.props.onLabelUpdate(entireLabelObj);
       }
       else if (cond === "Subendothelial")
       {
@@ -114,9 +112,7 @@ export class LabelingUI extends React.Component
             labelStr += arr[i][j];
           }
         }
-        let entireLabelObj = this.props.label;
         entireLabelObj["SUBEND"] = labelStr;
-        this.props.onLabelUpdate(entireLabelObj);
       }
       else if (cond === "Subepithelial")
       {
@@ -130,9 +126,7 @@ export class LabelingUI extends React.Component
             labelStr += arr[i][j];
           }
         }
-        let entireLabelObj = this.props.label;
         entireLabelObj["SUBEPI"] = labelStr;
-        this.props.onLabelUpdate(entireLabelObj);
       }
       else if (cond === "Tubuloreticular")
       {
@@ -146,9 +140,7 @@ export class LabelingUI extends React.Component
             labelStr += arr[i][j];
           }
         }
-        let entireLabelObj = this.props.label;
         entireLabelObj["TUB"] = labelStr;
-        this.props.onLabelUpdate(entireLabelObj);
       }
       else if (cond === "Transmembranous")
       {
@@ -162,10 +154,9 @@ export class LabelingUI extends React.Component
             labelStr += arr[i][j];
           }
         }
-        let entireLabelObj = this.props.label;
         entireLabelObj["TRAN"] = labelStr;
-        this.props.onLabelUpdate(entireLabelObj);
       }
+      this.props.onLabelUpdate(entireLabelObj);
     }
     this.setState({ cursorMoved: false });
   }
@@ -203,7 +194,7 @@ export class LabelingUI extends React.Component
           {/* <p>Image: Width is { this.state.ImageWidth }, Height is { this.state.ImageHeight } </p> */}
           
           <div className="gridContainer" >
-            <p>No Complexes/Inclusions</p>
+            <p>No Complexes/Inclusions or Inconclusive Tile</p>
             <div style={{ height: 20, width: 60, display: "flex", flexDirection: "row", borderWidth: 1, borderColor: "darkgray", borderStyle: "solid" }} >
               {(this.state.NOCOMPLEXES[0][0] === 1) ? <div style={{ height: 20, width: 20, backgroundColor: "darkgray", borderWidth: 1, borderColor: "darkgray", borderStyle: "solid" }} ></div> : <div style={{ height: 20, width: 20, borderWidth: 1, borderColor: "darkgray", borderStyle: "solid" }} ></div> }
               {(this.state.NOCOMPLEXES[0][1] === 1) ? <div style={{ height: 20, width: 20, backgroundColor: "darkgray", borderWidth: 1, borderColor: "darkgray", borderStyle: "solid" }} ></div> : <div style={{ height: 20, width: 20, borderWidth: 1, borderColor: "darkgray", borderStyle: "solid" }} ></div> }

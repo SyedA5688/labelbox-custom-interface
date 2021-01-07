@@ -9,6 +9,10 @@ import HomeIcon from '@material-ui/icons/Home';
 import './App.css';
 import { LabelingUI } from './LabelingUI';
 import LinearProgress from '@material-ui/core/LinearProgress';
+import Collapse from '@material-ui/core/Collapse';
+import Alert from '@material-ui/lab/Alert';
+import IconButton from '@material-ui/core/IconButton';
+import CloseIcon from '@material-ui/icons/Close';
 
 import { createMuiTheme, MuiThemeProvider } from '@material-ui/core/styles';
 import lightBlue from '@material-ui/core/colors/lightBlue';
@@ -29,7 +33,7 @@ export const theme = createMuiTheme({
 // label is what will be assigned to overall image # Transmembranous immune Complex
 const defaultState = {data: undefined, previousAsset: undefined, loading: true, 
                       label: { "NOCOMPLEXES":"000000000", "MES": "000000000", "SUBEND": "000000000", "SUBEPI": "000000000", "TUB": "000000000", "TRAN": "000000000" }, 
-                      selectedCond: "", updateKey: Math.random()};
+                      selectedCond: "", updateKey: Math.random(), alertOpen: false};
 
 class App extends Component {
   state = defaultState;
@@ -59,15 +63,48 @@ class App extends Component {
 
       this.setState({data: asset.data, loading: false, previousAsset: asset.previous});
       if (asset.label === undefined)
-        this.setState({ label: { "NOCOMPLEXES":"000000000", "MES": "000000000", "SUBEND": "000000000", "SUBEPI": "000000000", "TUB": "000000000", "TRAN": "000000000" }, updateKey: Math.random() });
+        this.setState({ label: { "NOCOMPLEXES":"000000000", "MES": "000000000", "SUBEND": "000000000", "SUBEPI": "000000000", "TUB": "000000000", "TRAN": "000000000" }, 
+        updateKey: Math.random(), alertOpen: false });
       else if (asset.label === "Skip")
-        this.setState({ label: { "NOCOMPLEXES":"000000000", "MES": "000000000", "SUBEND": "000000000", "SUBEPI": "000000000", "TUB": "000000000", "TRAN": "000000000" }, updateKey: Math.random() }); // set to "Skip"?
+        this.setState({ label: { "NOCOMPLEXES":"000000000", "MES": "000000000", "SUBEND": "000000000", "SUBEPI": "000000000", "TUB": "000000000", "TRAN": "000000000" }, 
+        updateKey: Math.random(), alertOpen: false });
       else
         this.setState({ label: JSON.parse(asset.label), updateKey: Math.random() });
-
-
-      //console.log(asset.label);
     });
+  }
+
+  handleSubmitClick = () => {
+    let tileFlags = [[0,0,0],[0,0,0],[0,0,0]];
+    let keyArr = Object.keys(this.state.label);
+    for (let i = 0; i < keyArr.length; i++) {
+      let str = this.state.label[keyArr[i]];
+      for (let r = 0; r < 3; r++) {
+        for (let c = 0; c < 3; c++) {
+          if (parseInt( str.charAt(3*r + c) ) === 1) {
+            tileFlags[r][c] = 1;
+          }
+        }
+      }
+    }
+    
+    let everyTileLabeled = true;
+    for (let r = 0; r < 3; r++) {
+      for (let c = 0; c < 3; c++) {
+        if (tileFlags[r][c] === 0) {
+          everyTileLabeled = false;
+        }
+      }
+    }
+    
+
+    // If every tile has a label, then submit. Otherwise, bring up an alert modal
+    if (everyTileLabeled) {
+      this.next({label: this.state.label}); // Submit and move to next image
+    }
+    else {
+      // Bring up an alert modal saying to label every tile
+      this.setState({ alertOpen: true });
+    }
   }
 
   render() {
@@ -85,12 +122,12 @@ class App extends Component {
                   <div>
                     <p style={{fontSize: "large"}} >Instructions:</p>
                     <p>
-                      1. If the image is inconclusive and cannot be labeled, please select "
+                      1. If the entire image is inconclusive and cannot be labeled, please select "
                       <span style={{color: "red", textDecoration: "underline"}} >Skip</span>" at the bottom of the panel.
                     </p>
                     <p>
                       2. Otherwise, select label category from the "Labels" list. For labeling tiles with no complexes or inclusions,
-                      select the "No Complexes/Inclusions" label.
+                      select "No Complexes/Inclusions".
                     </p>
                     <p>
                       3. Once selected, double click tiles that are positive for the selected label. Feedback will appear on the right panel. 
@@ -108,10 +145,29 @@ class App extends Component {
                       pan around image.
                     </p>
                     <p className="warning" >
-                      *Warning: Moving mouse while double-clicking leads to weird behavior <br/>
-                      *Warning: Safari may render images incorrectly, use google chrome for best results
+                      *Moving mouse while double-clicking leads to weird behavior. <br/>
+                      *Safari may render images incorrectly, use chrome for best results. <br/>
+                      *Pressing "Submit" and "Previous" too many times in a row leads to weird behaviour.
                     </p>
                     {/* <p>{JSON.stringify(this.state.label)}</p> */}
+                    <p>{JSON.stringify(this.state.tileLabelFlag)}</p>
+                    <Collapse in={this.state.alertOpen}>
+                      <Alert 
+                        severity="error"
+                        action={
+                          <IconButton
+                            aria-label="close-alert"
+                            color="inherit"
+                            size="small"
+                            onClick={() => { this.setState({ alertOpen: false }); }}
+                          >
+                            <CloseIcon fontSize="inherit" />
+                          </IconButton>
+                        }
+                      >
+                        Error: Please apply a label to each tile before submitting.
+                      </Alert>
+                    </Collapse>
                   </div>
                   <div className="labelSelectorContainer" >
                     <FormControl component="fieldset" required>
@@ -122,7 +178,7 @@ class App extends Component {
                         value={this.state.selectedCond}
                         onChange={(e) => this.setState({ selectedCond: e.target.value })}
                       >
-                        <FormControlLabel value="NoComplexes" control={<Radio color="primary"/>} label="No Complexes/Inclusions" />
+                        <FormControlLabel value="NoComplexes" control={<Radio color="primary"/>} label="No Complexes/Inclusions or Inconclusive Tile" />
                         <FormControlLabel value="Mesangial" control={<Radio color="primary"/>} label="Mesangial Immune Complexes" />
                         <FormControlLabel value="Subendothelial" control={<Radio color="primary"/>} label="Subendothelial Immune Complexes" />
                         <FormControlLabel value="Subepithelial" control={<Radio color="primary"/>} label="Subepithelial Immune Complexes" />
@@ -153,14 +209,19 @@ class App extends Component {
                     variant="contained"
                     color="primary"
                     disabled={!this.state.label}
-                    onClick={() => this.next({label: this.state.label})} /* console.log(JSON.stringify(this.state.label)) */
+                    onClick={this.handleSubmitClick} /* console.log(JSON.stringify(this.state.label)) */
                   >
                     Submit
                   </Button>
                 </div>
               </div>
               
-              <LabelingUI key={this.state.updateKey} selectedCondition={this.state.selectedCond} label={this.state.label} data={this.state.data} onLabelUpdate={(label) => this.setState({...this.state, label})} />
+              <LabelingUI 
+                key={this.state.updateKey} 
+                selectedCondition={this.state.selectedCond} 
+                label={this.state.label} data={this.state.data} 
+                onLabelUpdate={(label) => this.setState({...this.state, label})} 
+              />
             </div>
           </div>
         </div>
