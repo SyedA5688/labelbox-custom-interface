@@ -42,7 +42,7 @@ export class LabelingUI extends React.Component
   setCharAt = (str, index, chr) => {
     if(index > str.length-1) return str;
     return str.substring(0,index) + chr + str.substring(index+1);
-}
+  }
 
   onImageClick = () => {
     let row = -1;
@@ -79,12 +79,10 @@ export class LabelingUI extends React.Component
       let TAmIFmINFLpArr = {...this.state["TA-IF-Infl+"]};
       let TAmIFmINFLmArr = {...this.state["TA-IF-Infl-"]};
       let entireLabelObj = this.props.label;
-      let tileLabelFlags = this.props.tileLabelFlag;
 
       if (cond === "NoCortical")
       {
         noCorArr[row][col] = 1 - noCorArr[row][col];
-        tileLabelFlags[row][col] = noCorArr[row][col];
 
         TApIFpINFLpmArr[row][col] = 0;
         entireLabelObj["TA+IF+Infl+-"] = this.setCharAt(entireLabelObj["TA+IF+Infl+-"], 3*row + col, '0');
@@ -109,7 +107,6 @@ export class LabelingUI extends React.Component
       else if (cond === "TA+IF+Infl+-")
       {
         TApIFpINFLpmArr[row][col] = 1 - TApIFpINFLpmArr[row][col];
-        tileLabelFlags[row][col] = TApIFpINFLpmArr[row][col];
 
         noCorArr[row][col] = 0;
         entireLabelObj["NoCortical"] = this.setCharAt(entireLabelObj["NoCortical"], 3*row + col, '0');
@@ -134,7 +131,6 @@ export class LabelingUI extends React.Component
       else if (cond === "TA+IF-Infl+-")
       {
         TApIFmINFLpmArr[row][col] = 1 - TApIFmINFLpmArr[row][col];
-        tileLabelFlags[row][col] = TApIFmINFLpmArr[row][col];
 
         noCorArr[row][col] = 0;
         entireLabelObj["NoCortical"] = this.setCharAt(entireLabelObj["NoCortical"], 3*row + col, '0');
@@ -158,7 +154,6 @@ export class LabelingUI extends React.Component
       else if (cond === "TA-IF+Infl+-")
       {
         TAmIFpINFLpmArr[row][col] = 1 - TAmIFpINFLpmArr[row][col];
-        tileLabelFlags[row][col] = TAmIFpINFLpmArr[row][col];
 
         noCorArr[row][col] = 0;
         entireLabelObj["NoCortical"] = this.setCharAt(entireLabelObj["NoCortical"], 3*row + col, '0');
@@ -182,7 +177,6 @@ export class LabelingUI extends React.Component
       else if (cond === "TA-IF-Infl+")
       {
         TAmIFmINFLpArr[row][col] = 1 - TAmIFmINFLpArr[row][col];
-        tileLabelFlags[row][col] = TAmIFmINFLpArr[row][col];
 
         noCorArr[row][col] = 0;
         entireLabelObj["NoCortical"] = this.setCharAt(entireLabelObj["NoCortical"], 3*row + col, '0');
@@ -206,7 +200,6 @@ export class LabelingUI extends React.Component
       else if (cond === "TA-IF-Infl-")
       {
         TAmIFmINFLmArr[row][col] = 1 - TAmIFmINFLmArr[row][col];
-        tileLabelFlags[row][col] = TAmIFmINFLmArr[row][col];
 
         noCorArr[row][col] = 0;
         entireLabelObj["NoCortical"] = this.setCharAt(entireLabelObj["NoCortical"], 3*row + col, '0');
@@ -234,7 +227,6 @@ export class LabelingUI extends React.Component
       this.setState({ "TA-IF-Infl+": TAmIFmINFLpArr });
       this.setState({ "TA-IF-Infl-": TAmIFmINFLmArr });
       this.props.onLabelUpdate(entireLabelObj);
-      this.props.onTileFlagUpdate(tileLabelFlags);
     }
     this.setState({ cursorMoved: false });
   }

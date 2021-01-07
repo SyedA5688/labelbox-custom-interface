@@ -28,7 +28,7 @@ export const theme = createMuiTheme({
 // label is what will be assigned to overall image
 const defaultState = {data: undefined, previousAsset: undefined, loading: true, 
                       label: { "NoCortical":"000000000", "TA+IF+Infl+-": "000000000", "TA+IF-Infl+-": "000000000", "TA-IF+Infl+-": "000000000", "TA-IF-Infl+": "000000000", "TA-IF-Infl-": "000000000" }, 
-                      tileLabelFlag: [[0, 0, 0], [0, 0, 0], [0, 0, 0]], selectedCond: "", updateKey: Math.random(), alertOpen: false};
+                      selectedCond: "", updateKey: Math.random(), alertOpen: false};
 
 class App extends Component {
   state = defaultState;
@@ -58,31 +58,13 @@ class App extends Component {
       this.setState({data: asset.data, loading: false, previousAsset: asset.previous});
       if (asset.label === undefined)
         this.setState({ label: { "NoCortical":"000000000", "TA+IF+Infl+-": "000000000", "TA+IF-Infl+-": "000000000", "TA-IF+Infl+-": "000000000", "TA-IF-Infl+": "000000000", "TA-IF-Infl-": "000000000" }, 
-                        tileLabelFlag: [[0, 0, 0], [0, 0, 0], [0, 0, 0]], updateKey: Math.random(), alertOpen: false });
+                        updateKey: Math.random(), alertOpen: false });
       else if (asset.label === "Skip")
         this.setState({ label: { "NoCortical":"000000000", "TA+IF+Infl+-": "000000000", "TA+IF-Infl+-": "000000000", "TA-IF+Infl+-": "000000000", "TA-IF-Infl+": "000000000", "TA-IF-Infl-": "000000000" }, 
-                        tileLabelFlag: [[0, 0, 0], [0, 0, 0], [0, 0, 0]], updateKey: Math.random(), alertOpen: false });
+                        updateKey: Math.random(), alertOpen: false });
       else
         this.setState({ label: JSON.parse(asset.label), updateKey: Math.random(), alertOpen: false });
-        // Reload in tile flags
-        this.reloadTileFlags();
     });
-  }
-
-  reloadTileFlags = () => {
-    let reloadedFlags = [[0, 0, 0], [0, 0, 0], [0, 0, 0]];
-    let keyArr = Object.keys(this.state.label);
-    for (let i = 0; i < keyArr.length; i++) {
-      let str = this.state.label[keyArr[i]];
-      for (let r = 0; r < 3; r++) {
-        for (let c = 0; c < 3; c++) {
-          if (parseInt( str.charAt(3*r + c)) === 1) {
-            reloadedFlags[r][c] = 1;
-          }
-        }
-      }
-    }
-    this.setState({ tileLabelFlag: reloadedFlags });
   }
 
   handleInputChange = (e) => {
@@ -90,7 +72,19 @@ class App extends Component {
   }
 
   handleSubmitClick = () => {
-    let tileFlags = this.state.tileLabelFlag;
+    let tileFlags = [[0,0,0],[0,0,0],[0,0,0]];
+    let keyArr = Object.keys(this.state.label);
+    for (let i = 0; i < keyArr.length; i++) {
+      let str = this.state.label[keyArr[i]];
+      for (let r = 0; r < 3; r++) {
+        for (let c = 0; c < 3; c++) {
+          if (parseInt( str.charAt(3*r + c) ) === 1) {
+            tileFlags[r][c] = 1;
+          }
+        }
+      }
+    }
+    
     let everyTileLabeled = true;
     for (let r = 0; r < 3; r++) {
       for (let c = 0; c < 3; c++) {
@@ -148,11 +142,9 @@ class App extends Component {
                     </p>
                     <p className="warning" >
                       *Moving mouse while double-clicking leads to weird behavior. <br/>
-                      *Image may render incorrectly on safari browsers, use chrome for best results. <br/>
-                      Clicking "Previous" and "Submit" several times in a row leads to weird behavior.
+                      *Image may render incorrectly on safari browsers, use chrome for best results.
                     </p>
                     {/* <p>{JSON.stringify(this.state.label)}</p> */}
-                    {/* <p>{JSON.stringify(this.state.tileLabelFlag)}</p> */}
                     <Collapse in={this.state.alertOpen}>
                       <Alert 
                         severity="error"
@@ -264,7 +256,7 @@ class App extends Component {
                   <Button  
                     className="PreviousButton"
                     variant="contained"
-                    onClick={() => {window.Labelbox.setLabelAsCurrentAsset(this.state.previousAsset); this.reloadTileFlags();}}
+                    onClick={() => {window.Labelbox.setLabelAsCurrentAsset(this.state.previousAsset);}}
                   >
                     Previous
                   </Button>
@@ -292,8 +284,6 @@ class App extends Component {
                 key={this.state.updateKey} 
                 selectedCondition={this.state.selectedCond} 
                 label={this.state.label} 
-                tileLabelFlag={this.state.tileLabelFlag}
-                onTileFlagUpdate={(tileObj) => this.setState({tileLabelFlag: tileObj})}
                 data={this.state.data} 
                 onLabelUpdate={(label) => this.setState({...this.state, label})}
               />
