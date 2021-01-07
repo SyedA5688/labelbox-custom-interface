@@ -146,8 +146,7 @@ class App extends Component {
                     </p>
                     <p className="warning" >
                       *Moving mouse while double-clicking leads to weird behavior. <br/>
-                      *Safari may render images incorrectly, use chrome for best results. <br/>
-                      *Pressing "Submit" and "Previous" too many times in a row leads to weird behaviour.
+                      *Safari may render images incorrectly, use chrome for best results.
                     </p>
                     {/* <p>{JSON.stringify(this.state.label)}</p> */}
                     <Collapse in={this.state.alertOpen}>
