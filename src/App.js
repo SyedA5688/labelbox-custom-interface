@@ -150,7 +150,6 @@ class App extends Component {
                       *Pressing "Submit" and "Previous" too many times in a row leads to weird behaviour.
                     </p>
                     {/* <p>{JSON.stringify(this.state.label)}</p> */}
-                    <p>{JSON.stringify(this.state.tileLabelFlag)}</p>
                     <Collapse in={this.state.alertOpen}>
                       <Alert 
                         severity="error"
