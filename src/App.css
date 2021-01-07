@@ -43,7 +43,7 @@ input {
 .LeftBarContainer {
   display: flex;
   flex-direction: column;
-  width: 30%;
+  width: 35%;
   background-color: white;
   border-width: 2px;
   border-color: grey;
@@ -87,7 +87,7 @@ input {
   display: flex;
   flex: 1;
   height: 100%;
-  width: 70%;
+  width: 65%;
   flex-direction: row;
 }
 
@@ -134,5 +134,20 @@ input {
 
 .xSpan {
   color: coral;
+  font-weight: bold;
+}
+
+.plusMinusSpan {
+  color: purple;
+  font-weight: bold;
+}
+
+.plusSpan {
+  color: green;
+  font-weight: bold;
+}
+
+.minusSpan {
+  color: red;
   font-weight: bold;
 }

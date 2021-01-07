@@ -4,6 +4,10 @@ import './App.css';
 import { LabelingUI } from './LabelingUI';
 import HomeIcon from '@material-ui/icons/Home';
 import LinearProgress from '@material-ui/core/LinearProgress';
+import Collapse from '@material-ui/core/Collapse';
+import Alert from '@material-ui/lab/Alert';
+import IconButton from '@material-ui/core/IconButton';
+import CloseIcon from '@material-ui/icons/Close';
 
 import { createMuiTheme, MuiThemeProvider } from '@material-ui/core/styles';
 import lightBlue from '@material-ui/core/colors/lightBlue';
@@ -23,8 +27,8 @@ export const theme = createMuiTheme({
 });
 // label is what will be assigned to overall image
 const defaultState = {data: undefined, previousAsset: undefined, loading: true, 
-                      label: { "TA+IF+Infl+-": "000000000", "TA+IF-Infl+-": "000000000", "TA-IF+Infl+-": "000000000", "TA-IF-Infl+": "000000000", "TA-IF-Infl-": "000000000" }, 
-                      selectedCond: "", updateKey: Math.random()};
+                      label: { "NoCortical":"000000000", "TA+IF+Infl+-": "000000000", "TA+IF-Infl+-": "000000000", "TA-IF+Infl+-": "000000000", "TA-IF-Infl+": "000000000", "TA-IF-Infl-": "000000000" }, 
+                      tileLabelFlag: [[0, 0, 0], [0, 0, 0], [0, 0, 0]], selectedCond: "", updateKey: Math.random(), alertOpen: false};
 
 class App extends Component {
   state = defaultState;
@@ -53,16 +57,57 @@ class App extends Component {
 
       this.setState({data: asset.data, loading: false, previousAsset: asset.previous});
       if (asset.label === undefined)
-        this.setState({ label: { "NoCortex":"000000000", "TA+IF+Infl+-": "000000000", "TA+IF-Infl+-": "000000000", "TA-IF+Infl+-": "000000000", "TA-IF-Infl+": "000000000", "TA-IF-Infl-": "000000000" }, updateKey: Math.random() });
+        this.setState({ label: { "NoCortical":"000000000", "TA+IF+Infl+-": "000000000", "TA+IF-Infl+-": "000000000", "TA-IF+Infl+-": "000000000", "TA-IF-Infl+": "000000000", "TA-IF-Infl-": "000000000" }, 
+                        tileLabelFlag: [[0, 0, 0], [0, 0, 0], [0, 0, 0]], updateKey: Math.random(), alertOpen: false });
       else if (asset.label === "Skip")
-        this.setState({ label: { "NoCortex":"000000000", "TA+IF+Infl+-": "000000000", "TA+IF-Infl+-": "000000000", "TA-IF+Infl+-": "000000000", "TA-IF-Infl+": "000000000", "TA-IF-Infl-": "000000000" }, updateKey: Math.random() }); // set to "Skip"?
+        this.setState({ label: { "NoCortical":"000000000", "TA+IF+Infl+-": "000000000", "TA+IF-Infl+-": "000000000", "TA-IF+Infl+-": "000000000", "TA-IF-Infl+": "000000000", "TA-IF-Infl-": "000000000" }, 
+                        tileLabelFlag: [[0, 0, 0], [0, 0, 0], [0, 0, 0]], updateKey: Math.random(), alertOpen: false });
       else
-        this.setState({ label: JSON.parse(asset.label), updateKey: Math.random() });
+        this.setState({ label: JSON.parse(asset.label), updateKey: Math.random(), alertOpen: false });
+        // Reload in tile flags
+        this.reloadTileFlags();
     });
+  }
+
+  reloadTileFlags = () => {
+    let reloadedFlags = [[0, 0, 0], [0, 0, 0], [0, 0, 0]];
+    let keyArr = Object.keys(this.state.label);
+    for (let i = 0; i < keyArr.length; i++) {
+      let str = this.state.label[keyArr[i]];
+      for (let r = 0; r < 3; r++) {
+        for (let c = 0; c < 3; c++) {
+          if (parseInt( str.charAt(3*r + c)) === 1) {
+            reloadedFlags[r][c] = 1;
+          }
+        }
+      }
+    }
+    this.setState({ tileLabelFlag: reloadedFlags });
   }
 
   handleInputChange = (e) => {
     this.setState({ selectedCond: e.currentTarget.value });
+  }
+
+  handleSubmitClick = () => {
+    let tileFlags = this.state.tileLabelFlag;
+    let everyTileLabeled = true;
+    for (let r = 0; r < 3; r++) {
+      for (let c = 0; c < 3; c++) {
+        if (tileFlags[r][c] === 0) {
+          everyTileLabeled = false;
+        }
+      }
+    }
+
+    // If every tile has a label, then submit. Otherwise, bring up an alert modal
+    if (everyTileLabeled) {
+      this.next({label: this.state.label}); // Submit and move to next image
+    }
+    else {
+      // Bring up an alert modal saying to label every tile
+      this.setState({ alertOpen: true });
+    }
   }
 
   render() {
@@ -80,11 +125,11 @@ class App extends Component {
                   <div>
                     <p style={{fontSize: 20}} >Instructions:</p>
                     <p>
-                      1. If the image cannot be labeled (e.g. no tissue, noise, inconclusive, etc.) please 
+                      1. If the entire image cannot be labeled (e.g. no tissue, noise, inconclusive, etc.) please 
                       select the "<span style={{color: "red", textDecoration: "underline"}} >Skip</span>" button.
                     </p>
                     <p>
-                      2. Otherwise, select label category from "Labels" list below.
+                      2. Otherwise, select label category representing the majority of the square from "Labels" list below.
                     </p>
                     <p>
                       3. Once selected, double click tiles that are positive for the selected label. Feedback will appear on the right panel. 
@@ -98,16 +143,33 @@ class App extends Component {
                       next sample.
                     </p>
                     <p>
-                      *Scroll up and down over image or use controls to zoom in/out. Click and drag to
+                      *Scroll up and down with two fingers over image or use controls to zoom in/out. Click and drag to
                       pan around image.
                     </p>
                     <p className="warning" >
-                      *Warning: Moving mouse while double-clicking leads to weird behavior
-                    </p>
-                    <p className="warning" >
-                      *Warning: Image may render incorrectly on safari browsers. Use google chrome for best results
+                      *Moving mouse while double-clicking leads to weird behavior. <br/>
+                      *Image may render incorrectly on safari browsers, use chrome for best results. <br/>
+                      Clicking "Previous" and "Submit" several times in a row leads to weird behavior.
                     </p>
                     {/* <p>{JSON.stringify(this.state.label)}</p> */}
+                    {/* <p>{JSON.stringify(this.state.tileLabelFlag)}</p> */}
+                    <Collapse in={this.state.alertOpen}>
+                      <Alert 
+                        severity="error"
+                        action={
+                          <IconButton
+                            aria-label="close-alert"
+                            color="inherit"
+                            size="small"
+                            onClick={() => { this.setState({ alertOpen: false }); }}
+                          >
+                            <CloseIcon fontSize="inherit" />
+                          </IconButton>
+                        }
+                      >
+                        Error: Please apply a label to each tile before submitting.
+                      </Alert>
+                    </Collapse>
                   </div>
 
                   <div className="labelSelectorContainer" >
@@ -117,10 +179,13 @@ class App extends Component {
                         <input
                           name="label1"
                           type="radio"
-                          value="NoCortex"
-                          checked={this.state.selectedCond === "NoCortex"}
+                          value="NoCortical"
+                          checked={this.state.selectedCond === "NoCortical"}
                           onChange={this.handleInputChange} />
-                        No Cortex (white space or other tissue, e.g. capsule, medulla)
+                        <p style={{fontSize: 16, display: "inline"}}>
+                          No cortical tubulointerstitum or inconclusive artifacts (white space or<br/> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                          other tissue, e.g. artery/arterioles, glomerulus, capsule, medulla, or<br/> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                          inconclusive artifacts that are hard to label). </p>
                       </label>
                       <br/>
                       <label>
@@ -130,8 +195,11 @@ class App extends Component {
                           value="TA+IF+Infl+-"
                           checked={this.state.selectedCond === "TA+IF+Infl+-"}
                           onChange={this.handleInputChange} />
-                        Cortex:  tubular atrophy  <span className="checkSpan" >✓</span> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
-                        Interstitial Fibrosis <span className="checkSpan" >✓</span> <br/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(± infiltrates)
+                        <p style={{fontSize: 16, display: "inline"}}>
+                          Cortex:  tubular atrophy  <span className="checkSpan" >✓</span> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                          interstitial fibrosis <span className="checkSpan" >✓</span> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                          infiltrates <span className="plusMinusSpan" >±</span>
+                        </p>
                       </label>
                       <br />
                       <label>
@@ -141,8 +209,11 @@ class App extends Component {
                           value="TA+IF-Infl+-"
                           checked={this.state.selectedCond === "TA+IF-Infl+-"}
                           onChange={this.handleInputChange} />
-                        Cortex:  tubular atrophy  <span className="checkSpan" >✓</span> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                        interstitial fibrosis <span className="xSpan" >✘</span> <br/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(± infiltrates) 
+                        <p style={{fontSize: 16, display: "inline"}}>
+                          Cortex:  tubular atrophy  <span className="checkSpan" >✓</span> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                          interstitial fibrosis <span className="xSpan" >✘</span> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                          infiltrates <span className="plusMinusSpan" >±</span>
+                        </p>
                       </label>
                       <br />
                       <label>
@@ -152,8 +223,11 @@ class App extends Component {
                           value="TA-IF+Infl+-"
                           checked={this.state.selectedCond === "TA-IF+Infl+-"}
                           onChange={this.handleInputChange} />
-                        Cortex:  tubular atrophy  <span className="xSpan" >✘</span> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                        interstitial fibrosis <span className="checkSpan" >✓</span> <br/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(± infiltrates) 
+                        <p style={{fontSize: 16, display: "inline"}}>
+                          Cortex:  tubular atrophy  <span className="xSpan" >✘</span> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                          interstitial fibrosis <span className="checkSpan" >✓</span> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                          infiltrates <span className="plusMinusSpan" >±</span>
+                        </p>
                       </label>
                       <br />
                       <label>
@@ -163,8 +237,11 @@ class App extends Component {
                           value="TA-IF-Infl+"
                           checked={this.state.selectedCond === "TA-IF-Infl+"}
                           onChange={this.handleInputChange} />
-                        Cortex:  tubular atrophy  <span className="xSpan" >✘</span> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                        interstitial fibrosis <span className="xSpan" >✘</span> <br/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(+ infiltrates) 
+                        <p style={{fontSize: 16, display: "inline"}}>
+                          Cortex:  tubular atrophy  <span className="xSpan" >✘</span> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                          interstitial fibrosis <span className="xSpan" >✘</span> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                          infiltrates <span className="plusSpan" >+</span>
+                        </p>
                       </label>
                       <br />
                       <label>
@@ -174,8 +251,11 @@ class App extends Component {
                           value="TA-IF-Infl-"
                           checked={this.state.selectedCond === "TA-IF-Infl-"}
                           onChange={this.handleInputChange} />
-                        Cortex:  tubular atrophy  <span className="xSpan" >✘</span> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                        interstitial fibrosis <span className="xSpan" >✘</span> <br/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(- infiltrates) 
+                        <p style={{fontSize: 16, display: "inline"}}>
+                          Cortex:  tubular atrophy  <span className="xSpan" >✘</span> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                          interstitial fibrosis <span className="xSpan" >✘</span> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                          infiltrates <span className="minusSpan" >-</span>
+                        </p>
                       </label>
                     </form>
                   </div>
@@ -184,7 +264,7 @@ class App extends Component {
                   <Button  
                     className="PreviousButton"
                     variant="contained"
-                    onClick={() => window.Labelbox.setLabelAsCurrentAsset(this.state.previousAsset)}
+                    onClick={() => {window.Labelbox.setLabelAsCurrentAsset(this.state.previousAsset); this.reloadTileFlags();}}
                   >
                     Previous
                   </Button>
@@ -201,17 +281,19 @@ class App extends Component {
                     variant="contained"
                     color="primary"
                     disabled={!this.state.label}
-                    onClick={() => this.next({label: this.state.label})}
+                    onClick={this.handleSubmitClick}
                   >
                     Submit
                   </Button>
                 </div>
               </div>
-              
+
               <LabelingUI 
                 key={this.state.updateKey} 
                 selectedCondition={this.state.selectedCond} 
                 label={this.state.label} 
+                tileLabelFlag={this.state.tileLabelFlag}
+                onTileFlagUpdate={(tileObj) => this.setState({tileLabelFlag: tileObj})}
                 data={this.state.data} 
                 onLabelUpdate={(label) => this.setState({...this.state, label})}
               />

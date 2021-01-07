@@ -11,12 +11,12 @@ export class LabelingUI extends React.Component
       ImageWidth: 0,
       ImageHeight: 0,
       cursorMoved: false,
-      "NoCortex": [
+      "NoCortical": [
         [0, 0, 0],
         [0, 0, 0],
         [0, 0, 0],
       ],
-      "TA+IF+Infl+-": [[0, 0, 0], [0, 0, 0], [0, 0, 0]],
+      "TA+IF+Infl+-": [[0,0,0], [0,0,0], [0,0,0]],
       "TA+IF-Infl+-": [[0,0,0], [0,0,0], [0,0,0]],
       "TA-IF+Infl+-": [[0,0,0], [0,0,0], [0,0,0]],
       "TA-IF-Infl+": [[0,0,0], [0,0,0], [0,0,0]],
@@ -36,9 +36,13 @@ export class LabelingUI extends React.Component
         }
       }
       this.setState({ [keyArr[i]]: newArr });
-    }
-    
+    } 
   }
+
+  setCharAt = (str, index, chr) => {
+    if(index > str.length-1) return str;
+    return str.substring(0,index) + chr + str.substring(index+1);
+}
 
   onImageClick = () => {
     let row = -1;
@@ -68,106 +72,169 @@ export class LabelingUI extends React.Component
     {
       //console.log("Click: ", this.state.click, " Cursor moved: ", this.state.cursorMoved, " Coords moved: ", this.state.coordsMoved);
       let cond = this.props.selectedCondition;
-      if (cond === "NoCortex")
+      let noCorArr = {...this.state["NoCortical"]};
+      let TApIFpINFLpmArr = {...this.state["TA+IF+Infl+-"]};
+      let TApIFmINFLpmArr = {...this.state["TA+IF-Infl+-"]};
+      let TAmIFpINFLpmArr = {...this.state["TA-IF+Infl+-"]};
+      let TAmIFmINFLpArr = {...this.state["TA-IF-Infl+"]};
+      let TAmIFmINFLmArr = {...this.state["TA-IF-Infl-"]};
+      let entireLabelObj = this.props.label;
+      let tileLabelFlags = this.props.tileLabelFlag;
+
+      if (cond === "NoCortical")
       {
-        // Update state of mesangial array
-        let arr = {...this.state["NoCortex"]};
-        arr[row][col] = 1 - arr[row][col];
-        this.setState({ "NoCortex": arr });
+        noCorArr[row][col] = 1 - noCorArr[row][col];
+        tileLabelFlags[row][col] = noCorArr[row][col];
+
+        TApIFpINFLpmArr[row][col] = 0;
+        entireLabelObj["TA+IF+Infl+-"] = this.setCharAt(entireLabelObj["TA+IF+Infl+-"], 3*row + col, '0');
+        TApIFmINFLpmArr[row][col] = 0;
+        entireLabelObj["TA+IF-Infl+-"] = this.setCharAt(entireLabelObj["TA+IF-Infl+-"], 3*row + col, '0');
+        TAmIFpINFLpmArr[row][col] = 0;
+        entireLabelObj["TA-IF+Infl+-"] = this.setCharAt(entireLabelObj["TA-IF+Infl+-"], 3*row + col, '0');
+        TAmIFmINFLpArr[row][col] = 0;
+        entireLabelObj["TA-IF-Infl+"] = this.setCharAt(entireLabelObj["TA-IF-Infl+"], 3*row + col, '0');
+        TAmIFmINFLmArr[row][col] = 0;
+        entireLabelObj["TA-IF-Infl-"] = this.setCharAt(entireLabelObj["TA-IF-Infl-"], 3*row + col, '0');
 
         // Also update label for entire image **UPDATE
         let labelStr = "";
         for (let i = 0; i < 3; i++) {
           for (let j = 0; j < 3; j++) {
-            labelStr += arr[i][j];
+            labelStr += noCorArr[i][j];
           }
         }
-        let entireLabelObj = this.props.label;
-        entireLabelObj["NoCortex"] = labelStr;
-        this.props.onLabelUpdate(entireLabelObj);
+        entireLabelObj["NoCortical"] = labelStr;
       }
       else if (cond === "TA+IF+Infl+-")
       {
-        // Update state of mesangial array
-        let arr = {...this.state["TA+IF+Infl+-"]};
-        arr[row][col] = 1 - arr[row][col];
-        this.setState({ "TA+IF+Infl+-": arr });
+        TApIFpINFLpmArr[row][col] = 1 - TApIFpINFLpmArr[row][col];
+        tileLabelFlags[row][col] = TApIFpINFLpmArr[row][col];
+
+        noCorArr[row][col] = 0;
+        entireLabelObj["NoCortical"] = this.setCharAt(entireLabelObj["NoCortical"], 3*row + col, '0');
+        TApIFmINFLpmArr[row][col] = 0;
+        entireLabelObj["TA+IF-Infl+-"] = this.setCharAt(entireLabelObj["TA+IF-Infl+-"], 3*row + col, '0');
+        TAmIFpINFLpmArr[row][col] = 0;
+        entireLabelObj["TA-IF+Infl+-"] = this.setCharAt(entireLabelObj["TA-IF+Infl+-"], 3*row + col, '0');
+        TAmIFmINFLpArr[row][col] = 0;
+        entireLabelObj["TA-IF-Infl+"] = this.setCharAt(entireLabelObj["TA-IF-Infl+"], 3*row + col, '0');
+        TAmIFmINFLmArr[row][col] = 0;
+        entireLabelObj["TA-IF-Infl-"] = this.setCharAt(entireLabelObj["TA-IF-Infl-"], 3*row + col, '0');
 
         // Also update label for entire image **UPDATE
         let labelStr = "";
         for (let i = 0; i < 3; i++) {
           for (let j = 0; j < 3; j++) {
-            labelStr += arr[i][j];
+            labelStr += TApIFpINFLpmArr[i][j];
           }
         }
-        let entireLabelObj = this.props.label;
         entireLabelObj["TA+IF+Infl+-"] = labelStr;
-        this.props.onLabelUpdate(entireLabelObj);
       }
       else if (cond === "TA+IF-Infl+-")
       {
-        let arr = {...this.state["TA+IF-Infl+-"]};
-        arr[row][col] = 1 - arr[row][col];
-        this.setState({ "TA+IF-Infl+-": arr });
+        TApIFmINFLpmArr[row][col] = 1 - TApIFmINFLpmArr[row][col];
+        tileLabelFlags[row][col] = TApIFmINFLpmArr[row][col];
+
+        noCorArr[row][col] = 0;
+        entireLabelObj["NoCortical"] = this.setCharAt(entireLabelObj["NoCortical"], 3*row + col, '0');
+        TApIFpINFLpmArr[row][col] = 0;
+        entireLabelObj["TA+IF+Infl+-"] = this.setCharAt(entireLabelObj["TA+IF+Infl+-"], 3*row + col, '0');
+        TAmIFpINFLpmArr[row][col] = 0;
+        entireLabelObj["TA-IF+Infl+-"] = this.setCharAt(entireLabelObj["TA-IF+Infl+-"], 3*row + col, '0');
+        TAmIFmINFLpArr[row][col] = 0;
+        entireLabelObj["TA-IF-Infl+"] = this.setCharAt(entireLabelObj["TA-IF-Infl+"], 3*row + col, '0');
+        TAmIFmINFLmArr[row][col] = 0;
+        entireLabelObj["TA-IF-Infl-"] = this.setCharAt(entireLabelObj["TA-IF-Infl-"], 3*row + col, '0');
 
         let labelStr = "";
         for (let i = 0; i < 3; i++) {
           for (let j = 0; j < 3; j++) {
-            labelStr += arr[i][j];
+            labelStr += TApIFmINFLpmArr[i][j];
           }
         }
-        let entireLabelObj = this.props.label;
         entireLabelObj["TA+IF-Infl+-"] = labelStr;
-        this.props.onLabelUpdate(entireLabelObj);
       }
       else if (cond === "TA-IF+Infl+-")
       {
-        let arr = {...this.state["TA-IF+Infl+-"]};
-        arr[row][col] = 1 - arr[row][col];
-        this.setState({ "TA-IF+Infl+-": arr });
+        TAmIFpINFLpmArr[row][col] = 1 - TAmIFpINFLpmArr[row][col];
+        tileLabelFlags[row][col] = TAmIFpINFLpmArr[row][col];
+
+        noCorArr[row][col] = 0;
+        entireLabelObj["NoCortical"] = this.setCharAt(entireLabelObj["NoCortical"], 3*row + col, '0');
+        TApIFpINFLpmArr[row][col] = 0;
+        entireLabelObj["TA+IF+Infl+-"] = this.setCharAt(entireLabelObj["TA+IF+Infl+-"], 3*row + col, '0');
+        TApIFmINFLpmArr[row][col] = 0;
+        entireLabelObj["TA+IF-Infl+-"] = this.setCharAt(entireLabelObj["TA+IF-Infl+-"], 3*row + col, '0');
+        TAmIFmINFLpArr[row][col] = 0;
+        entireLabelObj["TA-IF-Infl+"] = this.setCharAt(entireLabelObj["TA-IF-Infl+"], 3*row + col, '0');
+        TAmIFmINFLmArr[row][col] = 0;
+        entireLabelObj["TA-IF-Infl-"] = this.setCharAt(entireLabelObj["TA-IF-Infl-"], 3*row + col, '0');
 
         let labelStr = "";
         for (let i = 0; i < 3; i++) {
           for (let j = 0; j < 3; j++) {
-            labelStr += arr[i][j];
+            labelStr += TAmIFpINFLpmArr[i][j];
           }
         }
-        let entireLabelObj = this.props.label;
         entireLabelObj["TA-IF+Infl+-"] = labelStr;
-        this.props.onLabelUpdate(entireLabelObj);
       }
       else if (cond === "TA-IF-Infl+")
       {
-        let arr = {...this.state["TA-IF-Infl+"]};
-        arr[row][col] = 1 - arr[row][col];
-        this.setState({ "TA-IF-Infl+": arr });
+        TAmIFmINFLpArr[row][col] = 1 - TAmIFmINFLpArr[row][col];
+        tileLabelFlags[row][col] = TAmIFmINFLpArr[row][col];
+
+        noCorArr[row][col] = 0;
+        entireLabelObj["NoCortical"] = this.setCharAt(entireLabelObj["NoCortical"], 3*row + col, '0');
+        TApIFpINFLpmArr[row][col] = 0;
+        entireLabelObj["TA+IF+Infl+-"] = this.setCharAt(entireLabelObj["TA+IF+Infl+-"], 3*row + col, '0');
+        TApIFmINFLpmArr[row][col] = 0;
+        entireLabelObj["TA+IF-Infl+-"] = this.setCharAt(entireLabelObj["TA+IF-Infl+-"], 3*row + col, '0');
+        TAmIFpINFLpmArr[row][col] = 0;
+        entireLabelObj["TA-IF+Infl+-"] = this.setCharAt(entireLabelObj["TA-IF+Infl+-"], 3*row + col, '0');
+        TAmIFmINFLmArr[row][col] = 0;
+        entireLabelObj["TA-IF-Infl-"] = this.setCharAt(entireLabelObj["TA-IF-Infl-"], 3*row + col, '0');
 
         let labelStr = "";
         for (let i = 0; i < 3; i++) {
           for (let j = 0; j < 3; j++) {
-            labelStr += arr[i][j];
+            labelStr += TAmIFmINFLpArr[i][j];
           }
         }
-        let entireLabelObj = this.props.label;
         entireLabelObj["TA-IF-Infl+"] = labelStr;
-        this.props.onLabelUpdate(entireLabelObj);
       }
       else if (cond === "TA-IF-Infl-")
       {
-        let arr = {...this.state["TA-IF-Infl-"]};
-        arr[row][col] = 1 - arr[row][col];
-        this.setState({ "TA-IF-Infl-": arr });
+        TAmIFmINFLmArr[row][col] = 1 - TAmIFmINFLmArr[row][col];
+        tileLabelFlags[row][col] = TAmIFmINFLmArr[row][col];
+
+        noCorArr[row][col] = 0;
+        entireLabelObj["NoCortical"] = this.setCharAt(entireLabelObj["NoCortical"], 3*row + col, '0');
+        TApIFpINFLpmArr[row][col] = 0;
+        entireLabelObj["TA+IF+Infl+-"] = this.setCharAt(entireLabelObj["TA+IF+Infl+-"], 3*row + col, '0');
+        TApIFmINFLpmArr[row][col] = 0;
+        entireLabelObj["TA+IF-Infl+-"] = this.setCharAt(entireLabelObj["TA+IF-Infl+-"], 3*row + col, '0');
+        TAmIFpINFLpmArr[row][col] = 0;
+        entireLabelObj["TA-IF+Infl+-"] = this.setCharAt(entireLabelObj["TA-IF+Infl+-"], 3*row + col, '0');
+        TAmIFmINFLpArr[row][col] = 0;
+        entireLabelObj["TA-IF-Infl+"] = this.setCharAt(entireLabelObj["TA-IF-Infl+"], 3*row + col, '0');
 
         let labelStr = "";
         for (let i = 0; i < 3; i++) {
           for (let j = 0; j < 3; j++) {
-            labelStr += arr[i][j];
+            labelStr += TAmIFmINFLmArr[i][j];
           }
         }
-        let entireLabelObj = this.props.label;
         entireLabelObj["TA-IF-Infl-"] = labelStr;
-        this.props.onLabelUpdate(entireLabelObj);
       }
+      this.setState({ "NoCortical": noCorArr });
+      this.setState({ "TA+IF+Infl+-": TApIFpINFLpmArr });
+      this.setState({ "TA+IF-Infl+-": TApIFmINFLpmArr });
+      this.setState({ "TA-IF+Infl+-": TAmIFpINFLpmArr });
+      this.setState({ "TA-IF-Infl+": TAmIFmINFLpArr });
+      this.setState({ "TA-IF-Infl-": TAmIFmINFLmArr });
+      this.props.onLabelUpdate(entireLabelObj);
+      this.props.onTileFlagUpdate(tileLabelFlags);
     }
     this.setState({ cursorMoved: false });
   }
@@ -207,26 +274,26 @@ export class LabelingUI extends React.Component
           {/* {this.state.cursorMoved ? <p>Cursor Moved: True</p> : <p>Cursor Moved: False</p>} */}
           
           <div className="gridContainer" >
-            <p>No Cortex (white space or other tissue, e.g. capsule, medulla)</p>
+            <p>No cortical tubulointerstitum or inconclusive artifacts</p>
             <div style={{ height: 15, width: 45, display: "flex", flexDirection: "row", borderWidth: 1, borderColor: "grey", borderStyle: "solid" }} >
-              {(this.state["NoCortex"][0][0] === 1) ? <div style={{ height: 15, width: 15, backgroundColor: "grey", borderWidth: 1, borderColor: "grey", borderStyle: "solid" }} ></div> : <div style={{ height: 15, width: 15, borderWidth: 1, borderColor: "grey", borderStyle: "solid" }} ></div> }
-              {(this.state["NoCortex"][0][1] === 1) ? <div style={{ height: 15, width: 15, backgroundColor: "grey", borderWidth: 1, borderColor: "grey", borderStyle: "solid" }} ></div> : <div style={{ height: 15, width: 15, borderWidth: 1, borderColor: "grey", borderStyle: "solid" }} ></div> }
-              {(this.state["NoCortex"][0][2] === 1) ? <div style={{ height: 15, width: 15, backgroundColor: "grey", borderWidth: 1, borderColor: "grey", borderStyle: "solid" }} ></div> : <div style={{ height: 15, width: 15, borderWidth: 1, borderColor: "grey", borderStyle: "solid" }} ></div> }
+              {(this.state["NoCortical"][0][0] === 1) ? <div style={{ height: 15, width: 15, backgroundColor: "grey", borderWidth: 1, borderColor: "grey", borderStyle: "solid" }} ></div> : <div style={{ height: 15, width: 15, borderWidth: 1, borderColor: "grey", borderStyle: "solid" }} ></div> }
+              {(this.state["NoCortical"][0][1] === 1) ? <div style={{ height: 15, width: 15, backgroundColor: "grey", borderWidth: 1, borderColor: "grey", borderStyle: "solid" }} ></div> : <div style={{ height: 15, width: 15, borderWidth: 1, borderColor: "grey", borderStyle: "solid" }} ></div> }
+              {(this.state["NoCortical"][0][2] === 1) ? <div style={{ height: 15, width: 15, backgroundColor: "grey", borderWidth: 1, borderColor: "grey", borderStyle: "solid" }} ></div> : <div style={{ height: 15, width: 15, borderWidth: 1, borderColor: "grey", borderStyle: "solid" }} ></div> }
             </div>
             <div style={{ height: 15, width: 45, display: "flex", flexDirection: "row", borderWidth: 1, borderColor: "grey", borderStyle: "solid" }} >
-              {(this.state["NoCortex"][1][0] === 1) ? <div style={{ height: 15, width: 15, backgroundColor: "grey", borderWidth: 1, borderColor: "grey", borderStyle: "solid" }} ></div> : <div style={{ height: 15, width: 15, borderWidth: 1, borderColor: "grey", borderStyle: "solid" }} ></div> }
-              {(this.state["NoCortex"][1][1] === 1) ? <div style={{ height: 15, width: 15, backgroundColor: "grey", borderWidth: 1, borderColor: "grey", borderStyle: "solid" }} ></div> : <div style={{ height: 15, width: 15, borderWidth: 1, borderColor: "grey", borderStyle: "solid" }} ></div> }
-              {(this.state["NoCortex"][1][2] === 1) ? <div style={{ height: 15, width: 15, backgroundColor: "grey", borderWidth: 1, borderColor: "grey", borderStyle: "solid" }} ></div> : <div style={{ height: 15, width: 15, borderWidth: 1, borderColor: "grey", borderStyle: "solid" }} ></div> }
+              {(this.state["NoCortical"][1][0] === 1) ? <div style={{ height: 15, width: 15, backgroundColor: "grey", borderWidth: 1, borderColor: "grey", borderStyle: "solid" }} ></div> : <div style={{ height: 15, width: 15, borderWidth: 1, borderColor: "grey", borderStyle: "solid" }} ></div> }
+              {(this.state["NoCortical"][1][1] === 1) ? <div style={{ height: 15, width: 15, backgroundColor: "grey", borderWidth: 1, borderColor: "grey", borderStyle: "solid" }} ></div> : <div style={{ height: 15, width: 15, borderWidth: 1, borderColor: "grey", borderStyle: "solid" }} ></div> }
+              {(this.state["NoCortical"][1][2] === 1) ? <div style={{ height: 15, width: 15, backgroundColor: "grey", borderWidth: 1, borderColor: "grey", borderStyle: "solid" }} ></div> : <div style={{ height: 15, width: 15, borderWidth: 1, borderColor: "grey", borderStyle: "solid" }} ></div> }
             </div>
             <div style={{ height: 15, width: 45, display: "flex", flexDirection: "row", borderWidth: 1, borderColor: "grey", borderStyle: "solid" }} >
-              {(this.state["NoCortex"][2][0] === 1) ? <div style={{ height: 15, width: 15, backgroundColor: "grey", borderWidth: 1, borderColor: "grey", borderStyle: "solid" }} ></div> : <div style={{ height: 15, width: 15, borderWidth: 1, borderColor: "grey", borderStyle: "solid" }} ></div> }
-              {(this.state["NoCortex"][2][1] === 1) ? <div style={{ height: 15, width: 15, backgroundColor: "grey", borderWidth: 1, borderColor: "grey", borderStyle: "solid" }} ></div> : <div style={{ height: 15, width: 15, borderWidth: 1, borderColor: "grey", borderStyle: "solid" }} ></div> }
-              {(this.state["NoCortex"][2][2] === 1) ? <div style={{ height: 15, width: 15, backgroundColor: "grey", borderWidth: 1, borderColor: "grey", borderStyle: "solid" }} ></div> : <div style={{ height: 15, width: 15, borderWidth: 1, borderColor: "grey", borderStyle: "solid" }} ></div> }
+              {(this.state["NoCortical"][2][0] === 1) ? <div style={{ height: 15, width: 15, backgroundColor: "grey", borderWidth: 1, borderColor: "grey", borderStyle: "solid" }} ></div> : <div style={{ height: 15, width: 15, borderWidth: 1, borderColor: "grey", borderStyle: "solid" }} ></div> }
+              {(this.state["NoCortical"][2][1] === 1) ? <div style={{ height: 15, width: 15, backgroundColor: "grey", borderWidth: 1, borderColor: "grey", borderStyle: "solid" }} ></div> : <div style={{ height: 15, width: 15, borderWidth: 1, borderColor: "grey", borderStyle: "solid" }} ></div> }
+              {(this.state["NoCortical"][2][2] === 1) ? <div style={{ height: 15, width: 15, backgroundColor: "grey", borderWidth: 1, borderColor: "grey", borderStyle: "solid" }} ></div> : <div style={{ height: 15, width: 15, borderWidth: 1, borderColor: "grey", borderStyle: "solid" }} ></div> }
             </div>
           </div>
 
           <div className="gridContainer" >
-            <p>Tubular Atrophy <span className="checkSpan" >✓</span>, Interstitial Fibrosis <span className="checkSpan" >✓</span>, (± infiltrates)</p>
+            <p>Tubular Atrophy <span className="checkSpan" >✓</span>, Interstitial Fibrosis <span className="checkSpan" >✓</span>, infiltrates <span className="plusMinusSpan" >±</span></p>
             <div style={{ height: 15, width: 45, display: "flex", flexDirection: "row", borderWidth: 1, borderColor: "cornflowerblue", borderStyle: "solid" }} >
               {(this.state["TA+IF+Infl+-"][0][0] === 1) ? <div style={{ height: 15, width: 15, backgroundColor: "cornflowerblue", borderWidth: 1, borderColor: "cornflowerblue", borderStyle: "solid" }} ></div> : <div style={{ height: 15, width: 15, borderWidth: 1, borderColor: "cornflowerblue", borderStyle: "solid" }} ></div> }
               {(this.state["TA+IF+Infl+-"][0][1] === 1) ? <div style={{ height: 15, width: 15, backgroundColor: "cornflowerblue", borderWidth: 1, borderColor: "cornflowerblue", borderStyle: "solid" }} ></div> : <div style={{ height: 15, width: 15, borderWidth: 1, borderColor: "cornflowerblue", borderStyle: "solid" }} ></div> }
@@ -245,7 +312,7 @@ export class LabelingUI extends React.Component
           </div>
           
           <div className="gridContainer" >
-            <p>Tubular Atrophy <span className="checkSpan" >✓</span>, Interstitial Fibrosis <span className="xSpan" >✘</span>, (± infiltrates)</p>
+            <p>Tubular Atrophy <span className="checkSpan" >✓</span>, Interstitial Fibrosis <span className="xSpan" >✘</span>, infiltrates <span className="plusMinusSpan" >±</span></p>
             <div style={{ height: 15, width: 45, display: "flex", flexDirection: "row", borderWidth: 1, borderColor: "blueviolet", borderStyle: "solid" }} >
               {(this.state["TA+IF-Infl+-"][0][0] === 1) ? <div style={{ height: 15, width: 15, backgroundColor: "blueviolet", borderWidth: 1, borderColor: "blueviolet", borderStyle: "solid" }} ></div> : <div style={{ height: 15, width: 15, borderWidth: 1, borderColor: "blueviolet", borderStyle: "solid" }} ></div> }
               {(this.state["TA+IF-Infl+-"][0][1] === 1) ? <div style={{ height: 15, width: 15, backgroundColor: "blueviolet", borderWidth: 1, borderColor: "blueviolet", borderStyle: "solid" }} ></div> : <div style={{ height: 15, width: 15, borderWidth: 1, borderColor: "blueviolet", borderStyle: "solid" }} ></div> }
@@ -264,7 +331,7 @@ export class LabelingUI extends React.Component
           </div>
           
           <div className="gridContainer" >
-            <p>Tubular Atrophy <span className="xSpan" >✘</span>, Interstitial Fibrosis <span className="checkSpan" >✓</span>, (± infiltrates)</p>
+            <p>Tubular Atrophy <span className="xSpan" >✘</span>, Interstitial Fibrosis <span className="checkSpan" >✓</span>, infiltrates <span className="plusMinusSpan" >±</span></p>
             <div style={{ height: 15, width: 45, display: "flex", flexDirection: "row", borderWidth: 1, borderColor: "coral", borderStyle: "solid" }} >
               {(this.state["TA-IF+Infl+-"][0][0] === 1) ? <div style={{ height: 15, width: 15, backgroundColor: "coral", borderWidth: 1, borderColor: "coral", borderStyle: "solid" }} ></div> : <div style={{ height: 15, width: 15, borderWidth: 1, borderColor: "coral", borderStyle: "solid" }} ></div> }
               {(this.state["TA-IF+Infl+-"][0][1] === 1) ? <div style={{ height: 15, width: 15, backgroundColor: "coral", borderWidth: 1, borderColor: "coral", borderStyle: "solid" }} ></div> : <div style={{ height: 15, width: 15, borderWidth: 1, borderColor: "coral", borderStyle: "solid" }} ></div> }
@@ -283,7 +350,7 @@ export class LabelingUI extends React.Component
           </div>
           
           <div className="gridContainer" >
-            <p>Tubular Atrophy <span className="xSpan" >✘</span>, Interstitial Fibrosis <span className="xSpan" >✘</span>, (+ infiltrates)</p>
+            <p>Tubular Atrophy <span className="xSpan" >✘</span>, Interstitial Fibrosis <span className="xSpan" >✘</span>, infiltrates <span className="plusSpan" >+</span></p>
             <div style={{ height: 15, width: 45, display: "flex", flexDirection: "row", borderWidth: 1, borderColor: "darkgreen", borderStyle: "solid" }} >
               {(this.state["TA-IF-Infl+"][0][0] === 1) ? <div style={{ height: 15, width: 15, backgroundColor: "darkgreen", borderWidth: 1, borderColor: "darkgreen", borderStyle: "solid" }} ></div> : <div style={{ height: 15, width: 15, borderWidth: 1, borderColor: "darkgreen", borderStyle: "solid" }} ></div> }
               {(this.state["TA-IF-Infl+"][0][1] === 1) ? <div style={{ height: 15, width: 15, backgroundColor: "darkgreen", borderWidth: 1, borderColor: "darkgreen", borderStyle: "solid" }} ></div> : <div style={{ height: 15, width: 15, borderWidth: 1, borderColor: "darkgreen", borderStyle: "solid" }} ></div> }
@@ -302,7 +369,7 @@ export class LabelingUI extends React.Component
           </div>
 
           <div className="gridContainer" >
-            <p>Tubular Atrophy <span className="xSpan" >✘</span>, Interstitial Fibrosis <span className="xSpan" >✘</span>, (- infiltrates)</p>
+            <p>Tubular Atrophy <span className="xSpan" >✘</span>, Interstitial Fibrosis <span className="xSpan" >✘</span>, infiltrates <span className="minusSpan" >-</span></p>
             <div style={{ height: 15, width: 45, display: "flex", flexDirection: "row", borderWidth: 1, borderColor: "red", borderStyle: "solid" }} >
               {(this.state["TA-IF-Infl-"][0][0] === 1) ? <div style={{ height: 15, width: 15, backgroundColor: "red", borderWidth: 1, borderColor: "red", borderStyle: "solid" }} ></div> : <div style={{ height: 15, width: 15, borderWidth: 1, borderColor: "red", borderStyle: "solid" }} ></div> }
               {(this.state["TA-IF-Infl-"][0][1] === 1) ? <div style={{ height: 15, width: 15, backgroundColor: "red", borderWidth: 1, borderColor: "red", borderStyle: "solid" }} ></div> : <div style={{ height: 15, width: 15, borderWidth: 1, borderColor: "red", borderStyle: "solid" }} ></div> }
