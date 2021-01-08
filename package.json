@@ -5,7 +5,7 @@
   "dependencies": {
     "@material-ui/core": "^4.2.1",
     "@material-ui/icons": "^4.2.1",
-    "@material-ui/lab": "^4.0.0-alpha.20",
+    "@material-ui/lab": "^4.0.0-alpha.57",
     "react": "^16.8.0",
     "react-dom": "^16.8.0",
     "react-responsive-pinch-zoom-pan": "^0.3.0",
