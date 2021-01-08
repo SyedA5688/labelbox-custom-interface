@@ -175,9 +175,9 @@ class App extends Component {
                           checked={this.state.selectedCond === "NoCortical"}
                           onChange={this.handleInputChange} />
                         <p style={{fontSize: 16, display: "inline"}}>
-                          No cortical tubulointerstitum or inconclusive artifacts (white space or<br/> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                          No cortical tubulointerstitum or artefacts present (white space or<br/> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                           other tissue, e.g. artery/arterioles, glomerulus, capsule, medulla, or<br/> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                          inconclusive artifacts that are hard to label). </p>
+                          artefacts that make it hard to label). </p>
                       </label>
                       <br/>
                       <label>

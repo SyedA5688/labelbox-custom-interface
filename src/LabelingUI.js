@@ -266,7 +266,7 @@ export class LabelingUI extends React.Component
           {/* {this.state.cursorMoved ? <p>Cursor Moved: True</p> : <p>Cursor Moved: False</p>} */}
           
           <div className="gridContainer" >
-            <p>No cortical tubulointerstitum or inconclusive artifacts</p>
+            <p>No cortical tubulointerstitum or artefacts present</p>
             <div style={{ height: 15, width: 45, display: "flex", flexDirection: "row", borderWidth: 1, borderColor: "grey", borderStyle: "solid" }} >
               {(this.state["NoCortical"][0][0] === 1) ? <div style={{ height: 15, width: 15, backgroundColor: "grey", borderWidth: 1, borderColor: "grey", borderStyle: "solid" }} ></div> : <div style={{ height: 15, width: 15, borderWidth: 1, borderColor: "grey", borderStyle: "solid" }} ></div> }
               {(this.state["NoCortical"][0][1] === 1) ? <div style={{ height: 15, width: 15, backgroundColor: "grey", borderWidth: 1, borderColor: "grey", borderStyle: "solid" }} ></div> : <div style={{ height: 15, width: 15, borderWidth: 1, borderColor: "grey", borderStyle: "solid" }} ></div> }
