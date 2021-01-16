@@ -123,7 +123,10 @@ class App extends Component {
                       select the "<span style={{color: "red", textDecoration: "underline"}} >Skip</span>" button.
                     </p>
                     <p>
-                      2. Otherwise, select label category representing the majority of the square from "Labels" list below.
+                      2. Otherwise, select label category representing the majority of the square from "Labels" list below. Please keep 
+                      in mind that the counts of each provided score will yield the final label for the image. For example, if 20% of a 
+                      square is taken up by a glomerulus, 20% by white space, 20% by an artery with 40% of IFTA, the image would be scored 
+                      as option one (inconclusive) because the sum of the elements from option one is dominant.
                     </p>
                     <p>
                       3. Once selected, double click tiles that are positive for the selected label. Feedback will appear on the right panel. 
